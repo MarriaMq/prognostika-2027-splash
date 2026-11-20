@@ -168,38 +168,19 @@
         box-shadow:inset 0 1px 0 rgba(255,236,190,.16),0 8px 22px rgba(40,0,0,.35)}
   .card h3{margin:0 0 12px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2)}
   .fc-on .rv{opacity:0;animation:cardin .6s var(--ease-out) forwards;animation-delay:calc(.35s + var(--r,0) * 90ms)}
-  .score{display:flex;align-items:center;gap:18px}
-  .ring{position:relative;width:112px;height:112px;flex:none}
-  .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
-  .ring circle{fill:none;stroke-width:9;stroke-linecap:round}
-  .ring .tr{stroke:rgba(255,226,150,.18)}
-  .ring .pg{stroke:url(#gg);stroke-dasharray:326.7;stroke-dashoffset:var(--off,326.7)}
-  .fc-on .ring .pg{animation:ring 1.4s var(--ease-out) .6s backwards}
-  @keyframes ring{from{stroke-dashoffset:326.7}}
-  .ring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Yeseva One',Georgia,serif;font-weight:400;font-size:30px;color:var(--gold-1)}
-  .ring b small{font-size:15px;margin:6px 0 0 2px;opacity:.8}
-  .score p{margin:0;font-size:14.5px;line-height:1.5;color:rgba(255,240,215,.92)}
-  .score p strong{display:block;font-family:'Yeseva One',Georgia,serif;font-weight:400;font-size:18px;color:var(--gold-1);margin-bottom:4px}
-  .sph{margin-bottom:15px}.sph:last-child{margin-bottom:0}
-  .sph .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px;font-size:15px}
-  .sph .row span:last-child{font-variant-numeric:tabular-nums;color:var(--gold-1);font-weight:600}
-  .bar{height:8px;border-radius:8px;background:rgba(255,226,150,.16);overflow:hidden}
-  .bar i{display:block;height:100%;width:var(--w);border-radius:8px;background:linear-gradient(90deg,var(--gold-3),var(--gold-1))}
-  .fc-on .bar i{animation:bar 1.1s var(--ease-out) .7s backwards}
-  @keyframes bar{from{width:0}}
-  .sph small{display:block;margin-top:6px;font-size:12.5px;color:rgba(255,236,200,.65)}
   .days{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.days:last-child{margin-bottom:0}
   .days .lbl{width:100%;font-size:13px;color:rgba(255,236,200,.75);margin-bottom:-2px}
   .day{min-width:44px;height:44px;padding:0 6px;display:grid;place-items:center;border-radius:14px;font-weight:600;font-variant-numeric:tabular-nums}
   .day.good{background:linear-gradient(180deg,var(--gold-1),var(--gold-2));color:#6a0000}
   .day.warn{background:rgba(30,0,0,.45);border:1px solid rgba(255,226,150,.4);color:var(--gold-1)}
+  .card .txt{margin:0;font-size:15.5px;line-height:1.65;color:rgba(255,240,215,.94)}
   .quote{font-family:'Yeseva One',Georgia,serif;font-size:18px;line-height:1.4;color:var(--gold-1);margin:0}
   .f-foot{text-align:center;font-size:12.5px;color:rgba(255,236,200,.6);margin:16px 8px 0;line-height:1.5}
   .again{appearance:none;-webkit-appearance:none;font:inherit;display:block;width:100%;height:52px;margin-top:14px;border-radius:16px;
          background:transparent;border:1px solid rgba(246,210,122,.55);color:var(--gold-1);font-size:16px;cursor:pointer}
   .again:active{transform:scale(.98)}
   .again:focus-visible{outline:2px solid var(--gold-1);outline-offset:2px}
-  @media (prefers-reduced-motion:reduce){.fc-on .rv,.fc-on .ring .pg,.fc-on .bar i{animation-duration:.01s;animation-delay:0s}}
+  @media (prefers-reduced-motion:reduce){.fc-on .rv{animation-duration:.01s;animation-delay:0s}}
 
   /* ───────── экран даты рождения ───────── */
   .months-on.birth-on #birth{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .7s ease .25s}
@@ -311,7 +292,6 @@
       <div class="grid" id="grid" role="group" aria-label="Місяць 2027 року"></div>
     </div>
   </section>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c4"/><stop offset="1" stop-color="#d9a441"/></linearGradient></defs></svg>
   <div class="toast" id="toast" role="status"></div>
 </div>
 
@@ -393,24 +373,23 @@
     var p=period(i),dates=[];
     for(var t=new Date(p.s);t<=p.e;t.setDate(t.getDate()+1))dates.push(new Date(t));
     var seed=i+birth.d*7+birth.m*13;
-    var score=58+Math.round(rnd(seed,1)*34);
-    var sph=[['Кохання','Тестовий опис: тут буде коротка порада щодо стосунків.'],['Гроші','Тестовий опис: тут буде порада щодо фінансів.'],['Кар’єра','Тестовий опис: тут буде порада щодо роботи.'],['Здоров’я','Тестовий опис: тут буде порада щодо самопочуття.']]
-      .map(function(x,k){return {n:x[0],t:x[1],v:48+Math.round(rnd(seed,10+k)*47)}});
     var gi=pick(seed,dates.length,30,4,[]),wi=pick(seed,dates.length,60,2,gi);
-    var chip=function(k,c){var d=dates[k];return '<span class="day '+c+'">'+d.getDate()+' '+ABBR[d.getMonth()]+'</span>'};
+    var list=function(ix){return ix.map(function(k){return fmtLong(dates[k])}).join(', ')};
     document.getElementById('f-title').textContent=MONTHS[i]+' 2027';
     document.getElementById('f-theme').textContent=THEMES[i];
     document.getElementById('f-period').textContent='Прогноз діє: '+periodLabel(p);
-    var C=326.7,off=(C*(1-score/100)).toFixed(1);
-    var h='';
-    h+='<div class="card rv" style="--r:0"><h3>Загальна енергія місяця</h3><div class="score"><div class="ring"><svg viewBox="0 0 120 120"><circle class="tr" cx="60" cy="60" r="52"/><circle class="pg" cx="60" cy="60" r="52" style="--off:'+off+'"/></svg><b>'+score+'<small>%</small></b></div>'
-      +'<p><strong>'+THEMES[i]+'</strong>Тестовий текст прогнозу. Тут буде короткий опис місяця: на чому зосередитись і які рішення приймати.</p></div></div>';
-    h+='<div class="card rv" style="--r:1"><h3>Сфери життя</h3>'+sph.map(function(s){
-      return '<div class="sph"><div class="row"><span>'+s.n+'</span><span>'+s.v+'%</span></div><div class="bar"><i style="--w:'+s.v+'%"></i></div><small>'+s.t+'</small></div>'}).join('')+'</div>';
-    h+='<div class="card rv" style="--r:2"><h3>Ключові дати</h3><div class="days"><span class="lbl">Сприятливі дні</span>'+gi.map(function(k){return chip(k,'good')}).join('')+'</div>'
-      +'<div class="days"><span class="lbl">Дні для обережності</span>'+wi.map(function(k){return chip(k,'warn')}).join('')+'</div></div>';
-    h+='<div class="card rv" style="--r:3"><h3>Порада місяця</h3><p class="quote">«Тестова порада: тут буде персональна порада на цей місяць.»</p></div>';
-    document.getElementById('f-body').innerHTML=h;
+    var blocks=[
+      ['Загальний прогноз','Це тестовий текст. Тут буде загальний опис періоду: головна тема, настрій і напрямок, у якому рухатимуться події. Перші дні варто провести спокійно, зібрати думки та визначити пріоритети, а ближче до середини періоду з’явиться більше енергії для активних дій і нових розмов.'],
+      ['Кохання та стосунки','Тестовий текст. Тут буде прогноз для особистого життя: як складатимуться стосунки з близькою людиною, чи варто очікувати нових знайомств і на що звернути увагу в розмовах. Найкраще працюватимуть щирість і готовність слухати, а не лише говорити.'],
+      ['Гроші та фінанси','Тестовий текст. Тут буде порада щодо доходів і витрат: коли доречно робити великі покупки, а коли краще почекати, чи з’являться додаткові джерела прибутку. Радимо не поспішати з рішеннями, які неможливо скасувати, і звіряти плани з реальними цифрами.'],
+      ['Робота та кар’єра','Тестовий текст. Тут буде прогноз щодо роботи й проєктів: які завдання вдаватимуться легше, де знадобиться терпіння і коли добре просити про підвищення або запускати нову справу. Підтримка колег і чітка комунікація допоможуть швидше досягти результату.'],
+      ['Здоров’я та самопочуття','Тестовий текст. Тут буде порада щодо енергії, сну й відновлення. Варто звернути увагу на режим дня, достатню кількість води та прогулянки на свіжому повітрі. Не залишайте без уваги втому: невеликі перерви протягом дня дадуть більше користі, ніж довгий відпочинок наприкінці періоду.'],
+      ['Ключові дати','Тестовий текст. Сприятливі дні: '+list(gi)+'. У ці дні легше починати нове, домовлятися та приймати важливі рішення. Дні для обережності: '+list(wi)+'. Краще не планувати на них складних розмов і не поспішати з підписанням документів.'],
+      ['Порада періоду','Тестовий текст. Тут буде одна головна порада на цей період: коротка думка, яку легко запам’ятати й повертатися до неї щоразу, коли потрібна підтримка.']
+    ];
+    document.getElementById('f-body').innerHTML=blocks.map(function(x,k){
+      return '<article class="card rv" style="--r:'+k+'"><h3>'+x[0]+'</h3><p class="txt">'+x[1]+'</p></article>';
+    }).join('');
     document.getElementById('forecast').scrollTop=0;
   }
 
