@@ -81,143 +81,77 @@
     .play .fly .float,.play .sp,.play #zoom{animation:none}
   }
 
-  /* ───────── экран выбора месяца ───────── */
+  /* ───────── после заставки: минимализм ───────── */
+  :root{--cream:#f4e8d2;--ink:#4a2a1a;--ink2:#7a5a3e;--wine:#6a1010;--gold-txt:#f3deaa}
   #stage{transition:filter .9s ease}
-  .months-on #stage{filter:blur(3px) brightness(.52) saturate(1.05)}
+  .months-on #stage{filter:blur(6px) brightness(.46) saturate(.95)}
   .months-on #title,.months-on #sparks{opacity:0;transition:opacity .5s ease}
-  #months,#birth{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-          padding:max(env(safe-area-inset-top),28px) 16px max(env(safe-area-inset-bottom),20px);
-          opacity:0;visibility:hidden;pointer-events:none;overflow-y:auto;
+  @keyframes cardin{to{opacity:1;transform:none}}
+
+  .screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;overflow-y:auto;
+          padding:max(env(safe-area-inset-top),24px) 20px max(env(safe-area-inset-bottom),24px);
+          opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility 0s .35s;
           font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,Helvetica,Arial,sans-serif;
           color:#fff3d6;-webkit-tap-highlight-color:transparent}
-  .months-on #months{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .7s ease .25s}
-  .m-wrap{width:100%;max-width:440px;margin:auto 0;display:flex;flex-direction:column}
-  .eyebrow{align-self:center;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-2);
-           display:flex;align-items:center;gap:12px;opacity:.95}
-  .eyebrow::before,.eyebrow::after{content:"";width:28px;height:1px;background:linear-gradient(90deg,transparent,var(--gold-2))}
-  .eyebrow::after{transform:scaleX(-1)}
-  .m-title{font-family:'Yeseva One',Georgia,serif;font-weight:400;text-align:center;
-           font-size:clamp(26px,7.4vw,34px);line-height:1.18;margin:14px 4px 26px;
-           background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 55%,var(--gold-3));
-           -webkit-background-clip:text;background-clip:text;color:transparent;
-           filter:drop-shadow(0 2px 10px rgba(60,0,0,.5))}
-  .m-sub{text-align:center;font-size:14px;color:rgba(255,236,200,.78);margin:0 0 22px}
+  .months-on.birth-on #birth,
+  .months-on:not(.birth-on):not(.fc-on) #months,
+  .months-on.fc-on #forecast{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .6s ease .2s}
+  .in{width:100%;max-width:420px;margin:auto 0}
+  .t1{font-family:'Yeseva One',Georgia,serif;font-weight:400;text-align:center;color:var(--gold-txt);
+      font-size:clamp(26px,7.6vw,32px);line-height:1.2;margin:0 0 28px}
+
+  .btn{appearance:none;-webkit-appearance:none;font:inherit;display:block;width:100%;height:54px;border:0;border-radius:16px;
+       font-size:17px;font-weight:600;cursor:pointer;background:var(--cream);color:var(--wine);transition:transform .15s,opacity .25s}
+  .btn:active{transform:scale(.98)}
+  .btn[disabled]{opacity:.4;cursor:default}
+  .btn.dark{background:#8c1010;color:#fff3d6}
+  .btn:focus-visible,.link:focus-visible,.back:focus-visible,.mon:focus-visible{outline:2px solid var(--gold-txt);outline-offset:2px}
+  .link{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;width:100%;height:48px;margin-top:6px;color:var(--ink2);font-size:16px;cursor:pointer}
+
+  /* рулетка даты */
+  .wheel{position:relative;display:grid;grid-template-columns:1fr 1.9fr 1.3fr;height:220px;
+         -webkit-mask-image:linear-gradient(transparent,#000 28%,#000 72%,transparent);mask-image:linear-gradient(transparent,#000 28%,#000 72%,transparent)}
+  .wheel::before{content:"";position:absolute;left:0;right:0;top:88px;height:44px;pointer-events:none;
+         border-top:1px solid rgba(243,222,170,.55);border-bottom:1px solid rgba(243,222,170,.55)}
+  .col{height:220px;overflow-y:scroll;scroll-snap-type:y mandatory;padding:88px 0;box-sizing:border-box;
+       scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .col::-webkit-scrollbar{display:none}
+  .it{height:44px;display:flex;align-items:center;justify-content:center;scroll-snap-align:center;scroll-snap-stop:always;
+      font-size:20px;color:rgba(255,240,215,.38);cursor:pointer;transition:color .15s;user-select:none;-webkit-user-select:none}
+  .it.on{color:#fff3d6;font-weight:600}
+  .b-hint{text-align:center;font-size:15px;line-height:1.45;color:rgba(255,240,215,.85);margin:24px 0;min-height:44px}
+
+  /* подтверждение */
+  .sheet{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,0,0,.55);
+         opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s;z-index:5}
+  .sheet.show{opacity:1;visibility:visible;transition:opacity .3s}
+  .sheet-box{width:100%;max-width:440px;background:var(--cream);color:var(--ink);border-radius:24px 24px 0 0;
+         padding:28px 22px max(env(safe-area-inset-bottom),22px);transform:translateY(40px);transition:transform .4s var(--ease-out)}
+  .sheet.show .sheet-box{transform:none}
+  .sheet-date{font-family:'Yeseva One',Georgia,serif;font-size:28px;line-height:1.2;text-align:center;margin:0 0 8px;color:var(--wine)}
+  .sheet-note{text-align:center;font-size:15px;line-height:1.45;color:var(--ink2);margin:0 0 22px}
+
+  /* месяцы */
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .mon{appearance:none;-webkit-appearance:none;font:inherit;color:inherit;cursor:pointer;
-       position:relative;min-height:84px;padding:12px 6px 10px;border-radius:18px;
-       border:1px solid rgba(246,210,122,.42);
-       background:linear-gradient(180deg,rgba(150,8,8,.55),rgba(95,0,0,.55));
-       -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-       box-shadow:inset 0 1px 0 rgba(255,236,190,.18),0 6px 16px rgba(50,0,0,.35);
-       display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
-       opacity:0;transform:translateY(14px);
-       transition:transform .18s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease,color .2s ease}
-  .months-on:not(.birth-on) .mon{animation:cardin .6s var(--ease-out) forwards;animation-delay:calc(.45s + var(--i) * 45ms)}
-  @keyframes cardin{to{opacity:1;transform:none}}
-  .mon .n{font-size:11px;letter-spacing:.18em;color:var(--gold-2);opacity:.85;font-variant-numeric:tabular-nums}
-  .mon .t{font-family:'Yeseva One',Georgia,serif;font-size:clamp(15px,4.4vw,18px);line-height:1.1}
+  .mon{appearance:none;-webkit-appearance:none;font:inherit;font-family:'Yeseva One',Georgia,serif;font-size:clamp(15px,4.3vw,17px);
+       color:#fff3d6;cursor:pointer;min-height:64px;padding:0 4px;border-radius:16px;border:1px solid rgba(243,222,170,.4);background:transparent;
+       opacity:0;transform:translateY(10px);transition:transform .18s,background .2s,color .2s,border-color .2s}
+  .months-on:not(.birth-on) .mon{animation:cardin .6s var(--ease-out) forwards;animation-delay:calc(.2s + var(--i) * 40ms)}
   .mon:active{transform:scale(.96)}
-  .mon:focus-visible{outline:2px solid var(--gold-1);outline-offset:2px}
-  .mon[aria-pressed="true"]{
-       background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 45%,var(--gold-3));
-       border-color:#fff1bf;color:#6a0000;
-       box-shadow:0 0 0 3px rgba(255,226,150,.28),0 10px 26px rgba(255,190,70,.38)}
-  .mon[aria-pressed="true"] .n{color:#8a1a00;opacity:.8}
-  .cta{appearance:none;-webkit-appearance:none;font:inherit;width:100%;height:56px;margin-top:22px;border:0;border-radius:18px;
-       font-size:17px;font-weight:700;letter-spacing:.02em;cursor:pointer;
-       color:#6a0000;background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 50%,var(--gold-3));
-       box-shadow:0 10px 28px rgba(255,190,70,.35),inset 0 1px 0 rgba(255,255,255,.6);
-       transition:transform .15s ease,opacity .25s ease,filter .25s ease}
-  .cta:active{transform:scale(.98)}
-  .cta[disabled]{opacity:.62;filter:saturate(.5);box-shadow:none;cursor:default}
-  .cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
-  .toast{position:fixed;left:50%;bottom:max(env(safe-area-inset-bottom),22px);transform:translate(-50%,20px);
-         background:rgba(40,0,0,.9);color:var(--gold-1);border:1px solid rgba(246,210,122,.5);
-         padding:12px 18px;border-radius:14px;font-size:14px;opacity:0;pointer-events:none;
-         transition:opacity .3s ease,transform .3s ease;max-width:90vw;text-align:center}
-  .toast.show{opacity:1;transform:translate(-50%,0)}
-  @media (max-height:700px){.mon{min-height:70px}}
-  @media (prefers-reduced-motion:reduce){.months-on:not(.birth-on) .mon{animation-duration:.01s;animation-delay:0s}}
+  .mon[aria-pressed="true"]{background:var(--cream);color:var(--wine);border-color:var(--cream)}
 
-  /* ───────── экран прогноза ───────── */
-  .months-on.fc-on #months{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility 0s .35s}
-  #forecast{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
-            padding:max(env(safe-area-inset-top),14px) 16px max(env(safe-area-inset-bottom),28px);
-            opacity:0;visibility:hidden;pointer-events:none;
-            font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#fff3d6}
-  .months-on.fc-on #forecast{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .5s ease .2s}
-  .f-wrap{max-width:440px;margin:0 auto}
-  .f-top{display:flex;align-items:center;justify-content:space-between;min-height:48px}
-  .back{appearance:none;-webkit-appearance:none;font:inherit;display:flex;align-items:center;gap:6px;height:44px;padding:0 14px 0 8px;
-        background:rgba(100,0,0,.45);border:1px solid rgba(246,210,122,.4);border-radius:22px;color:var(--gold-1);font-size:15px;cursor:pointer;
-        -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-  .back svg{width:22px;height:22px}
-  .back:active{transform:scale(.96)}
-  .back:focus-visible{outline:2px solid var(--gold-1);outline-offset:2px}
-  .f-eyebrow{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-2)}
-  .f-title{font-family:'Yeseva One',Georgia,serif;font-weight:400;text-align:center;font-size:clamp(34px,10vw,44px);line-height:1.1;margin:14px 0 4px;
-           background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 55%,var(--gold-3));-webkit-background-clip:text;background-clip:text;color:transparent;
-           filter:drop-shadow(0 2px 10px rgba(60,0,0,.5))}
-  .f-theme{text-align:center;font-size:15px;color:rgba(255,236,200,.85);margin:0 0 14px}
-  .test-badge{display:flex;width:max-content;max-width:100%;margin:0 auto 18px;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;
-              background:rgba(255,226,150,.14);border:1px dashed rgba(255,226,150,.7);color:var(--gold-1);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
-  .test-badge i{width:7px;height:7px;transform:rotate(45deg);background:var(--gold-2);display:block}
-  .card{border-radius:22px;padding:18px;margin-bottom:12px;border:1px solid rgba(246,210,122,.34);
-        background:linear-gradient(180deg,rgba(150,8,8,.52),rgba(90,0,0,.55));
-        -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-        box-shadow:inset 0 1px 0 rgba(255,236,190,.16),0 8px 22px rgba(40,0,0,.35)}
-  .card h3{margin:0 0 12px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2)}
-  .fc-on .rv{opacity:0;animation:cardin .6s var(--ease-out) forwards;animation-delay:calc(.35s + var(--r,0) * 90ms)}
-  .days{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.days:last-child{margin-bottom:0}
-  .days .lbl{width:100%;font-size:13px;color:rgba(255,236,200,.75);margin-bottom:-2px}
-  .day{min-width:44px;height:44px;padding:0 6px;display:grid;place-items:center;border-radius:14px;font-weight:600;font-variant-numeric:tabular-nums}
-  .day.good{background:linear-gradient(180deg,var(--gold-1),var(--gold-2));color:#6a0000}
-  .day.warn{background:rgba(30,0,0,.45);border:1px solid rgba(255,226,150,.4);color:var(--gold-1)}
-  .card .txt{margin:0;font-size:15.5px;line-height:1.65;color:rgba(255,240,215,.94)}
-  .quote{font-family:'Yeseva One',Georgia,serif;font-size:18px;line-height:1.4;color:var(--gold-1);margin:0}
-  .f-foot{text-align:center;font-size:12.5px;color:rgba(255,236,200,.6);margin:16px 8px 0;line-height:1.5}
-  .again{appearance:none;-webkit-appearance:none;font:inherit;display:block;width:100%;height:52px;margin-top:14px;border-radius:16px;
-         background:transparent;border:1px solid rgba(246,210,122,.55);color:var(--gold-1);font-size:16px;cursor:pointer}
-  .again:active{transform:scale(.98)}
-  .again:focus-visible{outline:2px solid var(--gold-1);outline-offset:2px}
-  @media (prefers-reduced-motion:reduce){.fc-on .rv{animation-duration:.01s;animation-delay:0s}}
+  /* прогноз */
+  #forecast .in{margin:0 auto}
+  .back{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;display:flex;align-items:center;height:44px;padding:0 8px 0 0;
+        color:var(--gold-txt);font-size:16px;cursor:pointer}
+  .f-note{text-align:center;font-size:14.5px;line-height:1.45;color:rgba(255,240,215,.85);margin:-14px 0 6px}
+  .f-test{text-align:center;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,222,170,.6);margin:0 0 22px}
+  .card{background:var(--cream);color:var(--ink);border-radius:20px;padding:20px;margin-bottom:12px}
+  .card h3{margin:0 0 8px;font-family:'Yeseva One',Georgia,serif;font-weight:400;font-size:18px;line-height:1.25;color:var(--wine)}
+  .card .txt{margin:0;font-size:15.5px;line-height:1.6}
+  .fc-on .rv{opacity:0;animation:cardin .6s var(--ease-out) forwards;animation-delay:calc(.2s + var(--r,0) * 70ms)}
 
-  /* ───────── экран даты рождения ───────── */
-  .months-on.birth-on #birth{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .7s ease .25s}
-  .months-on.birth-on #months,.months-on.fc-on #birth{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility 0s .35s}
-  .b-sub{text-align:center;font-size:14px;line-height:1.45;color:rgba(255,236,200,.82);margin:-16px 8px 20px}
-  .fields{display:grid;grid-template-columns:1fr 1.7fr 1.25fr;gap:10px}
-  .fld{display:flex;flex-direction:column;gap:6px;min-width:0}
-  .fld>span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2);padding-left:4px}
-  .fld input,.fld select{appearance:none;-webkit-appearance:none;font:inherit;font-size:18px;font-weight:600;width:100%;height:56px;box-sizing:border-box;
-        padding:0 12px;border-radius:16px;border:1px solid rgba(246,210,122,.45);color:#fff3d6;text-align:center;
-        background:rgba(100,0,0,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
-        box-shadow:inset 0 1px 0 rgba(255,236,190,.14);transition:border-color .2s,box-shadow .2s}
-  .fld input::placeholder{color:rgba(255,236,200,.3);font-weight:400}
-  .fld select{padding-right:28px;text-align-last:center;
-        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f6d27a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-        background-repeat:no-repeat;background-position:right 8px center;background-size:18px}
-  .fld select:invalid{color:rgba(255,236,200,.45);font-weight:400}
-  .fld select option{color:#400;background:#fff3d6}
-  .fld input:focus,.fld select:focus{outline:none;border-color:var(--gold-1);box-shadow:0 0 0 3px rgba(255,226,150,.28)}
-  .fld.bad input,.fld.bad select{border-color:#ffb199}
-  .b-err{min-height:20px;margin:8px 4px 4px;font-size:13px;color:#ffc9b5}
-  .rule{margin:6px 0 0;padding:16px}
-  .rule h3{margin-bottom:10px}
-  .rule p{margin:0 0 9px;font-size:13.5px;line-height:1.5;color:rgba(255,240,215,.9)}
-  .rule p:last-child{margin-bottom:0}
-  .rule b{color:var(--gold-1);font-weight:600}
-  .rule .ex{padding:10px 12px;border-radius:12px;background:rgba(30,0,0,.35);border:1px dashed rgba(255,226,150,.4)}
-  .b-you{min-height:22px;margin:14px 6px 0;text-align:center;font-size:14.5px;line-height:1.45;color:var(--gold-1)}
-  .chip{appearance:none;-webkit-appearance:none;font:inherit;align-self:center;margin:-14px 0 20px;min-height:40px;padding:0 16px;border-radius:20px;
-        background:rgba(100,0,0,.45);border:1px solid rgba(246,210,122,.4);color:#fff3d6;font-size:13px;cursor:pointer;
-        -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-  .chip u{color:var(--gold-1);text-underline-offset:3px;margin-left:4px}
-  .chip:active{transform:scale(.97)}
-  .chip:focus-visible,.cta:focus-visible{outline:2px solid var(--gold-1);outline-offset:2px}
-  .mon .p{font-size:10.5px;letter-spacing:.02em;color:var(--gold-2);opacity:.9;font-variant-numeric:tabular-nums;margin-top:-1px}
-  .mon[aria-pressed="true"] .p{color:#8a1a00}
-  .f-period{text-align:center;font-size:13.5px;color:var(--gold-2);margin:-6px 8px 14px}
+  @media (prefers-reduced-motion:reduce){.months-on:not(.birth-on) .mon,.fc-on .rv{animation-duration:.01s;animation-delay:0s}}
 </style>
 </head>
 <body>
@@ -246,53 +180,31 @@
   </div>
 </div>
 
-  <section id="forecast" aria-label="Прогноз">
-    <div class="f-wrap">
-      <div class="f-top">
-        <button class="back" id="back" type="button" aria-label="Назад до вибору місяця"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>Місяці</button>
-        <span class="f-eyebrow">Прогностика 2027</span>
-      </div>
-      <h2 class="f-title" id="f-title"></h2>
-      <p class="f-theme" id="f-theme"></p>
-      <p class="f-period" id="f-period"></p>
-      <div class="test-badge"><i></i>Тестові дані</div>
-      <div id="f-body"></div>
-      <p class="f-foot">Усі тексти та цифри на цьому екрані — тестові. Так виглядатиме прогноз у застосунку.</p>
-      <button class="again" id="again" type="button">Обрати інший місяць</button>
+  <section id="forecast" class="screen" aria-label="Прогноз"><div class="in">
+    <button class="back" id="back" type="button">‹&nbsp; Місяці</button>
+    <h2 class="t1" id="f-title"></h2>
+    <p class="f-note" id="f-note"></p>
+    <p class="f-test">Тестові дані</p>
+    <div id="f-body"></div>
+  </div></section>
+  <section id="birth" class="screen" aria-label="Дата народження"><div class="in">
+    <h1 class="t1">Вкажи дату народження</h1>
+    <div class="wheel" role="group" aria-label="Дата народження">
+      <div class="col" id="cd" aria-label="День"></div><div class="col" id="cm" aria-label="Місяць"></div><div class="col" id="cy" aria-label="Рік"></div>
     </div>
-  </section>
-  <section id="birth" aria-label="Дата народження">
-    <div class="m-wrap">
-      <div class="eyebrow">Прогностика 2027</div>
-      <h1 class="m-title">Вкажіть дату народження</h1>
-      <p class="b-sub">Прогноз розраховується від вашої дати народження</p>
-      <form id="bform" novalidate autocomplete="on">
-        <div class="fields">
-          <label class="fld" id="fd"><span>День</span><input id="bd" inputmode="numeric" maxlength="2" placeholder="25" autocomplete="bday-day"></label>
-          <label class="fld" id="fm"><span>Місяць</span><select id="bm" required autocomplete="bday-month"></select></label>
-          <label class="fld" id="fy"><span>Рік</span><input id="by" inputmode="numeric" maxlength="4" placeholder="1995" autocomplete="bday-year"></label>
-        </div>
-        <p class="b-err" id="berr" role="alert"></p>
-        <div class="card rule">
-          <h3>Як працює прогноз</h3>
-          <p>Народились з <b>1 по 15 число</b> — прогноз діє за календарні місяці: з 1-го до останнього дня.</p>
-          <p>Народились <b>після 15-го</b> — прогноз зміщується на ваш день народження.</p>
-          <p class="ex">Наприклад, 25 серпня: прогноз на серпень діє <b>з 25 серпня по 25 вересня</b>, на вересень — з 25 вересня по 25 жовтня, і так далі.</p>
-        </div>
-        <p class="b-you" id="byou" aria-live="polite"></p>
-        <button class="cta" id="bgo" type="submit" disabled>Продовжити</button>
-      </form>
-    </div>
-  </section>
-  <section id="months" aria-label="Вибір місяця">
-    <div class="m-wrap">
-      <div class="eyebrow">Прогностика 2027</div>
-      <h1 class="m-title">Обирай місяць, щоб отримати прогноз</h1>
-      <button class="chip" id="bchip" type="button"></button>
-      <div class="grid" id="grid" role="group" aria-label="Місяць 2027 року"></div>
-    </div>
-  </section>
-  <div class="toast" id="toast" role="status"></div>
+    <p class="b-hint" id="bhint" aria-live="polite"></p>
+    <button class="btn" id="bgo" type="button">Продовжити</button>
+  </div></section>
+  <section id="months" class="screen" aria-label="Вибір місяця"><div class="in">
+    <h1 class="t1">Обирай місяць, щоб отримати прогноз</h1>
+    <div class="grid" id="grid" role="group" aria-label="Місяць 2027 року"></div>
+  </div></section>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-date"><div class="sheet-box">
+    <p class="sheet-date" id="sheet-date"></p>
+    <p class="sheet-note">Змінити дату потім буде неможливо.<br>Перевір, чи все правильно.</p>
+    <button class="btn dark" id="ok" type="button">Так, усе вірно</button>
+    <button class="link" id="fix" type="button">Виправити</button>
+  </div></div>
 </div>
 
 <script>
@@ -338,104 +250,118 @@
   var wrap=document.getElementById('wrap'),timer,started=false;
   var MONTHS=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
   var GEN=['січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
-  var ABBR=['січ','лют','бер','кві','тра','чер','лип','сер','вер','жов','лис','гру'];
-  var THEMES=['Чистий аркуш','Тиха підготовка','Місяць нових починань','Розквіт ідей','Гармонія та тепло','Швидкість і рух','Час сміливих рішень','Золотий урожай','Фокус і порядок','Несподівані можливості','Глибина та спокій','Підсумки та свято'];
+  var ABBR=GEN;
   var DAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
   function rnd(i,k){var x=Math.sin((i+1)*12.9898+k*78.233)*43758.5453;return x-Math.floor(x)}
   function pick(seed,n,k0,cnt,used){var out=[],k=k0;while(out.length<cnt){var d=Math.floor(rnd(seed,k++)*n);if(out.indexOf(d)<0&&used.indexOf(d)<0)out.push(d)}return out.sort(function(a,b){return a-b})}
-  function pad(n){return (n<10?'0':'')+n}
+  function $(id){return document.getElementById(id)}
 
-  // ── дата народження ──
+  // ── дата народження: збереження (змінити не можна) ──
   var birth=null,DEMO={d:10,m:3,y:1995};
-  function validDate(d,m,y){
-    if(!(d>=1&&d<=31&&m>=1&&m<=12&&y>=1920))return false;
-    var dt=new Date(y,m-1,d);
-    return dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d&&dt<=new Date();
-  }
+  function validDate(d,m,y){var dt=new Date(y,m-1,d);return dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d&&dt<=new Date()}
   function loadBirth(){try{var v=JSON.parse(localStorage.getItem('prog_birth'));if(v&&validDate(v.d,v.m,v.y))return v}catch(e){}return null}
   function saveBirth(v){try{localStorage.setItem('prog_birth',JSON.stringify(v))}catch(e){}}
+  function clearBirth(){try{localStorage.removeItem('prog_birth')}catch(e){}birth=null}
 
-  // период действия прогноза на месяц i (2027)
+  // період дії прогнозу на місяць i (2027): після 15-го — від дня народження, інакше календарний місяць
   function period(i,D){
     D=D||birth.d;
-    if(D<=15)return {s:new Date(2027,i,1),e:new Date(2027,i+1,0),shift:false};
+    if(D<=15)return {s:new Date(2027,i,1),e:new Date(2027,i+1,0)};
     var ey=i===11?2028:2027,em=(i+1)%12;
-    var sd=Math.min(D,DAYS[i]),ed=Math.min(D,new Date(ey,em+1,0).getDate());
-    return {s:new Date(2027,i,sd),e:new Date(ey,em,ed),shift:true};
+    return {s:new Date(2027,i,Math.min(D,DAYS[i])),e:new Date(ey,em,Math.min(D,new Date(ey,em+1,0).getDate()))};
   }
   function fmtLong(dt){return dt.getDate()+' '+GEN[dt.getMonth()]}
-  function periodLabel(p){
-    var y=p.e.getFullYear()!==2027?' '+p.e.getFullYear():'';
-    return p.shift?fmtLong(p.s)+' — '+fmtLong(p.e)+y:p.s.getDate()+' — '+fmtLong(p.e);
-  }
+  function periodText(p){return 'з '+fmtLong(p.s)+' по '+fmtLong(p.e)+(p.e.getFullYear()!==2027?' '+p.e.getFullYear():'')}
 
+  // ── прогноз (тестові дані) ──
   function buildForecast(i){
     var p=period(i),dates=[];
     for(var t=new Date(p.s);t<=p.e;t.setDate(t.getDate()+1))dates.push(new Date(t));
     var seed=i+birth.d*7+birth.m*13;
     var gi=pick(seed,dates.length,30,4,[]),wi=pick(seed,dates.length,60,2,gi);
     var list=function(ix){return ix.map(function(k){return fmtLong(dates[k])}).join(', ')};
-    document.getElementById('f-title').textContent=MONTHS[i]+' 2027';
-    document.getElementById('f-theme').textContent=THEMES[i];
-    document.getElementById('f-period').textContent='Прогноз діє: '+periodLabel(p);
+    $('f-title').textContent=MONTHS[i]+' 2027';
+    $('f-note').textContent='Твій прогноз діє '+periodText(p);
     var blocks=[
       ['Загальний прогноз','Це тестовий текст. Тут буде загальний опис періоду: головна тема, настрій і напрямок, у якому рухатимуться події. Перші дні варто провести спокійно, зібрати думки та визначити пріоритети, а ближче до середини періоду з’явиться більше енергії для активних дій і нових розмов.'],
       ['Кохання та стосунки','Тестовий текст. Тут буде прогноз для особистого життя: як складатимуться стосунки з близькою людиною, чи варто очікувати нових знайомств і на що звернути увагу в розмовах. Найкраще працюватимуть щирість і готовність слухати, а не лише говорити.'],
       ['Гроші та фінанси','Тестовий текст. Тут буде порада щодо доходів і витрат: коли доречно робити великі покупки, а коли краще почекати, чи з’являться додаткові джерела прибутку. Радимо не поспішати з рішеннями, які неможливо скасувати, і звіряти плани з реальними цифрами.'],
       ['Робота та кар’єра','Тестовий текст. Тут буде прогноз щодо роботи й проєктів: які завдання вдаватимуться легше, де знадобиться терпіння і коли добре просити про підвищення або запускати нову справу. Підтримка колег і чітка комунікація допоможуть швидше досягти результату.'],
-      ['Здоров’я та самопочуття','Тестовий текст. Тут буде порада щодо енергії, сну й відновлення. Варто звернути увагу на режим дня, достатню кількість води та прогулянки на свіжому повітрі. Не залишайте без уваги втому: невеликі перерви протягом дня дадуть більше користі, ніж довгий відпочинок наприкінці періоду.'],
+      ['Здоров’я та самопочуття','Тестовий текст. Тут буде порада щодо енергії, сну й відновлення. Варто звернути увагу на режим дня, достатню кількість води та прогулянки на свіжому повітрі. Невеликі перерви протягом дня дадуть більше користі, ніж довгий відпочинок наприкінці періоду.'],
       ['Ключові дати','Тестовий текст. Сприятливі дні: '+list(gi)+'. У ці дні легше починати нове, домовлятися та приймати важливі рішення. Дні для обережності: '+list(wi)+'. Краще не планувати на них складних розмов і не поспішати з підписанням документів.'],
       ['Порада періоду','Тестовий текст. Тут буде одна головна порада на цей період: коротка думка, яку легко запам’ятати й повертатися до неї щоразу, коли потрібна підтримка.']
     ];
-    document.getElementById('f-body').innerHTML=blocks.map(function(x,k){
+    $('f-body').innerHTML=blocks.map(function(x,k){
       return '<article class="card rv" style="--r:'+k+'"><h3>'+x[0]+'</h3><p class="txt">'+x[1]+'</p></article>';
     }).join('');
-    document.getElementById('forecast').scrollTop=0;
+    $('forecast').scrollTop=0;
   }
 
-  // ── экран даты рождения ──
-  var bd=document.getElementById('bd'),bm=document.getElementById('bm'),by=document.getElementById('by'),
-      bgo=document.getElementById('bgo'),berr=document.getElementById('berr'),byou=document.getElementById('byou');
-  bm.innerHTML='<option value="" disabled selected>Оберіть</option>'+MONTHS.map(function(n,k){return '<option value="'+(k+1)+'">'+n.toLowerCase()+'</option>'}).join('');
-  function readBirth(){return {d:parseInt(bd.value,10),m:parseInt(bm.value,10),y:parseInt(by.value,10)}}
-  function checkBirth(){
-    var v=readBirth(),filled=bd.value&&bm.value&&by.value.length===4,ok=filled&&validDate(v.d,v.m,v.y);
-    ['fd','fm','fy'].forEach(function(id){document.getElementById(id).classList.remove('bad')});
-    berr.textContent='';byou.textContent='';
-    if(filled&&!ok){
-      var dt=new Date(v.y,v.m-1,v.d),exists=dt.getFullYear()===v.y&&dt.getMonth()===v.m-1&&dt.getDate()===v.d;
-      if(v.y<1920){berr.textContent='Вкажіть рік від 1920';document.getElementById('fy').classList.add('bad')}
-      else if(exists){berr.textContent='Дата не може бути в майбутньому';document.getElementById('fy').classList.add('bad')}
-      else{berr.textContent='Перевірте дату: такого числа в цьому місяці немає';document.getElementById('fd').classList.add('bad')}
-    }
-    if(ok){
-      if(v.d>15){var pp=period(7,v.d);byou.textContent='Для вас прогноз на серпень діє з '+fmtLong(pp.s)+' по '+fmtLong(pp.e)+', і так далі щомісяця.'}
-      else byou.textContent='Для вас прогноз діє за календарні місяці: з 1-го до останнього дня.';
-    }
-    bgo.disabled=!ok;
-    return ok;
+  // ── рулетка дати ──
+  var ITEM=44,Y0=1940,Y1=new Date().getFullYear(),cd=$('cd'),cm=$('cm'),cy=$('cy'),bgo=$('bgo'),bhint=$('bhint'),wheelsReady=false;
+  function dim(y,m){return new Date(y,m,0).getDate()}
+  function mark(col){
+    var i=Math.max(0,Math.min(col._n-1,Math.round(col.scrollTop/ITEM)));
+    for(var k=0;k<col.children.length;k++)col.children[k].classList.toggle('on',k===i);
+    return i;
   }
-  [bd,by].forEach(function(el){el.addEventListener('input',function(){el.value=el.value.replace(/\D/g,'');checkBirth()})});
-  bm.addEventListener('change',checkBirth);
-  document.getElementById('bform').addEventListener('submit',function(e){
-    e.preventDefault();
-    if(!checkBirth())return;
-    birth=readBirth();saveBirth(birth);
+  function fill(col,labels,idx){
+    col._n=labels.length;
+    col.innerHTML=labels.map(function(t,k){return '<div class="it" data-i="'+k+'">'+t+'</div>'}).join('');
+    col.scrollTop=idx*ITEM;mark(col);
+  }
+  function sel(){return {d:mark(cd)+1,m:mark(cm)+1,y:Y0+mark(cy)}}
+  function dayLabels(n){var a=[];for(var k=1;k<=n;k++)a.push(k);return a}
+  function onSettle(){
+    var v=sel(),n=dim(v.y,v.m);
+    if(n!==cd._n){fill(cd,dayLabels(n),Math.min(v.d,n)-1);v=sel()}
+    var ok=validDate(v.d,v.m,v.y);
+    bgo.disabled=!ok;
+    bhint.textContent=ok?'Твій прогноз діятиме з '+(v.d>15?v.d:1)+'-го числа кожного місяця':'Обери дату в минулому';
+  }
+  function initWheels(){
+    if(wheelsReady)return;wheelsReady=true;
+    var years=[];for(var y=Y0;y<=Y1;y++)years.push(y);
+    fill(cm,MONTHS,5);fill(cy,years,1995-Y0);fill(cd,dayLabels(dim(1995,6)),14);
+    [cd,cm,cy].forEach(function(col){
+      var raf=0,to=0;
+      col.addEventListener('scroll',function(){
+        if(!raf)raf=requestAnimationFrame(function(){raf=0;mark(col)});
+        clearTimeout(to);to=setTimeout(onSettle,110);
+      },{passive:true});
+      col.addEventListener('click',function(e){
+        var it=e.target.closest&&e.target.closest('.it');
+        if(it)col.scrollTo({top:(+it.dataset.i)*ITEM,behavior:'smooth'});
+      });
+    });
+    onSettle();
+  }
+
+  // ── підтвердження ──
+  var sheet=$('sheet'),pending=null;
+  function openSheet(){
+    pending=sel();if(!validDate(pending.d,pending.m,pending.y))return;
+    $('sheet-date').textContent=pending.d+' '+GEN[pending.m-1]+' '+pending.y;
+    sheet.classList.add('show');$('ok').focus();
+  }
+  function closeSheet(){sheet.classList.remove('show')}
+  bgo.addEventListener('click',openSheet);
+  $('fix').addEventListener('click',closeSheet);
+  sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheet()});
+  $('ok').addEventListener('click',function(){
+    birth=pending;saveBirth(birth);closeSheet();
     try{window.Telegram.WebApp.HapticFeedback.notificationOccurred('success')}catch(x){}
     showMonths();
   });
 
-  // ── экран месяцев ──
-  var grid=document.getElementById('grid');
+  // ── місяці ──
+  var grid=$('grid');
   function renderMonths(){
     grid.innerHTML='';
-    document.getElementById('bchip').innerHTML='Дата народження: '+pad(birth.d)+'.'+pad(birth.m)+'.'+birth.y+' <u>змінити</u>';
     MONTHS.forEach(function(name,i){
-      var p=period(i);
       var b=document.createElement('button');b.type='button';b.className='mon';b.setAttribute('aria-pressed','false');
-      b.style.setProperty('--i',i);
-      b.innerHTML='<span class="n">'+pad(i+1)+'</span><span class="t">'+name+'</span>'
-        +(p.shift?'<span class="p">'+pad(p.s.getDate())+'.'+pad(p.s.getMonth()+1)+' – '+pad(p.e.getDate())+'.'+pad(p.e.getMonth()+1)+'</span>':'');
+      b.style.setProperty('--i',i);b.textContent=name;
       b.addEventListener('click',function(){
         b.setAttribute('aria-pressed','true');
         try{window.Telegram.WebApp.HapticFeedback.selectionChanged()}catch(e){}
@@ -444,13 +370,9 @@
       grid.appendChild(b);
     });
   }
-  document.getElementById('bchip').addEventListener('click',showBirth);
 
   function showBirth(){
-    clearTimeout(timer);
-    var v=birth||loadBirth();
-    if(v){bd.value=v.d;bm.value=v.m;by.value=v.y}
-    checkBirth();
+    clearTimeout(timer);initWheels();
     wrap.classList.add('months-on','birth-on');wrap.classList.remove('fc-on');
     history.replaceState(null,'',location.pathname+location.search);
   }
@@ -467,16 +389,17 @@
     history.replaceState(null,'','#m'+(i+1));
   }
   function backToMonths(){wrap.classList.remove('fc-on');history.replaceState(null,'',location.pathname+location.search)}
-  document.getElementById('back').addEventListener('click',backToMonths);
-  document.getElementById('again').addEventListener('click',backToMonths);
+  $('back').addEventListener('click',backToMonths);
+  // дата вже збережена → пропускаємо її введення; #birth скидає збережену дату (для демо)
+  function afterSplash(){if(loadBirth())showMonths();else showBirth()}
   window.showMonths=showMonths;window.showForecast=showForecast;window.showBirth=showBirth;
 
-  // тап по заставке пропускает её
+  // тап по заставці пропускає її
   document.addEventListener('click',function(){
-    if(started&&!wrap.classList.contains('months-on')&&location.hash!=='#splash')showBirth();
+    if(started&&!wrap.classList.contains('months-on')&&location.hash!=='#splash')afterSplash();
   });
 
-  // ── запуск: шрифт + картинки → заставка, через 2,5 с — дата народження ──
+  // ── запуск: шрифт + картинки → заставка, через 2,5 с — далі ──
   var h=location.hash,mm=/^#m(\d{1,2})$/.exec(h);
   function imgsReady(){
     var p=[].map.call(document.images,function(im){return im.decode?im.decode().catch(function(){}):Promise.resolve()});
@@ -486,12 +409,13 @@
     var f=(document.fonts&&document.fonts.load)?document.fonts.load('60px "Yeseva One"','ПРОГНОСТИКАпрогноз2027іїє').catch(function(){}):Promise.resolve();
     return Promise.race([f,new Promise(function(r){setTimeout(r,2500)})]);
   }
+  if(h==='#birth')clearBirth();
   Promise.all([fontReady(),imgsReady()]).then(function(){
     play();started=true;
     if(mm&&+mm[1]>=1&&+mm[1]<=12){showForecast(+mm[1]-1)}
     else if(h==='#months'){showMonths()}
     else if(h==='#birth'){showBirth()}
-    else if(h!=='#splash'){timer=setTimeout(showBirth,2500)}
+    else if(h!=='#splash'){timer=setTimeout(afterSplash,2500)}
   });
 })();
 </script>
