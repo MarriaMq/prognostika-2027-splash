@@ -85,7 +85,7 @@
   #stage{transition:filter .9s ease}
   .months-on #stage{filter:blur(3px) brightness(.52) saturate(1.05)}
   .months-on #title,.months-on #sparks{opacity:0;transition:opacity .5s ease}
-  #months{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  #months,#birth{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
           padding:max(env(safe-area-inset-top),28px) 16px max(env(safe-area-inset-bottom),20px);
           opacity:0;visibility:hidden;pointer-events:none;overflow-y:auto;
           font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,Helvetica,Arial,sans-serif;
@@ -112,7 +112,7 @@
        display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
        opacity:0;transform:translateY(14px);
        transition:transform .18s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease,color .2s ease}
-  .months-on .mon{animation:cardin .6s var(--ease-out) forwards;animation-delay:calc(.45s + var(--i) * 45ms)}
+  .months-on:not(.birth-on) .mon{animation:cardin .6s var(--ease-out) forwards;animation-delay:calc(.45s + var(--i) * 45ms)}
   @keyframes cardin{to{opacity:1;transform:none}}
   .mon .n{font-size:11px;letter-spacing:.18em;color:var(--gold-2);opacity:.85;font-variant-numeric:tabular-nums}
   .mon .t{font-family:'Yeseva One',Georgia,serif;font-size:clamp(15px,4.4vw,18px);line-height:1.1}
@@ -137,7 +137,7 @@
          transition:opacity .3s ease,transform .3s ease;max-width:90vw;text-align:center}
   .toast.show{opacity:1;transform:translate(-50%,0)}
   @media (max-height:700px){.mon{min-height:70px}}
-  @media (prefers-reduced-motion:reduce){.months-on .mon{animation-duration:.01s;animation-delay:0s}}
+  @media (prefers-reduced-motion:reduce){.months-on:not(.birth-on) .mon{animation-duration:.01s;animation-delay:0s}}
 
   /* ───────── экран прогноза ───────── */
   .months-on.fc-on #months{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility 0s .35s}
@@ -200,6 +200,43 @@
   .again:active{transform:scale(.98)}
   .again:focus-visible{outline:2px solid var(--gold-1);outline-offset:2px}
   @media (prefers-reduced-motion:reduce){.fc-on .rv,.fc-on .ring .pg,.fc-on .bar i{animation-duration:.01s;animation-delay:0s}}
+
+  /* ───────── экран даты рождения ───────── */
+  .months-on.birth-on #birth{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .7s ease .25s}
+  .months-on.birth-on #months,.months-on.fc-on #birth{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility 0s .35s}
+  .b-sub{text-align:center;font-size:14px;line-height:1.45;color:rgba(255,236,200,.82);margin:-16px 8px 20px}
+  .fields{display:grid;grid-template-columns:1fr 1.7fr 1.25fr;gap:10px}
+  .fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+  .fld>span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-2);padding-left:4px}
+  .fld input,.fld select{appearance:none;-webkit-appearance:none;font:inherit;font-size:18px;font-weight:600;width:100%;height:56px;box-sizing:border-box;
+        padding:0 12px;border-radius:16px;border:1px solid rgba(246,210,122,.45);color:#fff3d6;text-align:center;
+        background:rgba(100,0,0,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+        box-shadow:inset 0 1px 0 rgba(255,236,190,.14);transition:border-color .2s,box-shadow .2s}
+  .fld input::placeholder{color:rgba(255,236,200,.3);font-weight:400}
+  .fld select{padding-right:28px;text-align-last:center;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f6d27a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat:no-repeat;background-position:right 8px center;background-size:18px}
+  .fld select:invalid{color:rgba(255,236,200,.45);font-weight:400}
+  .fld select option{color:#400;background:#fff3d6}
+  .fld input:focus,.fld select:focus{outline:none;border-color:var(--gold-1);box-shadow:0 0 0 3px rgba(255,226,150,.28)}
+  .fld.bad input,.fld.bad select{border-color:#ffb199}
+  .b-err{min-height:20px;margin:8px 4px 4px;font-size:13px;color:#ffc9b5}
+  .rule{margin:6px 0 0;padding:16px}
+  .rule h3{margin-bottom:10px}
+  .rule p{margin:0 0 9px;font-size:13.5px;line-height:1.5;color:rgba(255,240,215,.9)}
+  .rule p:last-child{margin-bottom:0}
+  .rule b{color:var(--gold-1);font-weight:600}
+  .rule .ex{padding:10px 12px;border-radius:12px;background:rgba(30,0,0,.35);border:1px dashed rgba(255,226,150,.4)}
+  .b-you{min-height:22px;margin:14px 6px 0;text-align:center;font-size:14.5px;line-height:1.45;color:var(--gold-1)}
+  .chip{appearance:none;-webkit-appearance:none;font:inherit;align-self:center;margin:-14px 0 20px;min-height:40px;padding:0 16px;border-radius:20px;
+        background:rgba(100,0,0,.45);border:1px solid rgba(246,210,122,.4);color:#fff3d6;font-size:13px;cursor:pointer;
+        -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  .chip u{color:var(--gold-1);text-underline-offset:3px;margin-left:4px}
+  .chip:active{transform:scale(.97)}
+  .chip:focus-visible,.cta:focus-visible{outline:2px solid var(--gold-1);outline-offset:2px}
+  .mon .p{font-size:10.5px;letter-spacing:.02em;color:var(--gold-2);opacity:.9;font-variant-numeric:tabular-nums;margin-top:-1px}
+  .mon[aria-pressed="true"] .p{color:#8a1a00}
+  .f-period{text-align:center;font-size:13.5px;color:var(--gold-2);margin:-6px 8px 14px}
 </style>
 </head>
 <body>
@@ -236,16 +273,41 @@
       </div>
       <h2 class="f-title" id="f-title"></h2>
       <p class="f-theme" id="f-theme"></p>
+      <p class="f-period" id="f-period"></p>
       <div class="test-badge"><i></i>Тестові дані</div>
       <div id="f-body"></div>
       <p class="f-foot">Усі тексти та цифри на цьому екрані — тестові. Так виглядатиме прогноз у застосунку.</p>
       <button class="again" id="again" type="button">Обрати інший місяць</button>
     </div>
   </section>
+  <section id="birth" aria-label="Дата народження">
+    <div class="m-wrap">
+      <div class="eyebrow">Прогностика 2027</div>
+      <h1 class="m-title">Вкажіть дату народження</h1>
+      <p class="b-sub">Прогноз розраховується від вашої дати народження</p>
+      <form id="bform" novalidate autocomplete="on">
+        <div class="fields">
+          <label class="fld" id="fd"><span>День</span><input id="bd" inputmode="numeric" maxlength="2" placeholder="25" autocomplete="bday-day"></label>
+          <label class="fld" id="fm"><span>Місяць</span><select id="bm" required autocomplete="bday-month"></select></label>
+          <label class="fld" id="fy"><span>Рік</span><input id="by" inputmode="numeric" maxlength="4" placeholder="1995" autocomplete="bday-year"></label>
+        </div>
+        <p class="b-err" id="berr" role="alert"></p>
+        <div class="card rule">
+          <h3>Як працює прогноз</h3>
+          <p>Народились з <b>1 по 15 число</b> — прогноз діє за календарні місяці: з 1-го до останнього дня.</p>
+          <p>Народились <b>після 15-го</b> — прогноз зміщується на ваш день народження.</p>
+          <p class="ex">Наприклад, 25 серпня: прогноз на серпень діє <b>з 25 серпня по 25 вересня</b>, на вересень — з 25 вересня по 25 жовтня, і так далі.</p>
+        </div>
+        <p class="b-you" id="byou" aria-live="polite"></p>
+        <button class="cta" id="bgo" type="submit" disabled>Продовжити</button>
+      </form>
+    </div>
+  </section>
   <section id="months" aria-label="Вибір місяця">
     <div class="m-wrap">
       <div class="eyebrow">Прогностика 2027</div>
       <h1 class="m-title">Обирай місяць, щоб отримати прогноз</h1>
+      <button class="chip" id="bchip" type="button"></button>
       <div class="grid" id="grid" role="group" aria-label="Місяць 2027 року"></div>
     </div>
   </section>
@@ -295,58 +357,147 @@
   window.replay=play;
   var wrap=document.getElementById('wrap'),timer,started=false;
   var MONTHS=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
+  var GEN=['січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
+  var ABBR=['січ','лют','бер','кві','тра','чер','лип','сер','вер','жов','лис','гру'];
   var THEMES=['Чистий аркуш','Тиха підготовка','Місяць нових починань','Розквіт ідей','Гармонія та тепло','Швидкість і рух','Час сміливих рішень','Золотий урожай','Фокус і порядок','Несподівані можливості','Глибина та спокій','Підсумки та свято'];
   var DAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
   function rnd(i,k){var x=Math.sin((i+1)*12.9898+k*78.233)*43758.5453;return x-Math.floor(x)}
-  function pick(i,n,k0,cnt,used){var out=[],k=k0;while(out.length<cnt){var d=1+Math.floor(rnd(i,k++)*n);if(out.indexOf(d)<0&&used.indexOf(d)<0)out.push(d)}return out.sort(function(a,b){return a-b})}
+  function pick(seed,n,k0,cnt,used){var out=[],k=k0;while(out.length<cnt){var d=Math.floor(rnd(seed,k++)*n);if(out.indexOf(d)<0&&used.indexOf(d)<0)out.push(d)}return out.sort(function(a,b){return a-b})}
+  function pad(n){return (n<10?'0':'')+n}
+
+  // ── дата народження ──
+  var birth=null,DEMO={d:10,m:3,y:1995};
+  function validDate(d,m,y){
+    if(!(d>=1&&d<=31&&m>=1&&m<=12&&y>=1920))return false;
+    var dt=new Date(y,m-1,d);
+    return dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d&&dt<=new Date();
+  }
+  function loadBirth(){try{var v=JSON.parse(localStorage.getItem('prog_birth'));if(v&&validDate(v.d,v.m,v.y))return v}catch(e){}return null}
+  function saveBirth(v){try{localStorage.setItem('prog_birth',JSON.stringify(v))}catch(e){}}
+
+  // период действия прогноза на месяц i (2027)
+  function period(i,D){
+    D=D||birth.d;
+    if(D<=15)return {s:new Date(2027,i,1),e:new Date(2027,i+1,0),shift:false};
+    var ey=i===11?2028:2027,em=(i+1)%12;
+    var sd=Math.min(D,DAYS[i]),ed=Math.min(D,new Date(ey,em+1,0).getDate());
+    return {s:new Date(2027,i,sd),e:new Date(ey,em,ed),shift:true};
+  }
+  function fmtLong(dt){return dt.getDate()+' '+GEN[dt.getMonth()]}
+  function periodLabel(p){
+    var y=p.e.getFullYear()!==2027?' '+p.e.getFullYear():'';
+    return p.shift?fmtLong(p.s)+' — '+fmtLong(p.e)+y:p.s.getDate()+' — '+fmtLong(p.e);
+  }
 
   function buildForecast(i){
-    var score=58+Math.round(rnd(i,1)*34);
+    var p=period(i),dates=[];
+    for(var t=new Date(p.s);t<=p.e;t.setDate(t.getDate()+1))dates.push(new Date(t));
+    var seed=i+birth.d*7+birth.m*13;
+    var score=58+Math.round(rnd(seed,1)*34);
     var sph=[['Кохання','Тестовий опис: тут буде коротка порада щодо стосунків.'],['Гроші','Тестовий опис: тут буде порада щодо фінансів.'],['Кар’єра','Тестовий опис: тут буде порада щодо роботи.'],['Здоров’я','Тестовий опис: тут буде порада щодо самопочуття.']]
-      .map(function(x,k){return {n:x[0],t:x[1],v:48+Math.round(rnd(i,10+k)*47)}});
-    var good=pick(i,DAYS[i],30,4,[]),warn=pick(i,DAYS[i],60,2,good);
+      .map(function(x,k){return {n:x[0],t:x[1],v:48+Math.round(rnd(seed,10+k)*47)}});
+    var gi=pick(seed,dates.length,30,4,[]),wi=pick(seed,dates.length,60,2,gi);
+    var chip=function(k,c){var d=dates[k];return '<span class="day '+c+'">'+d.getDate()+' '+ABBR[d.getMonth()]+'</span>'};
     document.getElementById('f-title').textContent=MONTHS[i]+' 2027';
     document.getElementById('f-theme').textContent=THEMES[i];
+    document.getElementById('f-period').textContent='Прогноз діє: '+periodLabel(p);
     var C=326.7,off=(C*(1-score/100)).toFixed(1);
     var h='';
     h+='<div class="card rv" style="--r:0"><h3>Загальна енергія місяця</h3><div class="score"><div class="ring"><svg viewBox="0 0 120 120"><circle class="tr" cx="60" cy="60" r="52"/><circle class="pg" cx="60" cy="60" r="52" style="--off:'+off+'"/></svg><b>'+score+'<small>%</small></b></div>'
       +'<p><strong>'+THEMES[i]+'</strong>Тестовий текст прогнозу. Тут буде короткий опис місяця: на чому зосередитись і які рішення приймати.</p></div></div>';
     h+='<div class="card rv" style="--r:1"><h3>Сфери життя</h3>'+sph.map(function(s){
       return '<div class="sph"><div class="row"><span>'+s.n+'</span><span>'+s.v+'%</span></div><div class="bar"><i style="--w:'+s.v+'%"></i></div><small>'+s.t+'</small></div>'}).join('')+'</div>';
-    h+='<div class="card rv" style="--r:2"><h3>Ключові дати</h3><div class="days"><span class="lbl">Сприятливі дні</span>'+good.map(function(d){return '<span class="day good">'+d+'</span>'}).join('')+'</div>'
-      +'<div class="days"><span class="lbl">Дні для обережності</span>'+warn.map(function(d){return '<span class="day warn">'+d+'</span>'}).join('')+'</div></div>';
+    h+='<div class="card rv" style="--r:2"><h3>Ключові дати</h3><div class="days"><span class="lbl">Сприятливі дні</span>'+gi.map(function(k){return chip(k,'good')}).join('')+'</div>'
+      +'<div class="days"><span class="lbl">Дні для обережності</span>'+wi.map(function(k){return chip(k,'warn')}).join('')+'</div></div>';
     h+='<div class="card rv" style="--r:3"><h3>Порада місяця</h3><p class="quote">«Тестова порада: тут буде персональна порада на цей місяць.»</p></div>';
     document.getElementById('f-body').innerHTML=h;
     document.getElementById('forecast').scrollTop=0;
   }
 
-  // ── экран месяцев ──
-  var grid=document.getElementById('grid');
-  MONTHS.forEach(function(name,i){
-    var b=document.createElement('button');b.type='button';b.className='mon';b.setAttribute('aria-pressed','false');
-    b.style.setProperty('--i',i);
-    b.innerHTML='<span class="n">'+String(i+1).padStart(2,'0')+'</span><span class="t">'+name+'</span>';
-    b.addEventListener('click',function(){
-      b.setAttribute('aria-pressed','true');
-      try{window.Telegram.WebApp.HapticFeedback.selectionChanged()}catch(e){}
-      setTimeout(function(){showForecast(i);b.setAttribute('aria-pressed','false')},180);
-    });
-    grid.appendChild(b);
+  // ── экран даты рождения ──
+  var bd=document.getElementById('bd'),bm=document.getElementById('bm'),by=document.getElementById('by'),
+      bgo=document.getElementById('bgo'),berr=document.getElementById('berr'),byou=document.getElementById('byou');
+  bm.innerHTML='<option value="" disabled selected>Оберіть</option>'+MONTHS.map(function(n,k){return '<option value="'+(k+1)+'">'+n.toLowerCase()+'</option>'}).join('');
+  function readBirth(){return {d:parseInt(bd.value,10),m:parseInt(bm.value,10),y:parseInt(by.value,10)}}
+  function checkBirth(){
+    var v=readBirth(),filled=bd.value&&bm.value&&by.value.length===4,ok=filled&&validDate(v.d,v.m,v.y);
+    ['fd','fm','fy'].forEach(function(id){document.getElementById(id).classList.remove('bad')});
+    berr.textContent='';byou.textContent='';
+    if(filled&&!ok){
+      var dt=new Date(v.y,v.m-1,v.d),exists=dt.getFullYear()===v.y&&dt.getMonth()===v.m-1&&dt.getDate()===v.d;
+      if(v.y<1920){berr.textContent='Вкажіть рік від 1920';document.getElementById('fy').classList.add('bad')}
+      else if(exists){berr.textContent='Дата не може бути в майбутньому';document.getElementById('fy').classList.add('bad')}
+      else{berr.textContent='Перевірте дату: такого числа в цьому місяці немає';document.getElementById('fd').classList.add('bad')}
+    }
+    if(ok){
+      if(v.d>15){var pp=period(7,v.d);byou.textContent='Для вас прогноз на серпень діє з '+fmtLong(pp.s)+' по '+fmtLong(pp.e)+', і так далі щомісяця.'}
+      else byou.textContent='Для вас прогноз діє за календарні місяці: з 1-го до останнього дня.';
+    }
+    bgo.disabled=!ok;
+    return ok;
+  }
+  [bd,by].forEach(function(el){el.addEventListener('input',function(){el.value=el.value.replace(/\D/g,'');checkBirth()})});
+  bm.addEventListener('change',checkBirth);
+  document.getElementById('bform').addEventListener('submit',function(e){
+    e.preventDefault();
+    if(!checkBirth())return;
+    birth=readBirth();saveBirth(birth);
+    try{window.Telegram.WebApp.HapticFeedback.notificationOccurred('success')}catch(x){}
+    showMonths();
   });
 
-  function showMonths(){clearTimeout(timer);wrap.classList.add('months-on');wrap.classList.remove('fc-on')}
-  function showForecast(i){buildForecast(i);wrap.classList.add('months-on','fc-on');history.replaceState(null,'','#m'+(i+1))}
+  // ── экран месяцев ──
+  var grid=document.getElementById('grid');
+  function renderMonths(){
+    grid.innerHTML='';
+    document.getElementById('bchip').innerHTML='Дата народження: '+pad(birth.d)+'.'+pad(birth.m)+'.'+birth.y+' <u>змінити</u>';
+    MONTHS.forEach(function(name,i){
+      var p=period(i);
+      var b=document.createElement('button');b.type='button';b.className='mon';b.setAttribute('aria-pressed','false');
+      b.style.setProperty('--i',i);
+      b.innerHTML='<span class="n">'+pad(i+1)+'</span><span class="t">'+name+'</span>'
+        +(p.shift?'<span class="p">'+pad(p.s.getDate())+'.'+pad(p.s.getMonth()+1)+' – '+pad(p.e.getDate())+'.'+pad(p.e.getMonth()+1)+'</span>':'');
+      b.addEventListener('click',function(){
+        b.setAttribute('aria-pressed','true');
+        try{window.Telegram.WebApp.HapticFeedback.selectionChanged()}catch(e){}
+        setTimeout(function(){showForecast(i);b.setAttribute('aria-pressed','false')},180);
+      });
+      grid.appendChild(b);
+    });
+  }
+  document.getElementById('bchip').addEventListener('click',showBirth);
+
+  function showBirth(){
+    clearTimeout(timer);
+    var v=birth||loadBirth();
+    if(v){bd.value=v.d;bm.value=v.m;by.value=v.y}
+    checkBirth();
+    wrap.classList.add('months-on','birth-on');wrap.classList.remove('fc-on');
+    history.replaceState(null,'',location.pathname+location.search);
+  }
+  function showMonths(){
+    clearTimeout(timer);
+    if(!birth)birth=loadBirth()||DEMO;
+    renderMonths();
+    wrap.classList.remove('birth-on','fc-on');wrap.classList.add('months-on');
+  }
+  function showForecast(i){
+    if(!birth)birth=loadBirth()||DEMO;
+    buildForecast(i);
+    wrap.classList.remove('birth-on');wrap.classList.add('months-on','fc-on');
+    history.replaceState(null,'','#m'+(i+1));
+  }
   function backToMonths(){wrap.classList.remove('fc-on');history.replaceState(null,'',location.pathname+location.search)}
   document.getElementById('back').addEventListener('click',backToMonths);
   document.getElementById('again').addEventListener('click',backToMonths);
-  window.showMonths=showMonths;window.showForecast=showForecast;
+  window.showMonths=showMonths;window.showForecast=showForecast;window.showBirth=showBirth;
 
   // тап по заставке пропускает её
   document.addEventListener('click',function(){
-    if(started&&!wrap.classList.contains('months-on')&&location.hash!=='#splash')showMonths();
+    if(started&&!wrap.classList.contains('months-on')&&location.hash!=='#splash')showBirth();
   });
 
-  // ── запуск: ждём шрифт и картинки, потом заставка, через 2,5 с — выбор месяца ──
+  // ── запуск: шрифт + картинки → заставка, через 2,5 с — дата народження ──
   var h=location.hash,mm=/^#m(\d{1,2})$/.exec(h);
   function imgsReady(){
     var p=[].map.call(document.images,function(im){return im.decode?im.decode().catch(function(){}):Promise.resolve()});
@@ -360,7 +511,8 @@
     play();started=true;
     if(mm&&+mm[1]>=1&&+mm[1]<=12){showForecast(+mm[1]-1)}
     else if(h==='#months'){showMonths()}
-    else if(h!=='#splash'){timer=setTimeout(showMonths,2500)}
+    else if(h==='#birth'){showBirth()}
+    else if(h!=='#splash'){timer=setTimeout(showBirth,2500)}
   });
 })();
 </script>
