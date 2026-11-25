@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -81,34 +81,37 @@
     .play .fly .float,.play .sp,.play #zoom{animation:none}
   }
 
-  /* ───────── после заставки: минимализм ───────── */
-  :root{--cream:#f4e8d2;--ink:#4a2a1a;--ink2:#7a5a3e;--wine:#6a1010;--gold-txt:#f3deaa}
+  /* ───────── після заставки: мінімалізм ───────── */
+  :root{--cream:#fbf7f1;--ink:#4a2a1a;--ink2:#7a5a3e;--wine:#6a1010;--gold-txt:#f3deaa;--line:rgba(243,222,170,.4)}
   #stage{transition:filter .9s ease}
-  .months-on #stage{filter:blur(6px) brightness(.46) saturate(.95)}
-  .months-on #title,.months-on #sparks{opacity:0;transition:opacity .5s ease}
+  .post #stage{filter:blur(6px) brightness(.46) saturate(.95)}
+  .post #title,.post #sparks{opacity:0;transition:opacity .5s ease}
   @keyframes cardin{to{opacity:1;transform:none}}
 
   .screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;overflow-y:auto;
-          padding:max(env(safe-area-inset-top),24px) 20px max(env(safe-area-inset-bottom),24px);
-          opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s ease,visibility 0s .35s;
+          padding:max(env(safe-area-inset-top),24px) 20px max(env(safe-area-inset-bottom),28px);
+          opacity:0;visibility:hidden;pointer-events:none;transition:opacity .3s ease,visibility 0s .3s;
           font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,Helvetica,Arial,sans-serif;
           color:#fff3d6;-webkit-tap-highlight-color:transparent}
-  .months-on.birth-on #birth,
-  .months-on:not(.birth-on):not(.fc-on) #months,
-  .months-on.fc-on #forecast{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .6s ease .2s}
+  .screen.on{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .5s ease .15s}
   .in{width:100%;max-width:420px;margin:auto 0}
+  .in.top{margin:0 auto}
   .t1{font-family:'Yeseva One',Georgia,serif;font-weight:400;text-align:center;color:var(--gold-txt);
       font-size:clamp(26px,7.6vw,32px);line-height:1.2;margin:0 0 28px}
+  .note{text-align:center;font-size:14.5px;line-height:1.45;color:rgba(255,240,215,.82);margin:-16px 0 24px}
+  .muted{color:rgba(255,240,215,.55)}
 
-  .btn{appearance:none;-webkit-appearance:none;font:inherit;display:block;width:100%;height:54px;border:0;border-radius:16px;
+  .btn{appearance:none;-webkit-appearance:none;font:inherit;display:block;width:100%;min-height:54px;border:0;border-radius:16px;
        font-size:17px;font-weight:600;cursor:pointer;background:var(--cream);color:var(--wine);transition:transform .15s,opacity .25s}
   .btn:active{transform:scale(.98)}
   .btn[disabled]{opacity:.4;cursor:default}
   .btn.dark{background:#8c1010;color:#fff3d6}
-  .btn:focus-visible,.link:focus-visible,.back:focus-visible,.mon:focus-visible{outline:2px solid var(--gold-txt);outline-offset:2px}
   .link{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;width:100%;height:48px;margin-top:6px;color:var(--ink2);font-size:16px;cursor:pointer}
+  .back{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;display:flex;align-items:center;height:44px;padding:0 8px 0 0;
+        color:var(--gold-txt);font-size:16px;cursor:pointer;margin-bottom:6px}
+  .btn:focus-visible,.link:focus-visible,.back:focus-visible,.mon:focus-visible,.row:focus-visible,.seg button:focus-visible{outline:2px solid var(--gold-txt);outline-offset:2px}
 
-  /* рулетка даты */
+  /* рулетка дати */
   .wheel{position:relative;display:grid;grid-template-columns:1fr 1.9fr 1.3fr;height:220px;
          -webkit-mask-image:linear-gradient(transparent,#000 28%,#000 72%,transparent);mask-image:linear-gradient(transparent,#000 28%,#000 72%,transparent)}
   .wheel::before{content:"";position:absolute;left:0;right:0;top:88px;height:44px;pointer-events:none;
@@ -121,7 +124,7 @@
   .it.on{color:#fff3d6;font-weight:600}
   .b-hint{text-align:center;font-size:15px;line-height:1.45;color:rgba(255,240,215,.85);margin:24px 0;min-height:44px}
 
-  /* подтверждение */
+  /* підтвердження */
   .sheet{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,0,0,.55);
          opacity:0;visibility:hidden;transition:opacity .3s,visibility 0s .3s;z-index:5}
   .sheet.show{opacity:1;visibility:visible;transition:opacity .3s}
@@ -131,27 +134,66 @@
   .sheet-date{font-family:'Yeseva One',Georgia,serif;font-size:28px;line-height:1.2;text-align:center;margin:0 0 8px;color:var(--wine)}
   .sheet-note{text-align:center;font-size:15px;line-height:1.45;color:var(--ink2);margin:0 0 22px}
 
-  /* месяцы */
+  /* головна: два розділи */
+  .rows{display:flex;flex-direction:column;gap:10px}
+  .row{appearance:none;-webkit-appearance:none;font:inherit;text-align:left;cursor:pointer;width:100%;min-height:60px;padding:14px 18px;
+       border-radius:16px;border:1px solid var(--line);background:transparent;color:#fff3d6;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .row b{font-family:'Yeseva One',Georgia,serif;font-weight:400;font-size:18px}
+  .row span{font-size:13px;color:rgba(255,240,215,.55);white-space:nowrap}
+  .row:active{transform:scale(.98)}
+  .row.locked b{color:rgba(255,240,215,.6)}
+  .disc{font-size:12px;line-height:1.5;color:rgba(255,240,215,.5);text-align:center;margin:28px 6px 0}
+
+  /* схема року */
+  .scheme{display:block;width:min(100%,280px);margin:-8px auto 6px}
+  .scheme .ln{stroke:rgba(243,222,170,.45);stroke-width:1;fill:none}
+  .scheme circle{fill:#5a0c0c;stroke:rgba(243,222,170,.7);stroke-width:1}
+  .scheme text{fill:#fff3d6;font:600 13px -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;text-anchor:middle;dominant-baseline:central}
+  .scheme .c circle{fill:var(--cream);stroke:none}.scheme .c text{fill:var(--wine);font-size:15px}
+
+  /* місяці */
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .mon{appearance:none;-webkit-appearance:none;font:inherit;font-family:'Yeseva One',Georgia,serif;font-size:clamp(15px,4.3vw,17px);
-       color:#fff3d6;cursor:pointer;min-height:64px;padding:0 4px;border-radius:16px;border:1px solid rgba(243,222,170,.4);background:transparent;
-       opacity:0;transform:translateY(10px);transition:transform .18s,background .2s,color .2s,border-color .2s}
-  .months-on:not(.birth-on) .mon{animation:cardin .6s var(--ease-out) forwards;animation-delay:calc(.2s + var(--i) * 40ms)}
+       color:#fff3d6;cursor:pointer;min-height:64px;padding:0 4px;border-radius:16px;border:1px solid var(--line);background:transparent;
+       transition:transform .18s,background .2s,color .2s,border-color .2s}
+  .mon.locked{color:rgba(255,240,215,.45);border-color:rgba(243,222,170,.2)}
   .mon:active{transform:scale(.96)}
   .mon[aria-pressed="true"]{background:var(--cream);color:var(--wine);border-color:var(--cream)}
 
-  /* прогноз */
-  #forecast .in{margin:0 auto}
-  .back{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;display:flex;align-items:center;height:44px;padding:0 8px 0 0;
-        color:var(--gold-txt);font-size:16px;cursor:pointer}
-  .f-note{text-align:center;font-size:14.5px;line-height:1.45;color:rgba(255,240,215,.85);margin:-14px 0 6px}
-  .f-test{text-align:center;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,222,170,.6);margin:0 0 22px}
+  /* тексти */
   .card{background:var(--cream);color:var(--ink);border-radius:20px;padding:20px;margin-bottom:12px}
   .card h3{margin:0 0 8px;font-family:'Yeseva One',Georgia,serif;font-weight:400;font-size:18px;line-height:1.25;color:var(--wine)}
-  .card .txt{margin:0;font-size:15.5px;line-height:1.6}
-  .fc-on .rv{opacity:0;animation:cardin .6s var(--ease-out) forwards;animation-delay:calc(.2s + var(--r,0) * 70ms)}
+  .card h4{margin:14px 0 6px;font-size:15px;line-height:1.3;color:var(--wine)}
+  .card h4:first-child{margin-top:0}
+  .card p{margin:0 0 10px;font-size:15.5px;line-height:1.6}
+  .card p:last-child{margin-bottom:0}
+  .pass{appearance:none;-webkit-appearance:none;font:inherit;width:100%;height:54px;box-sizing:border-box;padding:0 16px;border-radius:16px;
+        border:1px solid var(--line);background:rgba(100,0,0,.45);color:#fff3d6;font-size:17px;text-align:center}
+  .pass:focus{outline:none;border-color:var(--gold-txt)}
+  .grp{margin:26px 4px 10px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-txt);line-height:1.5}
+  .grp:first-child{margin-top:4px}
+  .card .lbl{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2);margin:0 0 6px}
+  .card.lock{background:transparent;border:1px solid var(--line);color:rgba(255,240,215,.7);text-align:center}
+  .on .rv{opacity:0;transform:translateY(8px);animation:cardin .5s var(--ease-out) forwards;animation-delay:calc(.15s + var(--r,0) * 60ms)}
+  .seg{display:flex;gap:6px;margin:0 0 10px}
+  .seg button{appearance:none;-webkit-appearance:none;font:inherit;flex:1;min-height:44px;padding:0 6px;border-radius:12px;border:1px solid var(--line);
+       background:transparent;color:#fff3d6;font-size:13.5px;cursor:pointer}
+  .seg button[aria-pressed="true"]{background:var(--cream);color:var(--wine);border-color:var(--cream)}
+  .q{font-size:13px;color:rgba(255,240,215,.7);margin:0 0 8px}
+  .err{color:#ffd0c0;text-align:center;font-size:15px;line-height:1.5}
 
-  @media (prefers-reduced-motion:reduce){.months-on:not(.birth-on) .mon,.fc-on .rv{animation-duration:.01s;animation-delay:0s}}
+  .next{margin-top:24px;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:10px 16px;
+        background:linear-gradient(180deg,#ffd76a,#e0a526);color:#3a0d00;font-size:17px;font-weight:700;
+        box-shadow:0 0 0 1px rgba(255,215,106,.7),0 10px 30px rgba(224,165,38,.4)}
+  .next small{font-size:13px;font-weight:600;opacity:.8}
+  .guide-link{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;display:block;margin:18px auto 0;min-height:44px;padding:0 12px;
+       color:var(--gold-txt);font-size:15px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+  .dots{display:flex;justify-content:center;gap:8px;margin:0 0 28px}
+  .dots i{width:7px;height:7px;border-radius:50%;background:rgba(243,222,170,.3)}
+  .dots i.on{background:var(--gold-txt)}
+  .g-text{text-align:center;font-size:17px;line-height:1.55;color:#fff3d6;margin:0 0 32px;min-height:110px}
+  .g-text b{color:var(--gold-txt);font-weight:600}
+  @media (prefers-reduced-motion:reduce){.on .rv{animation-duration:.01s;animation-delay:0s}}
 </style>
 </head>
 <body>
@@ -180,28 +222,75 @@
   </div>
 </div>
 
-  <section id="forecast" class="screen" aria-label="Прогноз"><div class="in">
-    <button class="back" id="back" type="button">‹&nbsp; Місяці</button>
-    <h2 class="t1" id="f-title"></h2>
-    <p class="f-note" id="f-note"></p>
-    <p class="f-test">Тестові дані</p>
-    <div id="f-body"></div>
-  </div></section>
   <section id="birth" class="screen" aria-label="Дата народження"><div class="in">
-    <h1 class="t1">Вкажи дату народження</h1>
+    <h1 class="t1">Вкажіть дату народження</h1>
     <div class="wheel" role="group" aria-label="Дата народження">
       <div class="col" id="cd" aria-label="День"></div><div class="col" id="cm" aria-label="Місяць"></div><div class="col" id="cy" aria-label="Рік"></div>
     </div>
     <p class="b-hint" id="bhint" aria-live="polite"></p>
     <button class="btn" id="bgo" type="button">Продовжити</button>
   </div></section>
+
+  <section id="lock" class="screen" aria-label="Вхід"><div class="in">
+    <h1 class="t1">Вхід для тестування</h1>
+    <input class="pass" id="pass" type="password" autocomplete="current-password" placeholder="Пароль" aria-label="Пароль">
+    <p class="err" id="pass-err" aria-live="polite" style="min-height:24px;margin:10px 0"></p>
+    <button class="btn" id="pass-go" type="button">Увійти</button>
+  </div></section>
+
+  <section id="home" class="screen" aria-label="Прогностика 2027"><div class="in">
+    <h1 class="t1">Прогностика 2027</h1>
+    <div class="rows">
+      <button class="row" id="go-year" type="button"><b>Прогноз на рік</b><span id="year-lock"></span></button>
+      <button class="row" id="go-months" type="button"><b>Прогноз на 12 місяців</b><span id="months-lock"></span></button>
+    </div>
+    <p class="err" id="home-err" style="margin:18px 0 0" hidden></p>
+    <p class="note" id="vip-note" style="margin:18px 0 0" hidden>Запис на зідзвон з Аліною відкриється найближчим часом</p>
+    <button class="guide-link" id="open-guide" type="button">Як користуватися</button>
+    <p class="disc" id="disc"></p>
+  </div></section>
+
+  <section id="year" class="screen" aria-label="Прогноз на рік"><div class="in top">
+    <button class="back" data-go="home" type="button">‹&nbsp; Назад</button>
+    <h2 class="t1">Ваш 2027 рік</h2>
+    <p class="note" id="year-period"></p>
+    <svg class="scheme" id="scheme" viewBox="0 0 300 300" role="img" aria-label="Річна матриця"></svg>
+    <p class="note" id="code-note" style="margin:0 0 22px"></p>
+    <div class="rows" id="cards"></div>
+  </div></section>
+
+  <section id="card" class="screen" aria-label="Розділ прогнозу"><div class="in top">
+    <button class="back" data-go="year" type="button">‹&nbsp; Рік</button>
+    <h2 class="t1" id="card-title"></h2>
+    <div id="card-ask"></div>
+    <div id="card-body"></div>
+  </div></section>
+
   <section id="months" class="screen" aria-label="Вибір місяця"><div class="in">
-    <h1 class="t1">Обирай місяць, щоб отримати прогноз</h1>
+    <button class="back" data-go="home" type="button">‹&nbsp; Назад</button>
+    <h1 class="t1">Оберіть місяць</h1>
     <div class="grid" id="grid" role="group" aria-label="Місяць 2027 року"></div>
   </div></section>
+
+  <section id="month" class="screen" aria-label="Прогноз на місяць"><div class="in top">
+    <button class="back" data-go="months" type="button">‹&nbsp; Місяці</button>
+    <h2 class="t1" id="m-title"></h2>
+    <p class="note" id="m-note"></p>
+    <div id="m-body"></div>
+    <button class="btn next" id="m-next" type="button"></button>
+  </div></section>
+
+  <section id="guide" class="screen" aria-label="Як користуватися"><div class="in">
+    <div class="dots" id="g-dots"></div>
+    <h2 class="t1" id="g-title"></h2>
+    <p class="g-text" id="g-text"></p>
+    <button class="btn" id="g-next" type="button"></button>
+    <button class="link" id="g-skip" type="button" style="color:rgba(255,240,215,.6)">Пропустити</button>
+  </div></section>
+
   <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-date"><div class="sheet-box">
     <p class="sheet-date" id="sheet-date"></p>
-    <p class="sheet-note">Змінити дату потім буде неможливо.<br>Перевір, чи все правильно.</p>
+    <p class="sheet-note">Змінити дату потім буде неможливо.<br>Перевірте, чи все правильно.</p>
     <button class="btn dark" id="ok" type="button">Так, усе вірно</button>
     <button class="link" id="fix" type="button">Виправити</button>
   </div></div>
@@ -248,53 +337,60 @@
   }
   window.replay=play;
   var wrap=document.getElementById('wrap'),timer,started=false;
+  var YEAR=2027;
   var MONTHS=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
   var GEN=['січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
-  var ABBR=GEN;
-  var DAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
-  function rnd(i,k){var x=Math.sin((i+1)*12.9898+k*78.233)*43758.5453;return x-Math.floor(x)}
-  function pick(seed,n,k0,cnt,used){var out=[],k=k0;while(out.length<cnt){var d=Math.floor(rnd(seed,k++)*n);if(out.indexOf(d)<0&&used.indexOf(d)<0)out.push(d)}return out.sort(function(a,b){return a-b})}
+  var LOCK='Відкриється після придбання прогнозу';
   function $(id){return document.getElementById(id)}
+  function esc(t){return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function store(k,v){try{if(v===undefined)return JSON.parse(localStorage.getItem(k));localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}}
 
-  // ── дата народження: збереження (змінити не можна) ──
-  var birth=null,DEMO={d:10,m:3,y:1995};
+  // ── екрани ──
+  var cur=null;
+  function show(id){
+    clearTimeout(timer);wrap.classList.add('post');
+    [].forEach.call(document.querySelectorAll('.screen'),function(el){el.classList.toggle('on',el.id===id)});
+    cur=id;var el=$(id);if(el)el.scrollTop=0;
+  }
+  [].forEach.call(document.querySelectorAll('[data-go]'),function(b){b.addEventListener('click',function(){
+    var to=b.getAttribute('data-go');if(to==='home')renderHome();if(to==='months')renderMonths();show(to);
+  })});
+
+  // ── дата народження (змінити не можна) ──
+  var birth=null;
   function validDate(d,m,y){var dt=new Date(y,m-1,d);return dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d&&dt<=new Date()}
-  function loadBirth(){try{var v=JSON.parse(localStorage.getItem('prog_birth'));if(v&&validDate(v.d,v.m,v.y))return v}catch(e){}return null}
-  function saveBirth(v){try{localStorage.setItem('prog_birth',JSON.stringify(v))}catch(e){}}
+  function loadBirth(){var v=store('prog_birth');return v&&validDate(v.d,v.m,v.y)?v:null}
   function clearBirth(){try{localStorage.removeItem('prog_birth')}catch(e){}birth=null}
 
-  // період дії прогнозу на місяць i (2027): після 15-го — від дня народження, інакше календарний місяць
-  function period(i,D){
-    D=D||birth.d;
-    if(D<=15)return {s:new Date(2027,i,1),e:new Date(2027,i+1,0)};
-    var ey=i===11?2028:2027,em=(i+1)%12;
-    return {s:new Date(2027,i,Math.min(D,DAYS[i])),e:new Date(ey,em,Math.min(D,new Date(ey,em+1,0).getDate()))};
+  // ── дані з сервера: усі розрахунки й тексти — лише на сервері ──
+  var data=null,loading=null;
+  var plan=new URLSearchParams(location.search).get('plan')||'';
+  function prefs(){return store('prog_prefs')||{status:'unknown',children:null}}
+  function load(){
+    if(!birth||!validDate(birth.d,birth.m,birth.y)){
+      birth=loadBirth();
+      if(!birth){initWheels();show('birth');loading=null;return Promise.reject(new Error('Вкажіть дату народження'))}
+    }
+    var p=prefs();
+    if(window.PROG_STATIC){
+      // Статична версія (GitHub Pages): розрахунок у браузері, тексти розшифровуються паролем.
+      loading=window.progForecast({birth:birth,year:YEAR,status:p.status,children:p.children}).then(function(j){data=j;return j});
+      return loading;
+    }
+    loading=fetch('/api/forecast'+(plan?'?plan='+encodeURIComponent(plan):''),{
+      method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({birth:birth,year:YEAR,status:p.status,children:p.children})
+    }).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Помилка');return j})})
+      .then(function(j){data=j;return j});
+    return loading;
   }
-  function fmtLong(dt){return dt.getDate()+' '+GEN[dt.getMonth()]}
-  function periodText(p){return 'з '+fmtLong(p.s)+' по '+fmtLong(p.e)+(p.e.getFullYear()!==2027?' '+p.e.getFullYear():'')}
-
-  // ── прогноз (тестові дані) ──
-  function buildForecast(i){
-    var p=period(i),dates=[];
-    for(var t=new Date(p.s);t<=p.e;t.setDate(t.getDate()+1))dates.push(new Date(t));
-    var seed=i+birth.d*7+birth.m*13;
-    var gi=pick(seed,dates.length,30,4,[]),wi=pick(seed,dates.length,60,2,gi);
-    var list=function(ix){return ix.map(function(k){return fmtLong(dates[k])}).join(', ')};
-    $('f-title').textContent=MONTHS[i]+' 2027';
-    $('f-note').textContent='Твій прогноз діє '+periodText(p);
-    var blocks=[
-      ['Загальний прогноз','Це тестовий текст. Тут буде загальний опис періоду: головна тема, настрій і напрямок, у якому рухатимуться події. Перші дні варто провести спокійно, зібрати думки та визначити пріоритети, а ближче до середини періоду з’явиться більше енергії для активних дій і нових розмов.'],
-      ['Кохання та стосунки','Тестовий текст. Тут буде прогноз для особистого життя: як складатимуться стосунки з близькою людиною, чи варто очікувати нових знайомств і на що звернути увагу в розмовах. Найкраще працюватимуть щирість і готовність слухати, а не лише говорити.'],
-      ['Гроші та фінанси','Тестовий текст. Тут буде порада щодо доходів і витрат: коли доречно робити великі покупки, а коли краще почекати, чи з’являться додаткові джерела прибутку. Радимо не поспішати з рішеннями, які неможливо скасувати, і звіряти плани з реальними цифрами.'],
-      ['Робота та кар’єра','Тестовий текст. Тут буде прогноз щодо роботи й проєктів: які завдання вдаватимуться легше, де знадобиться терпіння і коли добре просити про підвищення або запускати нову справу. Підтримка колег і чітка комунікація допоможуть швидше досягти результату.'],
-      ['Здоров’я та самопочуття','Тестовий текст. Тут буде порада щодо енергії, сну й відновлення. Варто звернути увагу на режим дня, достатню кількість води та прогулянки на свіжому повітрі. Невеликі перерви протягом дня дадуть більше користі, ніж довгий відпочинок наприкінці періоду.'],
-      ['Ключові дати','Тестовий текст. Сприятливі дні: '+list(gi)+'. У ці дні легше починати нове, домовлятися та приймати важливі рішення. Дні для обережності: '+list(wi)+'. Краще не планувати на них складних розмов і не поспішати з підписанням документів.'],
-      ['Порада періоду','Тестовий текст. Тут буде одна головна порада на цей період: коротка думка, яку легко запам’ятати й повертатися до неї щоразу, коли потрібна підтримка.']
-    ];
-    $('f-body').innerHTML=blocks.map(function(x,k){
-      return '<article class="card rv" style="--r:'+k+'"><h3>'+x[0]+'</h3><p class="txt">'+x[1]+'</p></article>';
-    }).join('');
-    $('forecast').scrollTop=0;
+  function withData(fn){
+    (data?Promise.resolve(data):(loading||load())).then(fn).catch(function(e){
+      loading=null;
+      $('home-err').innerHTML='Не вдалося отримати прогноз.<br>'+esc(e.message);
+      $('home-err').hidden=false;
+      show('home');
+    });
   }
 
   // ── рулетка дати ──
@@ -317,7 +413,7 @@
     if(n!==cd._n){fill(cd,dayLabels(n),Math.min(v.d,n)-1);v=sel()}
     var ok=validDate(v.d,v.m,v.y);
     bgo.disabled=!ok;
-    bhint.textContent=ok?'Твій прогноз діятиме з '+(v.d>15?v.d:1)+'-го числа кожного місяця':'Обери дату в минулому';
+    bhint.textContent=ok?'Ваш прогноз діятиме з '+(v.d>15?v.d:1)+'-го числа кожного місяця':'Оберіть дату в минулому';
   }
   function initWheels(){
     if(wheelsReady)return;wheelsReady=true;
@@ -350,57 +446,179 @@
   sheet.addEventListener('click',function(e){if(e.target===sheet)closeSheet()});
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheet()});
   $('ok').addEventListener('click',function(){
-    birth=pending;saveBirth(birth);closeSheet();
+    if(!pending||!validDate(pending.d,pending.m,pending.y)){closeSheet();return}
+    birth=pending;store('prog_birth',birth);closeSheet();data=null;loading=null;$('home-err').hidden=true;
     try{window.Telegram.WebApp.HapticFeedback.notificationOccurred('success')}catch(x){}
-    showMonths();
+    load();goHome();
   });
+
+  // ── головна ──
+  function renderHome(){
+    withData(function(d){
+      $('year-lock').textContent=d.annual.cards.every(function(c){return c.locked})?'Закрито':(d.access.annual===true?'':'Демо');
+      $('months-lock').textContent=d.monthly.months.every(function(m){return m.locked})?'Закрито':(d.access.monthly===true?'':'Демо');
+      $('go-year').classList.toggle('locked',$('year-lock').textContent==='Закрито');
+      $('go-months').classList.toggle('locked',$('months-lock').textContent==='Закрито');
+      $('vip-note').hidden=!d.call;      $('disc').textContent=d.disclaimer;
+    });
+  }
+  function paid(d){return d.access.annual===true||d.access.monthly===true}
+  function goHome(){
+    renderHome();
+    withData(function(d){if(paid(d)&&!store('prog_onboarded'))openGuide();else show('home')});
+  }
+
+  // ── як користуватися (онбординг після оплати; також за посиланням на головній) ──
+  var gStep=0,gSteps=[];
+  function openGuide(){
+    withData(function(d){
+      gSteps=[
+        ['Ваш прогноз на 2027 рік','Рік діє <b>'+esc(d.yearPeriod.text)+'</b>.<br>Він починається з Вашого дня народження і триває до наступного.'],
+        ['Як діють місяці',esc(d.monthRule.text)+'.<br>Наприклад, прогноз на січень діє <b>'+esc(d.monthRule.example)+'</b>.<br>Дати дії завжди написані під назвою місяця.'],
+        ['Як читати','<b>Прогноз на рік</b> — 6 розділів, відкривайте їх по черзі.<br><b>Прогноз на 12 місяців</b> — оберіть місяць і переходьте далі кнопкою «Перейти до наступного місяця».'],
+        ['Важливо','Дату народження змінити не можна.<br>У розділі «Особисте життя» вкажіть, чи Ви у стосунках і чи є діти, — тексти підлаштуються. Відповідь можна змінити будь-коли.']
+      ];
+      gStep=0;renderGuide();show('guide');
+    });
+  }
+  function renderGuide(){
+    $('g-dots').innerHTML=gSteps.map(function(_,i){return '<i'+(i===gStep?' class="on"':'')+'></i>'}).join('');
+    $('g-title').textContent=gSteps[gStep][0];
+    $('g-text').innerHTML=gSteps[gStep][1];
+    var last=gStep===gSteps.length-1;
+    $('g-next').textContent=last?'Зрозуміло':'Далі';
+    $('g-skip').hidden=last;
+  }
+  function closeGuide(){store('prog_onboarded',true);renderHome();show('home')}
+  $('g-next').addEventListener('click',function(){if(gStep<gSteps.length-1){gStep++;renderGuide();$('guide').scrollTop=0}else closeGuide()});
+  $('g-skip').addEventListener('click',closeGuide);
+  $('open-guide').addEventListener('click',openGuide);
+  $('go-year').addEventListener('click',function(){withData(function(d){renderYear(d);show('year')})});
+  $('go-months').addEventListener('click',function(){renderMonths();show('months')});
+
+  // ── рік: схема + 6 карток ──
+  var P={A:[34,150],B:[150,34],V:[266,150],G:[150,266],D:[68,68],E:[232,68],Zh:[232,232],Z:[68,232],C:[150,150]};
+  function renderScheme(mx){
+    var L=function(a,b){return '<line class="ln" x1="'+P[a][0]+'" y1="'+P[a][1]+'" x2="'+P[b][0]+'" y2="'+P[b][1]+'"/>'};
+    var svg=L('D','E')+L('E','Zh')+L('Zh','Z')+L('Z','D')+L('A','B')+L('B','V')+L('V','G')+L('G','A')+L('A','V')+L('B','G');
+    Object.keys(P).forEach(function(k){
+      var c=k==='C';svg+='<g'+(c?' class="c"':'')+'><circle cx="'+P[k][0]+'" cy="'+P[k][1]+'" r="'+(c?21:17)+'"/><text x="'+P[k][0]+'" y="'+P[k][1]+'">'+mx[k]+'</text></g>';
+    });
+    $('scheme').innerHTML=svg;
+  }
+  function renderYear(d){
+    renderScheme(d.matrix);
+    $('code-note').textContent='Персональний код року — '+d.matrix.CODE;
+    $('year-period').textContent='Ваш прогноз діє '+d.yearPeriod.text;
+    var box=$('cards');box.innerHTML='';
+    d.annual.cards.forEach(function(c){
+      var b=document.createElement('button');b.type='button';b.className='row'+(c.locked?' locked':'');
+      b.innerHTML='<b>'+esc(c.title)+'</b><span>'+(c.locked?'Закрито':'')+'</span>';
+      b.addEventListener('click',function(){openCard(c.id)});
+      box.appendChild(b);
+    });
+  }
+
+  function itemsHtml(items){
+    var prev=null,grp=null;
+    return items.map(function(it,k){
+      var h='';
+      if(it.group&&it.group!==grp){h+='<p class="grp">'+esc(it.group)+'</p>';prev=null}
+      grp=it.group||null;
+      h+='<article class="card rv" style="--r:'+k+'">';
+      if(it.title&&it.title!==prev)h+='<h3>'+esc(it.title)+'</h3>';
+      prev=it.title;
+      if(it.label)h+='<p class="lbl">'+esc(it.label)+'</p>';
+      if(it.sections)it.sections.forEach(function(s){h+='<h4>'+esc(s.title)+'</h4>'+s.text.split('\n\n').map(function(p){return '<p>'+esc(p)+'</p>'}).join('')});
+      else (it.paras||[]).forEach(function(p){h+='<p>'+esc(p)+'</p>'});
+      return h+'</article>';
+    }).join('');
+  }
+  function lockHtml(){return '<div class="card lock">'+LOCK+'</div>'}
+
+  function seg(name,opts,val,onPick){
+    var w=document.createElement('div');w.className='seg';w.setAttribute('role','group');
+    opts.forEach(function(o){
+      var b=document.createElement('button');b.type='button';b.textContent=o[1];b.setAttribute('aria-pressed',String(o[0]===val));
+      b.addEventListener('click',function(){onPick(o[0])});w.appendChild(b);
+    });
+    return w;
+  }
+  function openCard(id){
+    var c=data.annual.cards.filter(function(x){return x.id===id})[0];
+    $('card-title').textContent=c.title;    var ask=$('card-ask');ask.innerHTML='';
+    if(c.ask&&!c.locked){
+      var p=prefs();
+      var q1=document.createElement('p');q1.className='q';q1.textContent='Ваш статус';ask.appendChild(q1);
+      ask.appendChild(seg('status',[['couple','Я у стосунках'],['single','Без пари'],['unknown','Не вказувати']],p.status,function(v){p.status=v;store('prog_prefs',p);reloadCard(id)}));
+      var q2=document.createElement('p');q2.className='q';q2.textContent='Чи є у Вас діти';ask.appendChild(q2);
+      ask.appendChild(seg('children',[[true,'Так'],[false,'Ні'],[null,'Не вказувати']],p.children,function(v){p.children=v;store('prog_prefs',p);reloadCard(id)}));
+    }
+    $('card-body').innerHTML=c.locked?lockHtml():itemsHtml(c.items)+(c.lockedRest?lockHtml():'');
+    show('card');
+  }
+  function reloadCard(id){data=null;load().then(function(){var y=$('card').scrollTop;openCard(id);$('card').scrollTop=y})}
 
   // ── місяці ──
   var grid=$('grid');
   function renderMonths(){
-    grid.innerHTML='';
-    MONTHS.forEach(function(name,i){
-      var b=document.createElement('button');b.type='button';b.className='mon';b.setAttribute('aria-pressed','false');
-      b.style.setProperty('--i',i);b.textContent=name;
-      b.addEventListener('click',function(){
-        b.setAttribute('aria-pressed','true');
-        try{window.Telegram.WebApp.HapticFeedback.selectionChanged()}catch(e){}
-        setTimeout(function(){showForecast(i);b.setAttribute('aria-pressed','false')},180);
+    withData(function(d){
+      grid.innerHTML='';
+      d.monthly.months.forEach(function(m,i){
+        var b=document.createElement('button');b.type='button';b.className='mon'+(m.locked?' locked':'');b.setAttribute('aria-pressed','false');
+        b.textContent=m.name;
+        b.addEventListener('click',function(){
+          b.setAttribute('aria-pressed','true');
+          try{window.Telegram.WebApp.HapticFeedback.selectionChanged()}catch(e){}
+          setTimeout(function(){openMonth(i);b.setAttribute('aria-pressed','false')},160);
+        });
+        grid.appendChild(b);
       });
-      grid.appendChild(b);
     });
   }
+  function openMonth(i){
+    var m=data.monthly.months[i];
+    $('m-title').textContent=m.name+' '+YEAR;
+    $('m-note').textContent='Цей прогноз діє '+m.period.text;
+    if(m.locked){$('m-body').innerHTML=lockHtml()}
+    else{
+      var items=m.items.slice();
+      if(m.oppositeItem)items.push(m.oppositeItem);
+      if(m.extraItems)items=items.concat(m.extraItems);
+      $('m-body').innerHTML=itemsHtml(items)+(m.lockedRest?lockHtml():'');
+    }
+    var nx=$('m-next');
+    if(i<11){nx.innerHTML='Перейти до наступного місяця →<small>'+esc(data.monthly.months[i+1].name)+'</small>';nx.onclick=function(){openMonth(i+1)}}
+    else{nx.innerHTML='До всіх місяців';nx.onclick=function(){renderMonths();show('months')}}
+    show('month');$('month').scrollTop=0;
+  }
 
-  function showBirth(){
-    clearTimeout(timer);initWheels();
-    wrap.classList.add('months-on','birth-on');wrap.classList.remove('fc-on');
-    history.replaceState(null,'',location.pathname+location.search);
+  function afterSplash(){
+    if(window.PROG_STATIC&&!window.progUnlocked){
+      (window.progReady||Promise.resolve()).then(function(){if(window.progUnlocked)afterSplash();else show('lock')});
+      return;
+    }
+    birth=loadBirth();if(birth){load();goHome()}else{initWheels();show('birth')}
   }
-  function showMonths(){
-    clearTimeout(timer);
-    if(!birth)birth=loadBirth()||DEMO;
-    renderMonths();
-    wrap.classList.remove('birth-on','fc-on');wrap.classList.add('months-on');
+  function tryUnlock(){
+    var v=$('pass').value.trim();if(!v)return;
+    $('pass-go').disabled=true;$('pass-err').textContent='';
+    window.progUnlock(v).then(function(ok){
+      $('pass-go').disabled=false;
+      if(ok)afterSplash();else $('pass-err').textContent='Невірний пароль';
+    });
   }
-  function showForecast(i){
-    if(!birth)birth=loadBirth()||DEMO;
-    buildForecast(i);
-    wrap.classList.remove('birth-on');wrap.classList.add('months-on','fc-on');
-    history.replaceState(null,'','#m'+(i+1));
-  }
-  function backToMonths(){wrap.classList.remove('fc-on');history.replaceState(null,'',location.pathname+location.search)}
-  $('back').addEventListener('click',backToMonths);
-  // дата вже збережена → пропускаємо її введення; #birth скидає збережену дату (для демо)
-  function afterSplash(){if(loadBirth())showMonths();else showBirth()}
-  window.showMonths=showMonths;window.showForecast=showForecast;window.showBirth=showBirth;
+  $('pass-go').addEventListener('click',tryUnlock);
+  $('pass').addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock()});
+  window.showBirth=function(){clearBirth();initWheels();show('birth')};
 
   // тап по заставці пропускає її
   document.addEventListener('click',function(){
-    if(started&&!wrap.classList.contains('months-on')&&location.hash!=='#splash')afterSplash();
+    if(started&&!wrap.classList.contains('post')&&location.hash!=='#splash')afterSplash();
   });
 
   // ── запуск: шрифт + картинки → заставка, через 2,5 с — далі ──
-  var h=location.hash,mm=/^#m(\d{1,2})$/.exec(h);
+  var h=location.hash;
   function imgsReady(){
     var p=[].map.call(document.images,function(im){return im.decode?im.decode().catch(function(){}):Promise.resolve()});
     return Promise.all(p);
@@ -412,9 +630,7 @@
   if(h==='#birth')clearBirth();
   Promise.all([fontReady(),imgsReady()]).then(function(){
     play();started=true;
-    if(mm&&+mm[1]>=1&&+mm[1]<=12){showForecast(+mm[1]-1)}
-    else if(h==='#months'){showMonths()}
-    else if(h==='#birth'){showBirth()}
+    if(h==='#birth'){if(window.PROG_STATIC&&!window.progUnlocked)afterSplash();else{initWheels();show('birth')}}
     else if(h!=='#splash'){timer=setTimeout(afterSplash,2500)}
   });
 })();

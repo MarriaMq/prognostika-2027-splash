@@ -1,0 +1,12 @@
+{
+  "name": "prognostika-2027-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Статичний розрахунок річної та помісячної прогностики без ШІ",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "start": "node server.js"
+  },
+  "engines": { "node": ">=20" }
+}
