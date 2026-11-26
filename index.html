@@ -47,11 +47,16 @@
        background:radial-gradient(120% 80% at 50% 45%,transparent 55%,rgba(70,0,0,.35) 100%)}
 
   /* ── текст ── */
-  #title{position:absolute;left:0;right:0;top:350px;text-align:center;
+  #title{position:absolute;left:0;right:0;top:296px;text-align:center;
          font-family:'Yeseva One','Playfair Display',Georgia,serif;
          filter:drop-shadow(0 3px 0 rgba(110,0,0,.55)) drop-shadow(0 8px 18px rgba(60,0,0,.55));
          pointer-events:none}
   .word{display:block;white-space:nowrap}
+  #w0{font-size:30px;letter-spacing:.05em;line-height:1.1;margin-bottom:12px;color:transparent;
+      background:linear-gradient(180deg,var(--gold-1),var(--gold-2) 50%,var(--gold-3));-webkit-background-clip:text;background-clip:text}
+  #w3{font-size:23px;line-height:1.4;margin-top:18px;color:#fff3d6;padding:0 40px}
+  .fade{opacity:0;transform:translateY(10px)}
+  .play .fade{animation:letter .9s var(--ease-out) forwards;animation-delay:var(--fd,0s)}
   #w1{font-size:54px;letter-spacing:.07em;line-height:1;margin-right:-.07em}
   #w2{font-size:168px;letter-spacing:.04em;line-height:1;margin-top:6px;margin-right:-.04em}
   .ch{display:inline-block;position:relative;opacity:0;
@@ -77,7 +82,7 @@
   @keyframes tw{0%,100%{opacity:0;transform:scale(.3) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
 
   @media (prefers-reduced-motion:reduce){
-    .play .fly,.play .ch{animation-duration:.01s;animation-delay:0s}
+    .play .fly,.play .ch,.play .fade{animation-duration:.01s;animation-delay:0s}
     .play .fly .float,.play .sp,.play #zoom{animation:none}
   }
 
@@ -186,14 +191,11 @@
         background:linear-gradient(180deg,#ffd76a,#e0a526);color:#3a0d00;font-size:17px;font-weight:700;
         box-shadow:0 0 0 1px rgba(255,215,106,.7),0 10px 30px rgba(224,165,38,.4)}
   .next small{font-size:13px;font-weight:600;opacity:.8}
-  .guide-link.test-only{font-size:14px;margin-top:4px;color:rgba(243,222,170,.75)}
+  .hello-text{text-align:center;font-size:17px;line-height:1.6;color:#fff3d6;margin:0 0 18px}
+  .hello-q{text-align:center;font-family:'Yeseva One',Georgia,serif;font-size:20px;line-height:1.4;color:var(--gold-txt);margin:0 0 32px}
+  .guide-link.test-only{font-size:14px;margin-top:22px;color:rgba(243,222,170,.75)}
   .guide-link{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;display:block;margin:18px auto 0;min-height:44px;padding:0 12px;
        color:var(--gold-txt);font-size:15px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
-  .dots{display:flex;justify-content:center;gap:8px;margin:0 0 28px}
-  .dots i{width:7px;height:7px;border-radius:50%;background:rgba(243,222,170,.3)}
-  .dots i.on{background:var(--gold-txt)}
-  .g-text{text-align:center;font-size:17px;line-height:1.55;color:#fff3d6;margin:0 0 32px;min-height:110px}
-  .g-text b{color:var(--gold-txt);font-weight:600}
   @media (prefers-reduced-motion:reduce){.on .rv{animation-duration:.01s;animation-delay:0s}}
 </style>
 </head>
@@ -217,15 +219,25 @@
     <div id="vig"></div>
     <div id="sparks"></div>
     <div id="title">
+      <span class="word fade" id="w0" style="--fd:.3s">Твоя персональна</span>
       <span class="word" id="w1" aria-label="Прогностика"></span>
       <span class="word" id="w2" aria-label="2027"></span>
+      <span class="word fade" id="w3" style="--fd:1.5s">Цей рік може змінити багато.<br>Головне — не пропустити свої можливості</span>
     </div>
   </div>
 </div>
 
-  <section id="birth" class="screen" aria-label="Дата народження"><div class="in">
-    <h1 class="t1">Вкажіть дату народження</h1>
-    <div class="wheel" role="group" aria-label="Дата народження">
+  <section id="hello" class="screen" aria-label="Привітання"><div class="in">
+    <h1 class="t1">2027 — рік Вогняної Кози</h1>
+    <p class="hello-text">Рік змін, нових можливостей і важливих рішень. Але головне не те, що принесе тобі цей рік, а як ти використаєш його можливості.</p>
+    <p class="hello-q">Давай подивимось, на що варто звернути увагу саме тобі?</p>
+    <button class="btn" id="hello-go" type="button">Почати</button>
+  </div></section>
+
+  <section id="birth" class="screen" aria-label="Реєстрація"><div class="in">
+    <h1 class="t1">Ім’я та дата народження</h1>
+    <input class="pass" id="nm" type="text" maxlength="40" autocomplete="given-name" placeholder="Ваше ім’я" aria-label="Ім’я">
+    <div class="wheel" role="group" aria-label="Дата народження" style="margin-top:22px">
       <div class="col" id="cd" aria-label="День"></div><div class="col" id="cm" aria-label="Місяць"></div><div class="col" id="cy" aria-label="Рік"></div>
     </div>
     <p class="b-hint" id="bhint" aria-live="polite"></p>
@@ -241,13 +253,13 @@
 
   <section id="home" class="screen" aria-label="Прогностика 2027"><div class="in">
     <h1 class="t1">Прогностика 2027</h1>
+    <p class="note" id="hi" hidden></p>
     <div class="rows">
       <button class="row" id="go-year" type="button"><b>Прогноз на рік</b><span id="year-lock"></span></button>
       <button class="row" id="go-months" type="button"><b>Прогноз на 12 місяців</b><span id="months-lock"></span></button>
     </div>
     <p class="err" id="home-err" style="margin:18px 0 0" hidden></p>
     <p class="note" id="vip-note" style="margin:18px 0 0" hidden>Запис на зідзвон з Аліною відкриється найближчим часом</p>
-    <button class="guide-link" id="open-guide" type="button">Як користуватися</button>
     <button class="guide-link test-only" id="change-birth" type="button" hidden></button>
     <p class="disc" id="disc"></p>
   </div></section>
@@ -282,13 +294,6 @@
     <button class="btn next" id="m-next" type="button"></button>
   </div></section>
 
-  <section id="guide" class="screen" aria-label="Як користуватися"><div class="in">
-    <div class="dots" id="g-dots"></div>
-    <h2 class="t1" id="g-title"></h2>
-    <p class="g-text" id="g-text"></p>
-    <button class="btn" id="g-next" type="button"></button>
-    <button class="link" id="g-skip" type="button" style="color:rgba(255,240,215,.6)">Пропустити</button>
-  </div></section>
 
   <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-date"><div class="sheet-box">
     <p class="sheet-date" id="sheet-date"></p>
@@ -410,14 +415,19 @@
   }
   function sel(){return {d:mark(cd)+1,m:mark(cm)+1,y:Y0+mark(cy)}}
   function dayLabels(n){var a=[];for(var k=1;k<=n;k++)a.push(k);return a}
+  var dateOk=false,nm=$('nm');
+  function nameOk(){return /^[\p{L}][\p{L} '’ʼ-]{0,39}$/u.test(nm.value.trim())}
+  function updateGo(){bgo.disabled=!(dateOk&&nameOk())}
+  nm.addEventListener('input',updateGo);
   function onSettle(){
     var v=sel(),n=dim(v.y,v.m);
     if(n!==cd._n){fill(cd,dayLabels(n),Math.min(v.d,n)-1);v=sel()}
     var ok=validDate(v.d,v.m,v.y);
-    bgo.disabled=!ok;
+    dateOk=ok;updateGo();
     bhint.textContent=ok?'Ваш прогноз діятиме з '+(v.d>15?v.d:1)+'-го числа кожного місяця':'Оберіть дату в минулому';
   }
   function initWheels(){
+    var sn=store('prog_name');if(sn&&!nm.value)nm.value=sn;updateGo();
     if(wheelsReady)return;wheelsReady=true;
     var years=[];for(var y=Y0;y<=Y1;y++)years.push(y);
     fill(cm,MONTHS,5);fill(cy,years,1995-Y0);fill(cd,dayLabels(dim(1995,6)),14);
@@ -438,7 +448,7 @@
   // ── підтвердження ──
   var sheet=$('sheet'),pending=null;
   function openSheet(){
-    pending=sel();if(!validDate(pending.d,pending.m,pending.y))return;
+    pending=sel();if(!validDate(pending.d,pending.m,pending.y)||!nameOk())return;
     $('sheet-date').textContent=pending.d+' '+GEN[pending.m-1]+' '+pending.y;
     sheet.classList.add('show');$('ok').focus();
   }
@@ -449,7 +459,7 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheet()});
   $('ok').addEventListener('click',function(){
     if(!pending||!validDate(pending.d,pending.m,pending.y)){closeSheet();return}
-    birth=pending;store('prog_birth',birth);closeSheet();data=null;loading=null;$('home-err').hidden=true;
+    birth=pending;store('prog_birth',birth);store('prog_name',nm.value.trim().replace(/\s+/g,' '));closeSheet();data=null;loading=null;$('home-err').hidden=true;
     try{window.Telegram.WebApp.HapticFeedback.notificationOccurred('success')}catch(x){}
     load();goHome();
   });
@@ -463,41 +473,16 @@
       $('go-months').classList.toggle('locked',$('months-lock').textContent==='Закрито');
       $('vip-note').hidden=!d.call;      $('disc').textContent=d.disclaimer;
       // Лише для тестування (посилання на GitHub і локальне демо): у бойовій версії дату змінити не можна.
+      var nmv=store('prog_name');$('hi').hidden=!nmv;if(nmv)$('hi').textContent='Вітаємо, '+nmv+'!';
       var cb=$('change-birth');cb.hidden=!TEST_MODE||!birth;
       if(birth)cb.textContent='Дата народження: '+String(birth.d).padStart(2,'0')+'.'+String(birth.m).padStart(2,'0')+'.'+birth.y+' — змінити';
     });
   }
   function paid(d){return d.access.annual===true||d.access.monthly===true}
   function goHome(){
-    renderHome();
-    withData(function(d){if(paid(d)&&!store('prog_onboarded'))openGuide();else show('home')});
+    renderHome();show('home');
   }
 
-  // ── як користуватися (онбординг після оплати; також за посиланням на головній) ──
-  var gStep=0,gSteps=[];
-  function openGuide(){
-    withData(function(d){
-      gSteps=[
-        ['Ваш прогноз на 2027 рік','Рік діє <b>'+esc(d.yearPeriod.text)+'</b>.<br>Він починається з Вашого дня народження і триває до наступного.'],
-        ['Як діють місяці',esc(d.monthRule.text)+'.<br>Наприклад, прогноз на січень діє <b>'+esc(d.monthRule.example)+'</b>.<br>Дати дії завжди написані під назвою місяця.'],
-        ['Як читати','<b>Прогноз на рік</b> — 6 розділів, відкривайте їх по черзі.<br><b>Прогноз на 12 місяців</b> — оберіть місяць і переходьте далі кнопкою «Перейти до наступного місяця».'],
-        ['Важливо','Дату народження змінити не можна.<br>У розділі «Особисте життя» вкажіть, чи Ви у стосунках і чи є діти, — тексти підлаштуються. Відповідь можна змінити будь-коли.']
-      ];
-      gStep=0;renderGuide();show('guide');
-    });
-  }
-  function renderGuide(){
-    $('g-dots').innerHTML=gSteps.map(function(_,i){return '<i'+(i===gStep?' class="on"':'')+'></i>'}).join('');
-    $('g-title').textContent=gSteps[gStep][0];
-    $('g-text').innerHTML=gSteps[gStep][1];
-    var last=gStep===gSteps.length-1;
-    $('g-next').textContent=last?'Зрозуміло':'Далі';
-    $('g-skip').hidden=last;
-  }
-  function closeGuide(){store('prog_onboarded',true);renderHome();show('home')}
-  $('g-next').addEventListener('click',function(){if(gStep<gSteps.length-1){gStep++;renderGuide();$('guide').scrollTop=0}else closeGuide()});
-  $('g-skip').addEventListener('click',closeGuide);
-  $('open-guide').addEventListener('click',openGuide);
   var TEST_MODE=!!window.PROG_STATIC||!!plan;
   $('change-birth').addEventListener('click',function(){
     clearBirth();data=null;loading=null;
@@ -609,8 +594,9 @@
       (window.progReady||Promise.resolve()).then(function(){if(window.progUnlocked)afterSplash();else show('lock')});
       return;
     }
-    birth=loadBirth();if(birth){load();goHome()}else{initWheels();show('birth')}
+    birth=loadBirth();if(birth){load();goHome()}else show('hello');
   }
+  $('hello-go').addEventListener('click',function(){initWheels();show('birth')});
   function tryUnlock(){
     var v=$('pass').value.trim();if(!v)return;
     $('pass-go').disabled=true;$('pass-err').textContent='';
@@ -642,7 +628,7 @@
   Promise.all([fontReady(),imgsReady()]).then(function(){
     play();started=true;
     if(h==='#birth'){if(window.PROG_STATIC&&!window.progUnlocked)afterSplash();else{initWheels();show('birth')}}
-    else if(h!=='#splash'){timer=setTimeout(afterSplash,2500)}
+    else if(h!=='#splash'){timer=setTimeout(afterSplash,3500)}
   });
 })();
 </script>
