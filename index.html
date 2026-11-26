@@ -186,6 +186,7 @@
         background:linear-gradient(180deg,#ffd76a,#e0a526);color:#3a0d00;font-size:17px;font-weight:700;
         box-shadow:0 0 0 1px rgba(255,215,106,.7),0 10px 30px rgba(224,165,38,.4)}
   .next small{font-size:13px;font-weight:600;opacity:.8}
+  .guide-link.test-only{font-size:14px;margin-top:4px;color:rgba(243,222,170,.75)}
   .guide-link{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;display:block;margin:18px auto 0;min-height:44px;padding:0 12px;
        color:var(--gold-txt);font-size:15px;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
   .dots{display:flex;justify-content:center;gap:8px;margin:0 0 28px}
@@ -247,6 +248,7 @@
     <p class="err" id="home-err" style="margin:18px 0 0" hidden></p>
     <p class="note" id="vip-note" style="margin:18px 0 0" hidden>Запис на зідзвон з Аліною відкриється найближчим часом</p>
     <button class="guide-link" id="open-guide" type="button">Як користуватися</button>
+    <button class="guide-link test-only" id="change-birth" type="button" hidden></button>
     <p class="disc" id="disc"></p>
   </div></section>
 
@@ -460,6 +462,9 @@
       $('go-year').classList.toggle('locked',$('year-lock').textContent==='Закрито');
       $('go-months').classList.toggle('locked',$('months-lock').textContent==='Закрито');
       $('vip-note').hidden=!d.call;      $('disc').textContent=d.disclaimer;
+      // Лише для тестування (посилання на GitHub і локальне демо): у бойовій версії дату змінити не можна.
+      var cb=$('change-birth');cb.hidden=!TEST_MODE||!birth;
+      if(birth)cb.textContent='Дата народження: '+String(birth.d).padStart(2,'0')+'.'+String(birth.m).padStart(2,'0')+'.'+birth.y+' — змінити';
     });
   }
   function paid(d){return d.access.annual===true||d.access.monthly===true}
@@ -493,6 +498,12 @@
   $('g-next').addEventListener('click',function(){if(gStep<gSteps.length-1){gStep++;renderGuide();$('guide').scrollTop=0}else closeGuide()});
   $('g-skip').addEventListener('click',closeGuide);
   $('open-guide').addEventListener('click',openGuide);
+  var TEST_MODE=!!window.PROG_STATIC||!!plan;
+  $('change-birth').addEventListener('click',function(){
+    clearBirth();data=null;loading=null;
+    try{localStorage.removeItem('prog_prefs')}catch(e){}
+    initWheels();show('birth');
+  });
   $('go-year').addEventListener('click',function(){withData(function(d){renderYear(d);show('year')})});
   $('go-months').addEventListener('click',function(){renderMonths();show('months')});
 
