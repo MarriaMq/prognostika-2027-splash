@@ -157,7 +157,9 @@
   .row span{font-size:13px;color:rgba(255,240,215,.7);white-space:nowrap}
   .row:active{transform:scale(.98)}
   .row.locked b{color:rgba(255,240,215,.6)}
-  .disc{font-size:12px;line-height:1.5;color:rgba(255,240,215,.62);text-align:center;margin:28px 6px 0}
+  .disc{font-size:13px;line-height:1.5;color:rgba(255,246,232,.85);text-align:center;margin:-14px 6px 22px}
+  .star{appearance:none;-webkit-appearance:none;background:none;border:0;font:inherit;color:var(--gold-txt);cursor:pointer;vertical-align:super;font-size:.6em;line-height:1;padding:6px 6px 6px 2px;margin:-6px 0}
+  .star:focus-visible{outline:2px solid var(--gold-txt);outline-offset:2px;border-radius:6px}
 
 
   /* місяці */
@@ -256,7 +258,8 @@
   </div></section>
 
   <section id="home" class="screen" aria-label="Прогностика 2027"><div class="in">
-    <h1 class="t1">Прогностика 2027</h1>
+    <h1 class="t1">Прогностика<button class="star" id="star" type="button" aria-expanded="false" aria-controls="disc" aria-label="Що таке прогностика">*</button> 2027</h1>
+    <p class="disc" id="disc" hidden></p>
     <p class="note" id="hi" hidden></p>
     <div class="rows">
       <button class="row" id="go-year" type="button"><span class="rt"><b>Прогноз на рік</b><small>Головні події, можливості, фінанси, стосунки та рекомендації</small></span><span id="year-lock"></span></button>
@@ -265,7 +268,6 @@
     <p class="err" id="home-err" style="margin:18px 0 0" hidden></p>
     <p class="note" id="vip-note" style="margin:18px 0 0" hidden>Запис на зідзвон з Аліною відкриється найближчим часом</p>
     <button class="guide-link test-only" id="change-birth" type="button" hidden></button>
-    <p class="disc" id="disc"></p>
   </div></section>
 
   <section id="year" class="screen" aria-label="Прогноз на рік"><div class="in top">
@@ -494,6 +496,7 @@
     renderHome();show('home');
   }
 
+  $('star').addEventListener('click',function(){var d=$('disc'),open=d.hidden;d.hidden=!open;this.setAttribute('aria-expanded',String(open))});
   var TEST_MODE=!!window.PROG_STATIC||!!plan;
   $('change-birth').addEventListener('click',function(){
     clearBirth();data=null;loading=null;
