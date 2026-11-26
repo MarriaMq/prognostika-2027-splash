@@ -599,9 +599,13 @@
       (window.progReady||Promise.resolve()).then(function(){if(window.progUnlocked)afterSplash();else show('lock')});
       return;
     }
-    birth=loadBirth();if(birth){load();goHome()}else show('hello');
+    // Привітання показуємо після заставки щоразу; дані прогнозу тим часом завантажуються.
+    birth=loadBirth();if(birth)load();
+    show('hello');
   }
-  $('hello-go').addEventListener('click',function(){initWheels();show('birth')});
+  $('hello-go').addEventListener('click',function(){
+    if(birth)goHome();else{initWheels();show('birth')}
+  });
   function tryUnlock(){
     var v=$('pass').value.trim();if(!v)return;
     $('pass-go').disabled=true;$('pass-err').textContent='';
