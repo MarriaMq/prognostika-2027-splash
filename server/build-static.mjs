@@ -43,6 +43,14 @@ if (!html.includes('PROG_STATIC=true')) throw new Error('не знайдено �
 writeFileSync(join(OUT, 'index.html'), html);
 writeFileSync(join(OUT, '.nojekyll'), '');
 
+// Лендинг (лише публічні файли, без сервера аналітики і даних) — у docs/landing/.
+const LAND = join(ROOT, 'landing');
+if (existsSync(LAND)) {
+  mkdirSync(join(OUT, 'landing'), { recursive: true });
+  for (const f of ['index.html', 'track.js']) cpSync(join(LAND, f), join(OUT, 'landing', f));
+  cpSync(join(LAND, 'img'), join(OUT, 'landing', 'img'), { recursive: true });
+}
+
 // Перевірка: у публічних файлах не має бути відкритого тексту трактувань.
 const sample = Object.values(full.records)[0].paras[0].slice(0, 40);
 for (const f of ['index.html', 'content.enc.json', 'js/forecast.js', 'js/engine.js', 'js/static-client.js']) {

@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Прогностика 2027 — Аліна Грицаєнко</title>
+<meta name="description" content="Персональна прогностика на 2027 рік за датою народження: шість напрямків життя і помісячний прогноз. Метод «Матриця Долі».">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="theme-color" content="#2c0405">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine-0:#1f0203; --wine-1:#2c0405; --wine-2:#3a0606;
+    --paper:#f3e8d4; --paper-2:#eadbc0; --ink:#3d1f14; --ink-2:#6e4a33; --wine-txt:#5a0b10;
+    --cream:#fff3d6; --cream-2:rgba(255,240,215,.74);
+    --gold-a:#fbeec2; --gold-b:#e8c475; --gold-c:#b8862f; --gold-line:rgba(232,196,117,.55);
+    --gold-grad:linear-gradient(180deg,#fdf1c8 0%,#ecc97c 42%,#b8862f 78%,#e9cd88 100%);
+    --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+    --sans:-apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--wine-1);color:var(--cream);font-family:var(--sans);font-size:17px;line-height:1.6;
+       -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3,p{margin:0}
+  h1,h2,h3{font-family:var(--serif);font-weight:500}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  .center{text-align:center}
+  :focus-visible{outline:2px solid var(--gold-b);outline-offset:3px}
+
+  /* ── фактури ── */
+  .velvet{position:relative;isolation:isolate;background:
+      radial-gradient(90% 55% at 50% 0%,rgba(150,22,32,.38),transparent 70%),
+      radial-gradient(70% 50% at 15% 100%,rgba(0,0,0,.45),transparent 70%),
+      var(--wine-2)}
+  .velvet::after,.paper::after{content:"";position:absolute;inset:0;background:var(--noise);opacity:.18;mix-blend-mode:overlay;pointer-events:none;z-index:-1}
+  .red{position:relative;isolation:isolate;overflow:hidden;background:radial-gradient(60% 45% at 50% 50%,rgba(255,120,60,.10),transparent 70%),#b30201}
+  .red .kicker{color:var(--gold-a)}
+  .cl{position:absolute;z-index:-1;pointer-events:none;user-select:none;max-width:none}
+  .cl img{display:block;width:100%}
+  .cl-tl{left:-10%;top:-3%;width:min(62vw,440px)}
+  .cl-r{right:-6%;bottom:-6%;width:min(26vw,190px)}
+  .cl-l{left:-8%;bottom:-6%;width:min(44vw,320px)}
+  .cl-tr{right:-6%;top:6%;width:min(40vw,300px)}
+  .cl .fl{animation:float var(--t,8s) ease-in-out infinite alternate}
+  @keyframes float{to{transform:translate3d(var(--x,10px),var(--y,-8px),0)}}
+
+  .paper{position:relative;isolation:isolate;color:var(--ink);
+      background:radial-gradient(120% 80% at 50% 30%,#f8eedd 0%,var(--paper) 55%,var(--paper-2) 100%)}
+  .paper::after{opacity:.35;mix-blend-mode:multiply}
+  .frame{position:absolute;inset:12px;border:1px solid var(--gold-line);pointer-events:none}
+  .frame::before{content:"";position:absolute;inset:5px;border:1px solid rgba(232,196,117,.25)}
+  .paper .frame{border-color:rgba(184,134,47,.6)}
+  .paper .frame::before{border-color:rgba(184,134,47,.3)}
+
+  .gold{color:transparent;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text}
+  .orn{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--gold-b);margin:0 auto}
+  .orn i{display:block;width:56px;height:1px;background:linear-gradient(90deg,transparent,currentColor)}
+  .orn i:last-child{transform:scaleX(-1)}
+  .orn svg{width:14px;height:14px;fill:currentColor}
+  .paper .orn{color:var(--gold-c)}
+
+  .kicker{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gold-b)}
+  .paper .kicker{color:var(--gold-c)}
+  .h2{font-size:clamp(34px,9vw,56px);line-height:1.05;letter-spacing:-.01em}
+  .h2 em{font-style:italic;font-weight:400}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;min-height:56px;padding:0 34px;border:0;border-radius:999px;
+       font:inherit;font-size:17px;font-weight:600;cursor:pointer;color:var(--wine-1);
+       background:linear-gradient(180deg,#f8e6ad,#dcae52);
+       box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 10px 28px rgba(0,0,0,.35);transition:transform .15s,filter .2s}
+  .btn:hover{filter:brightness(1.05)}
+  .btn:active{transform:scale(.98)}
+  .btn.wine{background:linear-gradient(180deg,#7a1018,#540a0e);color:var(--gold-a);
+       box-shadow:inset 0 1px 0 rgba(255,220,160,.25),0 0 0 1px rgba(184,134,47,.6),0 8px 20px rgba(60,0,0,.25)}
+
+  /* ── шапка ── */
+  .top{position:absolute;left:0;right:0;top:0;z-index:3}
+  .top .wrap{display:flex;justify-content:space-between;align-items:center;min-height:72px;padding:env(safe-area-inset-top) 36px 0}
+  .brand{font-family:var(--serif);font-style:italic;font-size:21px;color:var(--gold-a)}
+  .top a.to{font-size:15px;color:var(--cream);padding:10px 2px;border-bottom:1px solid var(--gold-line)}
+
+  /* ── 1. перший екран ── */
+  .hero{position:relative;overflow:hidden;isolation:isolate;
+        background:linear-gradient(180deg,rgba(31,2,3,.55) 0%,rgba(31,2,3,.30) 60%,rgba(31,2,3,.70) 100%),
+                   url(img/goat.jpg) center bottom/100% auto no-repeat,#9e0505}
+  .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(90% 70% at 50% 35%,transparent 45%,rgba(20,0,0,.55) 100%)}
+  .hero .frame{inset:14px;top:calc(14px + env(safe-area-inset-top))}
+  .hero .wrap{width:100%;padding-top:104px;padding-bottom:96vw;text-align:center}
+  .hero .kicker{font-size:19px}
+  .hero h1{margin:14px 0 0;line-height:1;font-weight:500}
+  .hero h1 .it{font-style:italic;font-weight:400;font-size:clamp(38px,10.5vw,64px);color:var(--cream)}
+  .hero h1 .num{font-size:clamp(84px,24vw,156px);letter-spacing:-.01em;margin:0 .06em;
+        filter:drop-shadow(0 8px 24px rgba(0,0,0,.45))}
+  .hero .ask{font-family:var(--serif);font-size:clamp(26px,7vw,36px);line-height:1.2;margin:6px auto 0;max-width:520px}
+  .hero .lead{font-size:16px;color:var(--cream-2);max-width:400px;margin:14px auto 0}
+  .hero .btn{margin-top:28px}
+
+  section.pad{padding:88px 0}
+
+  /* ── 2. що таке прогностика — аркуш ── */
+  .sheet-wrap{padding:16px}
+  .sheet{max-width:980px;margin:0 auto;padding:68px 28px;text-align:center}
+  .sheet .h2{color:var(--wine-txt);margin:12px 0 18px}
+  .sheet p.txt{font-family:var(--serif);font-size:clamp(21px,5.6vw,27px);line-height:1.4;max-width:680px;margin:0 auto 26px;color:var(--ink)}
+
+  /* ── 3. місяці ── */
+  .months .h2{margin:10px 0 14px}
+  .months .sub{color:var(--cream);max-width:460px;margin:0 auto 44px}
+  .periods{display:grid;border-top:1px solid var(--gold-line)}
+  .period{padding:26px 0;border-bottom:1px solid var(--gold-line);text-align:center}
+  .period .w{font-family:var(--serif);font-style:italic;font-size:46px;line-height:1.05}
+  .period h3{font-size:22px;color:var(--cream);margin:10px 0 4px;font-weight:500}
+  .period p{color:rgba(255,240,215,.85);font-size:16px}
+
+  /* ── 4. питання — аркуш ── */
+  .qs-head{text-align:center;margin-bottom:40px}
+  .qs-head .h2{color:var(--wine-txt);margin-top:10px}
+  .qs{display:grid;gap:0;max-width:880px;margin:0 auto}
+  .q{display:grid;grid-template-columns:52px 1fr;gap:6px;padding:20px 0;border-top:1px solid rgba(184,134,47,.35);text-align:left}
+  .q i{font-family:var(--serif);font-size:28px;line-height:1.05;color:var(--gold-c)}
+  .q h3{font-size:24px;line-height:1.2;color:var(--wine-txt)}
+  .q p{font-size:16px;color:var(--ink-2);margin-top:4px}
+
+  /* ── 5. заява ── */
+  .statement .quote{font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(36px,10vw,68px);line-height:1.08;max-width:860px;margin:22px auto 22px}
+  .statement p{color:var(--cream-2);max-width:480px;margin:0 auto}
+  .statement .sign{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--gold-b);margin-top:18px}
+
+  /* ── 6. тарифи — запрошення ── */
+  .tariffs .h2{margin:10px 0 12px}
+  .tariffs .sub{color:var(--cream-2);margin:0 auto 44px;max-width:420px}
+  .plans{display:grid;gap:20px}
+  .plan{position:relative;padding:44px 28px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+  .plan .frame{inset:10px}
+  .plan .kicker{font-size:19px}
+  .plan h3{font-size:28px;line-height:1.15;color:var(--wine-txt);margin-top:4px}
+  .price{font-family:var(--serif);font-weight:500;font-size:64px;line-height:1;color:var(--wine-txt);margin:16px 0 4px}
+  .price small{font-size:22px;font-style:italic;font-weight:400;margin-left:6px}
+  .plan p{font-size:16px;color:var(--ink-2);margin:12px 0 26px;max-width:260px;flex:1}
+  .plan .btn{width:100%;max-width:280px;position:relative}
+  .plan.velvet{color:var(--cream);box-shadow:0 0 0 1px var(--gold-c),0 18px 40px rgba(0,0,0,.45)}
+  .plan.velvet h3{color:var(--cream)}
+  .plan.velvet .price{color:transparent;background:var(--gold-grad);-webkit-background-clip:text;background-clip:text}
+  .plan.velvet .price small{color:var(--gold-b)}
+  .plan.velvet p{color:var(--cream-2)}
+  .ribbon{position:absolute;top:-14px;left:50%;transform:translateX(-50%);white-space:nowrap;z-index:1;
+        font-family:var(--serif);font-style:italic;font-size:17px;color:var(--wine-1);padding:3px 16px;
+        background:linear-gradient(180deg,#f8e6ad,#dcae52);border-radius:999px}
+
+  /* ── 7. фінал ── */
+  .final{padding:96px 0 104px}
+  .final .h2{margin:12px auto 16px;max-width:620px}
+  .final p{color:var(--cream);max-width:440px;margin:0 auto}
+  .final .btn{margin-top:30px}
+
+  footer{background:var(--wine-0);padding:28px 0 max(env(safe-area-inset-bottom),32px);font-size:14px;color:rgba(255,240,215,.55);text-align:center}
+  footer .wrap{display:grid;gap:6px}
+
+
+  @media (min-width:760px){
+    section.pad{padding:128px 0}
+    .hero .frame{inset:24px}
+    .hero{background:linear-gradient(90deg,rgba(31,2,3,.82) 0%,rgba(31,2,3,.55) 45%,rgba(31,2,3,.25) 100%),
+               linear-gradient(180deg,rgba(31,2,3,.35),rgba(31,2,3,.15) 50%,rgba(31,2,3,.7)),
+               url(img/goat.jpg) right 2% bottom/auto 175% no-repeat,#a80505}
+    .hero{min-height:min(100vh,900px);display:flex;align-items:center}
+    .hero .wrap{text-align:left;padding:120px 72px 96px}
+    .hero .ask,.hero .lead{margin-left:0}
+    .top .wrap{padding:0 48px}
+    .sheet-wrap{padding:28px}
+    .sheet{padding:96px 64px}
+    .periods{grid-template-columns:repeat(3,1fr);border-top:0}
+    .period{border-bottom:0;border-left:1px solid var(--gold-line);padding:8px 28px 12px}
+    .period:first-child{border-left:0}
+    .qs{grid-template-columns:1fr 1fr;column-gap:56px}
+    .plans{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (min-width:1080px){ .plans{grid-template-columns:repeat(4,1fr)} .plan{padding:44px 20px 28px} .plan h3{font-size:26px} .plan .btn{padding:0 14px;font-size:16px;white-space:nowrap} }
+  /* ── анімації ── */
+  .js .rv{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,0s)}
+  .js .rv.in{opacity:1;transform:none}
+  .js .cl{opacity:0;transform:translateX(var(--from,-40px));transition:opacity 1.4s ease,transform 1.8s cubic-bezier(.16,1,.3,1)}
+  .js .cl-r,.js .cl-tr{--from:40px}
+  .js .in .cl,.js .cl.in{opacity:1;transform:none}
+  .hero .up{opacity:0;transform:translateY(18px);animation:up 1s cubic-bezier(.16,1,.3,1) forwards;animation-delay:var(--d,0s)}
+  @keyframes up{to{opacity:1;transform:none}}
+  .hero .frame{opacity:0;animation:fade 1.6s ease .2s forwards}
+  @keyframes fade{to{opacity:1}}
+  .num{position:relative;display:inline-block}
+  .num::after{content:attr(data-t);position:absolute;inset:0;color:transparent;
+       background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.9) 50%,transparent 60%);background-size:300% 100%;background-position:130% 0;
+       -webkit-background-clip:text;background-clip:text;animation:shine 6s ease-in-out 1.2s infinite}
+  @keyframes shine{0%{background-position:130% 0}25%,100%{background-position:-30% 0}}
+  .btn{position:relative;overflow:hidden}
+  .btn::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-120%);transition:transform .8s ease}
+  .btn:hover::after{transform:translateX(120%)}
+  .btn.wine::after{background:linear-gradient(105deg,transparent 35%,rgba(255,230,170,.25) 50%,transparent 65%)}
+
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .btn{transition:none}
+    .js .rv,.js .cl,.hero .up,.hero .frame{opacity:1;transform:none;transition:none;animation:none}
+    .cl .fl,.num::after{animation:none} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="star" viewBox="0 0 20 20"><path d="M10 0l1.6 8.4L20 10l-8.4 1.6L10 20l-1.6-8.4L0 10l8.4-1.6z"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" data-track="logo">Аліна Грицаєнко</a>
+    <a class="to" href="#tariffs" data-track="nav_tariffs">Тарифи</a>
+  </div>
+</header>
+
+<main>
+  <!-- 1. Перший екран -->
+  <section class="hero" data-sec="hero">
+    <div class="frame" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="kicker up" style="--d:.1s">Прогностика за датою народження</p>
+      <h1 class="up" style="--d:.3s"><span class="it">Ваш</span> <span class="num gold" data-t="2027">2027</span> <span class="it">рік</span></h1>
+      <p class="ask up" style="--d:.55s">До чого варто бути готовою?</p>
+      <p class="lead up" style="--d:.7s">Не список бажань на 1 січня, а розуміння: на чому зосередитися, коли діяти, а коли берегти сили.</p>
+      <a class="btn up" style="--d:.85s" href="#tariffs" data-track="cta_hero">Обрати свій прогноз</a>
+    </div>
+  </section>
+
+  <!-- 2. Що таке прогностика -->
+  <div class="velvet sheet-wrap" id="about" data-sec="about">
+    <div class="paper sheet rv">
+      <div class="frame" aria-hidden="true"></div>
+      <p class="kicker">метод «Матриця Долі»</p>
+      <h2 class="h2">Що таке <em>прогностика</em></h2>
+      <p class="txt">Розрахунок за Вашою датою народження. Він показує головні теми року, Ваші сильні сторони і сценарії, що повторюються, і підказує, де цього року головне: робота, стосунки чи Ви самі.</p>
+      <div class="orn" aria-hidden="true"><i></i><svg><use href="#star"/></svg><i></i></div>
+    </div>
+  </div>
+
+  <!-- 3. Помісячний ритм -->
+  <section class="red pad months center" id="months" data-sec="months">
+    <div class="cl cl-tl" aria-hidden="true"><img class="fl" src="img/cloud-tl.png" alt="" style="--x:14px;--y:6px"></div>
+    <div class="cl cl-r" aria-hidden="true"><img class="fl" src="img/cloud-right.png" alt="" style="--t:9s;--x:-10px;--y:-12px"></div>
+    <div class="wrap">
+      <p class="kicker rv">помісячний прогноз</p>
+      <h2 class="h2 gold rv" style="--d:.1s">Не всі місяці року <em>однакові</em></h2>
+      <p class="sub rv" style="--d:.2s">Прогноз покаже, коли настає кожен період саме у Вас.</p>
+      <div class="periods">
+        <div class="period rv" style="--d:0.15s"><p class="w gold">діяти</p><h3>Періоди активності</h3><p>Для запусків, ініціативи й нових знайомств.</p></div>
+        <div class="period rv" style="--d:0.30s"><p class="w gold">накопичувати</p><h3>Періоди сил</h3><p>Для навчання, відпочинку й фінансового резерву.</p></div>
+        <div class="period rv" style="--d:0.45s"><p class="w gold">переглянути</p><h3>Періоди змін</h3><p>Щоб завершити зайве і не поспішати з ризиком.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Питання року -->
+  <div class="velvet sheet-wrap" id="questions" data-sec="questions">
+    <div class="paper sheet rv">
+      <div class="frame" aria-hidden="true"></div>
+      <div class="qs-head">
+        <p class="kicker">шість напрямків року</p>
+        <h2 class="h2">На які питання Ви <em>отримаєте відповіді</em></h2>
+      </div>
+      <div class="qs">
+        <div class="q rv" style="--d:0.00s"><i>01</i><div><h3>Загальний прогноз</h3><p>Яка головна тема мого року і що варто врахувати?</p></div></div>
+        <div class="q rv" style="--d:0.12s"><i>02</i><div><h3>Архетип року</h3><p>Як діяти і які свої таланти розвивати?</p></div></div>
+        <div class="q rv" style="--d:0.00s"><i>03</i><div><h3>Фінанси та реалізація</h3><p>Через що зростатиме дохід і що його гальмує?</p></div></div>
+        <div class="q rv" style="--d:0.12s"><i>04</i><div><h3>Особисте життя</h3><p>Що зміниться у стосунках, у парі чи в пошуку?</p></div></div>
+        <div class="q rv" style="--d:0.00s"><i>05</i><div><h3>Здоров’я та самопочуття</h3><p>Що забирає сили і як відновлюватися?</p></div></div>
+        <div class="q rv" style="--d:0.12s"><i>06</i><div><h3>Рекомендації на рік</h3><p>Що почати, що завершити і яких помилок не повторювати?</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Заява -->
+  <section class="velvet pad statement center" data-sec="statement">
+    <div class="wrap">
+      <div class="orn" aria-hidden="true"><i></i><svg><use href="#star"/></svg><i></i></div>
+      <h2 class="quote gold rv">Щоб наступний рік не став копією попереднього</h2>
+      <p class="rv" style="--d:.15s">Визначте пріоритети вже зараз і отримайте план, до якого повертатиметеся весь рік. Саме для цього я створила прогностику.</p>
+      <p class="sign rv" style="--d:.25s">Аліна Грицаєнко</p>
+    </div>
+  </section>
+
+  <!-- 6. Тарифи -->
+  <section class="velvet pad tariffs center" id="tariffs" data-sec="tariffs">
+    <div class="wrap">
+      <p class="kicker rv">тарифи</p>
+      <h2 class="h2 gold rv" style="--d:.1s">Оберіть свій <em>формат</em></h2>
+      <p class="sub rv" style="--d:.2s">Від картини року до особистого розбору зі мною.</p>
+      <div class="plans">
+        <article class="plan paper rv" style="--d:0.00s">
+          <div class="frame" aria-hidden="true"></div>
+          <p class="kicker">річний</p>
+          <h3>Прогноз на рік</h3>
+          <div class="price">799<small>грн</small></div>
+          <p>Усі шість напрямків життя на 2027 рік.</p>
+          <button class="btn wine" data-plan="Прогноз на рік" data-track="plan_annual">Обрати річний</button>
+        </article>
+        <article class="plan paper rv" style="--d:0.12s">
+          <div class="frame" aria-hidden="true"></div>
+          <p class="kicker">помісячний</p>
+          <h3>Прогноз на 12 місяців</h3>
+          <div class="price">399<small>грн</small></div>
+          <p>Окремий прогноз на кожен місяць: коли діяти, а коли відновлюватися.</p>
+          <button class="btn wine" data-plan="Прогноз на 12 місяців" data-track="plan_monthly">Обрати помісячний</button>
+        </article>
+        <article class="plan velvet rv" style="--d:0.24s">
+          <div class="frame" aria-hidden="true"></div>
+          <span class="ribbon">економія 199 грн</span>
+          <p class="kicker">повний</p>
+          <h3>Рік і 12 місяців</h3>
+          <div class="price">999<small>грн</small></div>
+          <p>Річний і помісячний прогнози разом.</p>
+          <button class="btn" data-plan="Річний + помісячний" data-track="plan_full">Обрати повний</button>
+        </article>
+        <article class="plan paper rv" style="--d:0.36s">
+          <div class="frame" aria-hidden="true"></div>
+          <p class="kicker">VIP</p>
+          <h3>Прогностика з Аліною</h3>
+          <div class="price">1799<small>грн</small></div>
+          <p>Повний прогноз і особистий зідзвон зі мною на 30–45 хвилин.</p>
+          <button class="btn wine" data-plan="VIP" data-track="plan_vip">Обрати VIP</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Фінал -->
+  <section class="red final center" data-sec="final">
+    <div class="cl cl-l" aria-hidden="true"><img class="fl" src="img/cloud-left.png" alt="" style="--x:12px;--y:-6px"></div>
+    <div class="cl cl-tr" aria-hidden="true"><img class="fl" src="img/cloud-tr.png" alt="" style="--t:7s;--x:-12px;--y:8px"></div>
+    <div class="wrap">
+      <div class="orn" aria-hidden="true"><i></i><svg><use href="#star"/></svg><i></i></div>
+      <h2 class="h2 gold rv">Почніть рік <em>із розумінням себе</em></h2>
+      <p class="rv" style="--d:.15s">Після оплати бот «Люсі» в Telegram попросить дату народження і надішле Ваш прогноз.</p>
+      <a class="btn rv" style="--d:.3s" href="#tariffs" data-track="cta_final">Обрати свій прогноз</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Аліна Грицаєнко</span>
+    <span>Прогностика — інструмент самопізнання, а не гарантія подій чи медична оцінка.</span>
+  </div>
+</footer>
+
+<script>
+  // Кнопки оплати поки без дії: платіжну систему ще не підключено.
+  // Поява блоків під час прокрутки
+  var els=document.querySelectorAll('.rv,.red');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){io.observe(el)});
+  }else{els.forEach(function(el){el.classList.add('in')})}
+</script>
+<script src="track.js" defer></script>
+</body>
+</html>
