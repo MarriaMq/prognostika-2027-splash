@@ -241,9 +241,8 @@
   </div></section>
 
   <section id="birth" class="screen" aria-label="Реєстрація"><div class="in">
-    <h1 class="t1">Ім’я та дата народження</h1>
-    <input class="pass" id="nm" type="text" maxlength="40" autocomplete="given-name" placeholder="Ваше ім’я" aria-label="Ім’я">
-    <div class="wheel" role="group" aria-label="Дата народження" style="margin-top:22px">
+    <h1 class="t1">Вкажіть дату народження</h1>
+    <div class="wheel" role="group" aria-label="Дата народження">
       <div class="col" id="cd" aria-label="День"></div><div class="col" id="cm" aria-label="Місяць"></div><div class="col" id="cy" aria-label="Рік"></div>
     </div>
     <p class="b-hint" id="bhint" aria-live="polite"></p>
@@ -258,9 +257,8 @@
   </div></section>
 
   <section id="home" class="screen" aria-label="Прогностика 2027"><div class="in">
-    <h1 class="t1">Прогностика<button class="star" id="star" type="button" aria-expanded="false" aria-controls="disc" aria-label="Що таке прогностика">*</button> 2027</h1>
+    <h1 class="t1">Прогностика 2027<button class="star" id="star" type="button" aria-expanded="false" aria-controls="disc" aria-label="Що таке прогностика">*</button></h1>
     <p class="disc" id="disc" hidden></p>
-    <p class="note" id="hi" hidden></p>
     <div class="rows">
       <button class="row" id="go-year" type="button"><span class="rt"><b>Прогноз на рік</b><small>Головні події, можливості, фінанси, стосунки та рекомендації</small></span><span id="year-lock"></span></button>
       <button class="row" id="go-months" type="button"><span class="rt"><b>Прогноз на 12 місяців</b><small>Коли діяти, коли відновлювати сили та на що звертати увагу щомісяця</small></span><span id="months-lock"></span></button>
@@ -382,6 +380,7 @@
   var birth=null;
   function validDate(d,m,y){var dt=new Date(y,m-1,d);return dt.getFullYear()===y&&dt.getMonth()===m-1&&dt.getDate()===d&&dt<=new Date()}
   function loadBirth(){var v=store('prog_birth');return v&&validDate(v.d,v.m,v.y)?v:null}
+  try{localStorage.removeItem('prog_name')}catch(e){}
   function clearBirth(){try{localStorage.removeItem('prog_birth')}catch(e){}birth=null}
 
   // ── дані з сервера: усі розрахунки й тексти — лише на сервері ──
@@ -430,10 +429,8 @@
   }
   function sel(){return {d:mark(cd)+1,m:mark(cm)+1,y:Y0+mark(cy)}}
   function dayLabels(n){var a=[];for(var k=1;k<=n;k++)a.push(k);return a}
-  var dateOk=false,nm=$('nm');
-  function nameOk(){return /^[\p{L}][\p{L} '’ʼ-]{0,39}$/u.test(nm.value.trim())}
-  function updateGo(){bgo.disabled=!(dateOk&&nameOk())}
-  nm.addEventListener('input',updateGo);
+  var dateOk=false;
+  function updateGo(){bgo.disabled=!dateOk}
   function onSettle(){
     var v=sel(),n=dim(v.y,v.m);
     if(n!==cd._n){fill(cd,dayLabels(n),Math.min(v.d,n)-1);v=sel()}
@@ -442,7 +439,7 @@
     bhint.textContent=ok?'Ваш прогноз діятиме з '+(v.d>15?v.d:1)+'-го числа кожного місяця':'Оберіть дату в минулому';
   }
   function initWheels(){
-    var sn=store('prog_name');if(sn&&!nm.value)nm.value=sn;updateGo();
+    updateGo();
     if(wheelsReady)return;wheelsReady=true;
     var years=[];for(var y=Y0;y<=Y1;y++)years.push(y);
     fill(cm,MONTHS,5);fill(cy,years,1995-Y0);fill(cd,dayLabels(dim(1995,6)),14);
@@ -463,7 +460,7 @@
   // ── підтвердження ──
   var sheet=$('sheet'),pending=null;
   function openSheet(){
-    pending=sel();if(!validDate(pending.d,pending.m,pending.y)||!nameOk())return;
+    pending=sel();if(!validDate(pending.d,pending.m,pending.y))return;
     $('sheet-date').textContent=pending.d+' '+GEN[pending.m-1]+' '+pending.y;
     sheet.classList.add('show');$('ok').focus();
   }
@@ -474,7 +471,7 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheet()});
   $('ok').addEventListener('click',function(){
     if(!pending||!validDate(pending.d,pending.m,pending.y)){closeSheet();return}
-    birth=pending;store('prog_birth',birth);store('prog_name',nm.value.trim().replace(/\s+/g,' '));closeSheet();data=null;loading=null;$('home-err').hidden=true;
+    birth=pending;store('prog_birth',birth);closeSheet();data=null;loading=null;$('home-err').hidden=true;
     try{window.Telegram.WebApp.HapticFeedback.notificationOccurred('success')}catch(x){}
     load();goHome();
   });
@@ -488,7 +485,6 @@
       $('go-months').classList.toggle('locked',$('months-lock').textContent==='Закрито');
       $('vip-note').hidden=!d.call;      $('disc').textContent=d.disclaimer;
       // Лише для тестування (посилання на GitHub і локальне демо): у бойовій версії дату змінити не можна.
-      var nmv=store('prog_name');$('hi').hidden=!nmv;if(nmv)$('hi').textContent='Вітаємо, '+nmv+'!';
       var cb=$('change-birth');cb.hidden=!TEST_MODE||!birth;
       if(birth)cb.textContent='Дата народження: '+String(birth.d).padStart(2,'0')+'.'+String(birth.m).padStart(2,'0')+'.'+birth.y+' — змінити';
     });
