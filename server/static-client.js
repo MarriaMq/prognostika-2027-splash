@@ -40,8 +40,15 @@ window.progForecast = async ({ birth, year, status, children }) => {
   });
 };
 
-// Якщо пароль уже вводили на цьому пристрої — відкриваємо автоматично.
+// Вхід без пароля: ключ у посиланні (?k=...). Інакше — пароль, уже введений на цьому пристрої.
 window.progReady = (async () => {
+  const url = new URL(location.href);
+  const k = url.searchParams.get('k');
+  if (k) {
+    url.searchParams.delete('k');
+    history.replaceState(null, '', url.pathname + url.search + url.hash);
+    if (await window.progUnlock(k)) return;
+  }
   let saved = null;
   try { saved = localStorage.getItem(PASS_KEY); } catch { /* немає доступу */ }
   if (saved && !(await window.progUnlock(saved))) {
