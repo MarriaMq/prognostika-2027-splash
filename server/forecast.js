@@ -62,7 +62,11 @@ export function buildAnnual(content, birth, year, { status = 'unknown', hasChild
     if (same) { same.label += ' та ' + e.role[0].toLowerCase() + e.role.slice(1); same.provisional ||= e.provisional; }
     else energies.push({ n: e.n, label: e.role, provisional: !!e.provisional });
   }
-  const b01 = (field, how) => energies.map((e) => p.item(k('B01', field, e.n), { nodes: ['CODE'], [how]: e.label }));
+  // Тексти бази №1 ідуть підряд під одним заголовком; підпис ролей і віків не показуємо (рішення авторки),
+  // лише одна фраза «Головні енергії року» над першим текстом розділу.
+  const MAIN_ENERGIES = 'Головні енергії року';
+  const b01 = (field, first = true) => energies.map((e, i) => p.item(k('B01', field, e.n),
+    { nodes: ['CODE'], ...(first && i === 0 ? { label: MAIN_ENERGIES } : {}) }));
 
   // B07: статус стосунків. unknown → обидві підписані версії під кожним заголовком.
   const relVariants = status === 'single' ? ['single'] : status === 'couple' ? ['couple'] : ['single', 'couple'];
@@ -79,15 +83,16 @@ export function buildAnnual(content, birth, year, { status = 'unknown', hasChild
 
   const cards = [
     {
-      id: 'general', title: 'Загальний прогноз',
+      id: 'general', title: 'Що принесе Вам 2027 рік',
+      desc: 'Головна тема року, можливі події, позитивні та складні сценарії',
       items: compact([
-        ...energies.flatMap((e) => ['theme', 'task', 'positive', 'negative']
-          .map((f) => p.item(k('B01', f, e.n), { nodes: ['CODE'], group: e.label }))),
-        p.item(k('B04', 'karma', mx.G), { nodes: ['G'], group: 'Карма року' }),
+        ...['theme', 'task', 'positive', 'negative'].flatMap((f) => b01(f, f === 'theme')),
+        p.item(k('B04', 'karma', mx.G), { nodes: ['G'] }),
       ]),
     },
     {
-      id: 'archetype', title: 'Архетип року',
+      id: 'archetype', title: 'Як Вам варто діяти цього року',
+      desc: 'Ваші сильні сторони, таланти та як використати свої можливості',
       items: compact([
         p.item(k('B02', 'role', mx.A), { nodes: ['A'] }),
         p.item(k('B02', 'action', mx.B), { nodes: ['B'] }),
@@ -98,7 +103,8 @@ export function buildAnnual(content, birth, year, { status = 'unknown', hasChild
       ]),
     },
     {
-      id: 'finance', title: 'Фінанси та самореалізація',
+      id: 'finance', title: 'Гроші, робота та реалізація',
+      desc: 'Можливості для заробітку, професійного розвитку та фінансові помилки',
       items: compact([
         p.item(k('B05', 'beliefs', mx.V), { nodes: ['V'] }),
         p.item(k('B05', 'mechanism', mx.V2), { nodes: ['V2'] }),
@@ -112,7 +118,8 @@ export function buildAnnual(content, birth, year, { status = 'unknown', hasChild
       ]),
     },
     {
-      id: 'personal', title: 'Особисте життя',
+      id: 'personal', title: 'Кохання та стосунки',
+      desc: 'Можливі зміни в особистому житті, знайомства та розвиток стосунків',
       ask: ['status', 'children'],
       items: compact([
         ...rel,
@@ -124,16 +131,18 @@ export function buildAnnual(content, birth, year, { status = 'unknown', hasChild
       ]),
     },
     {
-      id: 'health', title: 'Здоров’я та самопочуття',
+      id: 'health', title: 'Самопочуття та відновлення',
+      desc: 'Як краще розподіляти сили, уникати перевантаження та відновлюватися',
       items: compact([
-        ...b01('wellbeing', 'label'),
+        ...b01('wellbeing'),
         p.item(k('B03', 'comfort', mx.C), { nodes: ['C'] }),
       ]),
     },
     {
-      id: 'recommendations', title: 'Рекомендації на рік',
+      id: 'recommendations', title: 'Головні рекомендації на рік',
+      desc: 'Головні рекомендації, завдання та пріоритети року',
       items: compact([
-        ...b01('attention', 'label'),
+        ...b01('attention'),
         p.item(k('B10', 'MALE', mx.MALE), { nodes: ['D', 'Zh'], title: 'Що допоможе Вам діяти впевненіше та досягати бажаного' }),
         p.item(k('B13', 'awareness', mx.SKY), { nodes: ['B', 'G'] }),
         p.item(k('B13', 'beliefs', mx.SKY), { nodes: ['B', 'G'] }),
@@ -210,10 +219,10 @@ export function buildForecast(content, { birth, year, plan = 'demo', status, has
     out.annual = {
       cards: annual.cards.map((c) => (c.id === 'general'
         ? { ...c, items: c.items.slice(0, 1), lockedRest: true }
-        : { id: c.id, title: c.title, locked: true })),
+        : { id: c.id, title: c.title, desc: c.desc, locked: true })),
     };
   } else {
-    out.annual = { cards: annual.cards.map((c) => ({ id: c.id, title: c.title, locked: true })) };
+    out.annual = { cards: annual.cards.map((c) => ({ id: c.id, title: c.title, desc: c.desc, locked: true })) };
   }
 
   const strip = (m) => ({ month: m.month, name: m.name, period: m.period, locked: true });

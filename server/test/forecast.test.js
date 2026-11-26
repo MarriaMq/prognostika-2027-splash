@@ -23,10 +23,12 @@ test('Річний 2027, у парі, з дітьми — ключі як у Т�
   const [general, archetype, finance, personal, health, rec] = a.cards;
   // 29.07.1989 у 2027 році (від дня народження) — 38 років: вікова «38–39» = 7, протилежна «78–79» = 8
   const b01 = (f) => [11, 7, 8].map((n) => `B01.${f}.${String(n).padStart(2, '0')}.default`);
-  assert.deepEqual(keys(general), [11, 7, 8].flatMap((n) => ['theme', 'task', 'positive', 'negative']
-    .map((f) => `B01.${f}.${String(n).padStart(2, '0')}.default`)).concat(['B04.karma.06.default']));
-  assert.deepEqual(general.items.map((i) => i.group).filter((g, i, a) => a.indexOf(g) === i),
-    ['Енергія року', 'Вікова енергія (38–39 років)', 'Протилежна вікова енергія (78–79 років)', 'Карма року']);
+  // Порядок: за полями (тема → завдання → позитив → негатив), у кожному — три енергії підряд
+  assert.deepEqual(keys(general), ['theme', 'task', 'positive', 'negative'].flatMap((f) => [11, 7, 8]
+    .map((n) => `B01.${f}.${String(n).padStart(2, '0')}.default`)).concat(['B04.karma.06.default']));
+  // Без вікових підписів: лише «Головні енергії року» над першим текстом
+  assert.deepEqual(general.items.filter((i) => i.label).map((i) => i.label), ['Головні енергії року']);
+  assert.ok(!JSON.stringify(a.cards).includes('років)'));
   assert.deepEqual(keys(archetype), ['B02.role.22.default', 'B02.action.18.default', 'B02.support.12.default', 'B08.B.18.default', 'B08.B2.21.default', 'B08.B1.03.default']);
   assert.deepEqual(keys(finance), ['B05.beliefs.20.default', 'B05.mechanism.07.default', 'B05.correction.05.default',
     'B06.K.05.default', 'B06.O.10.default', 'B06.L.05.default', 'B14.goal.06.default', 'B14.risks.06.default', 'B14.practice.06.default']);
@@ -42,8 +44,8 @@ test('Збіг енергій об\'єднується без повтору: 25
   assert.deepEqual(a.errors, []);
   const general = a.cards[0];
   assert.deepEqual(keys(general).filter((x) => x.startsWith('B01.theme')), ['B01.theme.10.default', 'B01.theme.11.default']);
-  assert.equal(general.items[0].group, 'Енергія року та вікова енергія (27–28 років)');
-  assert.equal(general.items[4].group, 'Протилежна вікова енергія (67–68 років)');
+  assert.equal(general.items[0].label, 'Головні енергії року');
+  assert.equal(general.items[1].label, undefined);
 });
 
 test('Статус не вказано → обидві версії; дітей немає → без додатку', { skip: !has }, () => {
