@@ -147,13 +147,11 @@
   .row .rt{display:flex;flex-direction:column;gap:5px;white-space:normal;color:inherit;font-size:inherit}
   .row .rt small{font-size:13.5px;line-height:1.4;color:rgba(255,246,232,.88)}
   /* навігаційні картки: іконка — текст — стрілка */
-  .nav{display:flex;align-items:center;gap:12px;padding:12px 10px 12px 12px;border-radius:18px;
+  .nav{display:flex;align-items:center;gap:12px;padding:14px 12px 14px 16px;border-radius:18px;
        background:linear-gradient(180deg,rgba(255,240,215,.09),rgba(255,240,215,.03));border:1px solid rgba(243,222,170,.38);
        position:relative;overflow:hidden;transition:background .2s,border-color .2s,transform .15s}
   .nav:hover{border-color:rgba(243,222,170,.7)}
   .nav:active{transform:scale(.98);background:rgba(255,240,215,.14)}
-  .nav .ic{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(243,222,170,.14);color:var(--gold-txt)}
-  .nav .ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
   .nav .rt{flex:1;min-width:0}
   .nav b{font-family:'Yeseva One',Georgia,serif;font-weight:400;font-size:16px;line-height:1.25;color:#fff}
   .nav .rt small{font-size:12.5px;line-height:1.4;color:rgba(255,246,232,.82)}
@@ -289,8 +287,8 @@
     <h1 class="t1">Прогностика 2027<button class="star" id="star" type="button" aria-expanded="false" aria-controls="disc" aria-label="Що таке прогностика">*</button></h1>
     <p class="disc" id="disc" hidden></p>
     <div class="rows">
-      <button class="row nav" id="go-year" type="button" style="--i:0"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.8"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M6 18l1.4-1.4M16.6 7.4 18 6"/></svg></span><span class="rt"><b>Прогноз на рік</b><small>Головні події, можливості, фінанси, стосунки та рекомендації</small></span><span class="tag" id="year-lock"></span><span class="chev" aria-hidden="true">›</span></button>
-      <button class="row nav" id="go-months" type="button" style="--i:1"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 9.5h16M8.5 3.5v3M15.5 3.5v3"/></svg></span><span class="rt"><b>Прогноз на 12 місяців</b><small>Коли діяти, коли відновлювати сили та на що звертати увагу щомісяця</small></span><span class="tag" id="months-lock"></span><span class="chev" aria-hidden="true">›</span></button>
+      <button class="row nav" id="go-year" type="button" style="--i:0"><span class="rt"><b>Прогноз на рік</b><small>Головні події, можливості, фінанси, стосунки та рекомендації</small></span><span class="tag" id="year-lock"></span><span class="chev" aria-hidden="true">›</span></button>
+      <button class="row nav" id="go-months" type="button" style="--i:1"><span class="rt"><b>Прогноз на 12 місяців</b><small>Коли діяти, коли відновлювати сили та на що звертати увагу щомісяця</small></span><span class="tag" id="months-lock"></span><span class="chev" aria-hidden="true">›</span></button>
     </div>
     <p class="err" id="home-err" style="margin:18px 0 0" hidden></p>
     <p class="note" id="vip-note" style="margin:18px 0 0" hidden>Запис на зідзвон з Аліною відкриється найближчим часом</p>
@@ -534,25 +532,13 @@
   $('go-year').addEventListener('click',function(){withData(function(d){renderYear(d);show('year')})});
   $('go-months').addEventListener('click',function(){renderMonths();show('months')});
 
-  var ICON={
-    general:'<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M18.5 16.5l.6 1.4 1.4.6-1.4.6-.6 1.4-.6-1.4-1.4-.6 1.4-.6z"/>',
-    archetype:'<circle cx="12" cy="12" r="8.5"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
-    finance:'<circle cx="12" cy="12" r="8.5"/><path d="M14.6 9.3c-.4-.9-1.4-1.4-2.6-1.4-1.5 0-2.6.8-2.6 1.9 0 2.5 5.3 1.4 5.3 4.1 0 1.1-1.2 2-2.7 2-1.3 0-2.4-.6-2.8-1.6M12 6.5v1.4M12 16v1.5"/>',
-    personal:'<path d="M12 19.5s-7-4.3-7-9.6A3.9 3.9 0 0 1 12 7.6a3.9 3.9 0 0 1 7 2.3c0 5.3-7 9.6-7 9.6z"/>',
-    health:'<path d="M5.5 18.5C5.5 10.6 10.4 5.7 18.5 5.5c-.2 8.1-5.1 13-13 13z"/><path d="M5.5 18.5l6.5-6.5"/>',
-    recommendations:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.6"/><circle cx="12" cy="12" r="1.1"/>',
-    year:'<circle cx="12" cy="12" r="3.8"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2M6 6l1.4 1.4M16.6 16.6 18 18M6 18l1.4-1.4M16.6 7.4 18 6"/>',
-    months:'<rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 9.5h16M8.5 3.5v3M15.5 3.5v3"/>',
-    lock:'<rect x="6" y="11" width="12" height="8.5" rx="2"/><path d="M9 11V8.5a3 3 0 0 1 6 0V11"/>'
-  };
-  function ico(n){return '<span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24">'+ICON[n]+'</svg></span>'}
   // ── рік: картки розділів ──
   function renderYear(d){
     $('year-period').textContent='Діє '+d.yearPeriod.text;
     var box=$('cards');box.innerHTML='';
     d.annual.cards.forEach(function(c,i){
       var b=document.createElement('button');b.type='button';b.className='row nav'+(c.locked?' locked':'');b.style.setProperty('--i',i);
-      b.innerHTML=ico(c.locked?'lock':c.id)+'<span class="rt"><b>'+esc(c.title)+'</b>'+(c.desc?'<small>'+esc(c.desc)+'</small>':'')+'</span><span class="chev" aria-hidden="true">›</span>';
+      b.innerHTML='<span class="rt"><b>'+esc(c.title)+'</b>'+(c.desc?'<small>'+esc(c.desc)+'</small>':'')+'</span><span class="chev" aria-hidden="true">›</span>';
       b.addEventListener('click',function(){openCard(c.id)});
       box.appendChild(b);
     });
