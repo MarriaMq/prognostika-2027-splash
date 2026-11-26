@@ -502,7 +502,7 @@
     var L=function(a,b){return '<line class="ln" x1="'+P[a][0]+'" y1="'+P[a][1]+'" x2="'+P[b][0]+'" y2="'+P[b][1]+'"/>'};
     var svg=L('D','E')+L('E','Zh')+L('Zh','Z')+L('Z','D')+L('A','B')+L('B','V')+L('V','G')+L('G','A')+L('A','V')+L('B','G');
     Object.keys(P).forEach(function(k){
-      var c=k==='C';svg+='<g'+(c?' class="c"':'')+'><circle cx="'+P[k][0]+'" cy="'+P[k][1]+'" r="'+(c?21:17)+'"/><text x="'+P[k][0]+'" y="'+P[k][1]+'">'+mx[k]+'</text></g>';
+      var c=k==='C';svg+='<g'+(c?' class="c"':'')+'><circle cx="'+P[k][0]+'" cy="'+P[k][1]+'" r="'+(c?21:17)+'"/><text x="'+P[k][0]+'" y="'+P[k][1]+'">'+Number(mx[k])+'</text></g>';
     });
     $('scheme').innerHTML=svg;
   }
