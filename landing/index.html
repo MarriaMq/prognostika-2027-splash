@@ -145,6 +145,21 @@
 
   .js .hero .yr{opacity:0;animation:yrIn .5s ease .25s forwards}
   @keyframes yrIn{to{opacity:1}}
+  .dot{display:inline-block;width:14px;height:14px;border-radius:50%;margin-right:12px;vertical-align:middle;position:relative;top:-6px}
+  .m-a{background:var(--wine)}
+  .m-n{background:#f1dfe0;box-shadow:inset 0 0 0 1px rgba(92,11,18,.25)}
+  .m-r{background:#b5606a}
+  .qlist{margin-top:22px}
+  .qi{display:grid;grid-template-columns:78px 1fr;gap:2px 14px;padding:18px 0;border-top:1px solid rgba(255,255,255,.25)}
+  .qi:first-child{border-top:0;padding-top:6px}
+  .qi b{font-size:66px;line-height:.85;color:#f1c9cd;grid-row:span 2;font-weight:400;-webkit-text-stroke:1.6px #f1c9cd;paint-order:stroke fill}
+  .qi h3{font-family:var(--cond);font-weight:600;text-transform:uppercase;font-size:21px;line-height:1.15;color:#fff}
+  .qi p{font-size:15px;color:var(--on-wine-2)}
+  .plan.main{background:#2a0508;color:#fff;outline:0;box-shadow:0 0 0 2px #f1c9cd inset}
+  .plan.main .caps,.plan.main p{color:rgba(255,255,255,.75)}
+  .plan.main h3,.plan.main .price{color:#fff}
+  .plan.main .btn{background:#fff;color:var(--wine)}
+  .plan.main .tag{background:#fff;color:var(--wine)}
   /* ── анімації ── */
   .js .rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,0s)}
   .js .rv.in{opacity:1;transform:none}
@@ -170,7 +185,8 @@
     .split{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
     
     .pills{grid-template-columns:repeat(3,1fr);gap:18px}
-    .qs{grid-template-columns:repeat(3,1fr);gap:14px}
+    .qlist{display:grid;grid-template-columns:1fr 1fr;column-gap:56px}
+    .qi:nth-child(2){border-top:0;padding-top:6px}
     .qs-head .script{font-size:84px;top:-44px}
     .plans{grid-template-columns:repeat(2,1fr);gap:14px}
     .final .btn{width:auto}
@@ -226,9 +242,9 @@
     <h2 class="big h2 rv">Не всі місяці однакові</h2>
     <p class="lead rv" style="--d:.1s">Помісячний прогноз покаже, коли настає кожен період саме у Вас.</p>
     <div class="pills">
-      <div class="pill rv" style="--d:.1s"><p class="script">діяти</p><h3>Періоди активності</h3><p>Для запусків, ініціативи й нових знайомств.</p></div>
-      <div class="pill rv" style="--d:.2s"><p class="script">накопичувати</p><h3>Періоди сил</h3><p>Для навчання, відпочинку й фінансового резерву.</p></div>
-      <div class="pill rv" style="--d:.3s"><p class="script">переглянути</p><h3>Періоди змін</h3><p>Щоб завершити зайве і не поспішати з ризиком.</p></div>
+      <div class="pill rv" style="--d:.1s"><p class="script"><i class="dot m-a" aria-hidden="true"></i>діяти</p><h3>Періоди активності</h3><p>Для запусків, ініціативи й нових знайомств.</p></div>
+      <div class="pill rv" style="--d:.2s"><p class="script"><i class="dot m-n" aria-hidden="true"></i>накопичувати</p><h3>Періоди сил</h3><p>Для навчання, відпочинку й фінансового резерву.</p></div>
+      <div class="pill rv" style="--d:.3s"><p class="script"><i class="dot m-r" aria-hidden="true"></i>переглянути</p><h3>Періоди змін</h3><p>Щоб завершити зайве і не поспішати з ризиком.</p></div>
     </div>
   </section>
 
@@ -236,13 +252,13 @@
   <section class="panel wine" id="questions" data-sec="questions">
     <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="qs-head rv"><p class="script" aria-hidden="true">Ваші</p><h2 class="big h2">Питання року</h2></div>
-    <div class="qs">
-      <div class="q rv"><b>01</b><h3>Загальний прогноз</h3><p>Яка головна тема мого року і що варто врахувати?</p></div>
-      <div class="q rv" style="--d:.08s"><b>02</b><h3>Архетип року</h3><p>Як діяти і які свої таланти розвивати?</p></div>
-      <div class="q rv" style="--d:.16s"><b>03</b><h3>Фінанси та реалізація</h3><p>Через що зростатиме дохід і що його гальмує?</p></div>
-      <div class="q rv"><b>04</b><h3>Особисте життя</h3><p>Що зміниться у стосунках, у парі чи в пошуку?</p></div>
-      <div class="q rv" style="--d:.08s"><b>05</b><h3>Здоров’я та самопочуття</h3><p>Що забирає сили і як відновлюватися?</p></div>
-      <div class="q rv" style="--d:.16s"><b>06</b><h3>Рекомендації на рік</h3><p>Що почати, що завершити і яких помилок не повторювати?</p></div>
+    <div class="qlist">
+      <div class="qi rv"><b class="script">01</b><h3>Загальний прогноз</h3><p>Яка головна тема мого року і що варто врахувати?</p></div>
+      <div class="qi rv" style="--d:.08s"><b class="script">02</b><h3>Архетип року</h3><p>Як діяти і які свої таланти розвивати?</p></div>
+      <div class="qi rv" style="--d:.16s"><b class="script">03</b><h3>Фінанси та реалізація</h3><p>Через що зростатиме дохід і що його гальмує?</p></div>
+      <div class="qi rv"><b class="script">04</b><h3>Особисте життя</h3><p>Що зміниться у стосунках, у парі чи в пошуку?</p></div>
+      <div class="qi rv" style="--d:.08s"><b class="script">05</b><h3>Здоров’я та самопочуття</h3><p>Що забирає сили і як відновлюватися?</p></div>
+      <div class="qi rv" style="--d:.16s"><b class="script">06</b><h3>Рекомендації на рік</h3><p>Що почати, що завершити і яких помилок не повторювати?</p></div>
     </div>
   </section>
 
@@ -282,7 +298,7 @@
       <article class="plan main rv" style="--d:.16s">
         <span class="tag">−199 грн</span>
         <span class="caps">Повний</span>
-        <h3>Рік і 12 місяців</h3>
+        <h3>Рік + 12 місяців</h3>
         <div class="price">999<small>грн</small></div>
         <p>Річний і помісячний прогнози разом.</p>
         <button class="btn w" data-plan="Річний + помісячний" data-track="plan_full">Обрати повний</button>
