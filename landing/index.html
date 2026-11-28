@@ -106,7 +106,13 @@
   /* ── 5. заява ── */
   .statement .big{font-size:clamp(40px,11.5vw,78px)}
   .statement .txt{margin-top:18px;color:var(--txt-2);max-width:480px}
-  .statement .sign{font-size:44px;margin-top:10px}
+  .quote{position:relative;margin:56px 0 0;padding:26px 0 0 22px;border-left:3px solid #e8c3c7;max-width:500px}
+  .qmark{position:absolute;left:14px;top:-34px;font-family:'Oswald',serif;font-weight:700;font-size:110px;line-height:1;color:var(--wine)}
+  .quote blockquote{margin:0}
+  .quote blockquote p{font-size:19px;line-height:1.5;color:var(--wine-ink);font-style:italic}
+  .quote figcaption{display:flex;flex-direction:column;margin-top:10px}
+  .statement .sign{font-size:44px;line-height:1.1;color:var(--wine)}
+  .quote .role{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--txt-2);margin-top:2px}
   .photo.alina{margin:30px auto 0;max-width:420px;aspect-ratio:4/5;border-color:var(--wine)}
   .photo.alina img{object-position:35% 30%;filter:grayscale(1) contrast(1.02)}
   .goat-3d{position:relative;width:min(70vw,320px);margin:30px auto 0}
@@ -280,8 +286,11 @@
     <div class="split">
       <div>
         <h2 class="big rv">Щоб наступний рік не став копією попереднього</h2>
-        <p class="txt rv" style="--d:.1s">Визначте пріоритети вже зараз і отримайте план, до якого повертатиметеся весь рік. Саме для цього я створила прогностику.</p>
-        <p class="sign script rv" style="--d:.2s">Аліна Грицаєнко</p>
+        <figure class="quote rv" style="--d:.1s">
+          <span class="qmark" aria-hidden="true">“</span>
+          <blockquote><p>Визначте пріоритети вже зараз і отримайте план, до якого повертатиметеся весь рік. Саме для цього я створила прогностику.</p></blockquote>
+          <figcaption><span class="sign script">Аліна Грицаєнко</span><span class="role">авторка прогностики</span></figcaption>
+        </figure>
       </div>
       <div class="photo alina rv" style="--d:.15s"><img src="img/alina.jpg" alt="Аліна Грицаєнко"></div>
     </div>
