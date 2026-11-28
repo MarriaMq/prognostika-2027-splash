@@ -96,7 +96,7 @@
   /* ── 4. питання ── */
   .qs-head{position:relative}
   .qs-head .script{position:absolute;left:-4px;top:-30px;font-size:64px;color:var(--on-wine);opacity:.95}
-  .qs-head .big{padding-top:22px}
+  .qs-head .big{padding-top:40px}
   .qs{display:grid;gap:12px;margin-top:28px}
   .q{background:var(--white);color:var(--txt);border-radius:18px;padding:20px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline}
   .q b{font-family:var(--cond);font-weight:700;font-size:40px;line-height:1;color:var(--wine);grid-row:span 2}
@@ -160,6 +160,17 @@
   .plan.main h3,.plan.main .price{color:#fff}
   .plan.main .btn{background:#fff;color:var(--wine)}
   .plan.main .tag{background:#fff;color:var(--wine)}
+  .js .rvg .qi{opacity:0;transform:translateX(-18px);transition:opacity .6s ease,transform .7s cubic-bezier(.16,1,.3,1);transition-delay:calc(var(--i)*.18s)}
+  .js .rvg.in .qi{opacity:1;transform:none}
+  .js .rvg .qi b{display:inline-block;transform:scale(.6);opacity:0;transition:transform .7s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;transition-delay:calc(var(--i)*.18s + .12s)}
+  .js .rvg.in .qi b{transform:none;opacity:1}
+  /* світіння кнопки «Рік + 12 місяців» */
+  .plan.main .btn{animation:glow 2.4s ease-in-out 1s infinite}
+  @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(241,201,205,0),0 0 0 0 rgba(255,190,200,0)}50%{box-shadow:0 0 0 7px rgba(241,201,205,.35),0 0 38px 12px rgba(255,190,200,.55)}}
+  .plan.main .btn{position:relative;overflow:hidden}
+  .plan.main .btn::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(105deg,transparent,rgba(92,11,18,.18),transparent);animation:sweep 2.4s ease-in-out 1s infinite}
+  @keyframes sweep{0%{left:-60%}55%,100%{left:120%}}
+  .plan.main{transition:transform .3s ease}
   /* ── анімації ── */
   .js .rv{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,0s)}
   .js .rv.in{opacity:1;transform:none}
@@ -188,12 +199,13 @@
     .qlist{display:grid;grid-template-columns:1fr 1fr;column-gap:56px}
     .qi:nth-child(2){border-top:0;padding-top:6px}
     .qs-head .script{font-size:84px;top:-44px}
+    .qs-head .big{padding-top:52px}
     .plans{grid-template-columns:repeat(2,1fr);gap:14px}
     .final .btn{width:auto}
   }
   @media (min-width:1100px){ .plans{grid-template-columns:repeat(4,1fr)} .plan .btn{padding:0 12px;font-size:13px;white-space:nowrap} }
-  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto}
-    .js .hero .yr{opacity:1;animation:none} .js .goat-draw path,.js .rv,.hero .up,.hero .yr.draw,.hero .goat.draw2{stroke-dashoffset:0;opacity:1;transform:none;clip-path:none;transition:none;animation:none} }
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} .plan.main .btn,.plan.main .btn::after{animation:none}
+    .js .hero .yr{opacity:1;animation:none} .js .goat-draw path,.js .rvg .qi,.js .rvg .qi b,.js .rv,.hero .up,.hero .yr.draw,.hero .goat.draw2{stroke-dashoffset:0;opacity:1;transform:none;clip-path:none;transition:none;animation:none} }
 </style>
 </head>
 <body>
@@ -252,13 +264,13 @@
   <section class="panel wine" id="questions" data-sec="questions">
     <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="qs-head rv"><p class="script" aria-hidden="true">Ваші</p><h2 class="big h2">Питання року</h2></div>
-    <div class="qlist">
-      <div class="qi rv"><b class="script">01</b><h3>Загальний прогноз</h3><p>Яка головна тема мого року і що варто врахувати?</p></div>
-      <div class="qi rv" style="--d:.08s"><b class="script">02</b><h3>Архетип року</h3><p>Як діяти і які свої таланти розвивати?</p></div>
-      <div class="qi rv" style="--d:.16s"><b class="script">03</b><h3>Фінанси та реалізація</h3><p>Через що зростатиме дохід і що його гальмує?</p></div>
-      <div class="qi rv"><b class="script">04</b><h3>Особисте життя</h3><p>Що зміниться у стосунках, у парі чи в пошуку?</p></div>
-      <div class="qi rv" style="--d:.08s"><b class="script">05</b><h3>Здоров’я та самопочуття</h3><p>Що забирає сили і як відновлюватися?</p></div>
-      <div class="qi rv" style="--d:.16s"><b class="script">06</b><h3>Рекомендації на рік</h3><p>Що почати, що завершити і яких помилок не повторювати?</p></div>
+    <div class="qlist rvg">
+      <div class="qi" style="--i:0"><b class="script">01</b><h3>Загальний прогноз</h3><p>Яка головна тема мого року і що варто врахувати?</p></div>
+      <div class="qi" style="--i:1"><b class="script">02</b><h3>Архетип року</h3><p>Як діяти і які свої таланти розвивати?</p></div>
+      <div class="qi" style="--i:2"><b class="script">03</b><h3>Фінанси та реалізація</h3><p>Через що зростатиме дохід і що його гальмує?</p></div>
+      <div class="qi" style="--i:3"><b class="script">04</b><h3>Особисте життя</h3><p>Що зміниться у стосунках, у парі чи в пошуку?</p></div>
+      <div class="qi" style="--i:4"><b class="script">05</b><h3>Здоров’я та самопочуття</h3><p>Що забирає сили і як відновлюватися?</p></div>
+      <div class="qi" style="--i:5"><b class="script">06</b><h3>Рекомендації на рік</h3><p>Що почати, що завершити і яких помилок не повторювати?</p></div>
     </div>
   </section>
 
@@ -343,7 +355,7 @@
     var gio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.intersectionRatio>=.6){setTimeout(function(){goat.classList.add('in')},100);gio.disconnect()}})},{threshold:[.6]});
     gio.observe(goat);
   }else if(goat){goat.classList.add('in')}
-  var els=document.querySelectorAll('.rv');
+  var els=document.querySelectorAll('.rv,.rvg');
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -8% 0px'});
     els.forEach(function(el){io.observe(el)});
