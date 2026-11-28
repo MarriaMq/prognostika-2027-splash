@@ -4,8 +4,9 @@
 // Жодних персональних даних: лише випадковий id візиту на час вкладки.
 (function () {
   var ENDPOINT = window.TRACK_ENDPOINT || '/api/track';
-  // На GitHub Pages немає сервера, який приймає події, — там лічильник вимкнено.
-  if (!window.TRACK_ENDPOINT && /\.github\.io$/.test(location.hostname)) return;
+  // Події приймає лише наш сервер (landing/server.mjs). На статичному хостингу (GitHub Pages, Cloudflare Pages)
+  // його немає, тож там лічильник вимкнений, доки не задано window.TRACK_ENDPOINT.
+  if (!window.TRACK_ENDPOINT && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) return;
   var sid;
   try {
     sid = sessionStorage.getItem('pg_sid');

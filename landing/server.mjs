@@ -15,8 +15,8 @@ const PORT = Number(process.env.PORT || 8791);
 const TYPES = new Set(['view', 'click', 'section', 'scroll', 'leave']);
 const NAME = /^[a-z0-9_]{0,32}$/;
 const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8',
-  '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.ico': 'image/x-icon' };
-const PUBLIC = new Set(['.html', '.js', '.css', '.png', '.jpg', '.svg', '.ico']);
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.ico': 'image/x-icon' };
+const PUBLIC = new Set(['.html', '.js', '.css', '.png', '.jpg', '.webp', '.svg', '.ico']);
 
 const clip = (v, n) => (typeof v === 'string' ? v.slice(0, n) : '');
 

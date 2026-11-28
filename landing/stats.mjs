@@ -14,7 +14,7 @@ const rows = readFileSync(LOG, 'utf8').split('\n').filter(Boolean).map(l => JSON
 if (!rows.length) { console.log('За цей період подій немає.'); process.exit(0); }
 
 const LABEL = {
-  cta_hero: 'Кнопка на першому екрані', cta_final: 'Кнопка у фіналі', nav_tariffs: '«Тарифи» у шапці', logo: 'Логотип',
+  cta_hero: 'Кнопка в листі (перший екран)', open_seal: 'Відкрили конверт печаткою', open_btn: 'Відкрили конверт кнопкою', cta_final: 'Кнопка у фіналі', nav_tariffs: '«Тарифи» у шапці', logo: 'Логотип',
   plan_annual: 'Тариф «Річний» 799', plan_monthly: 'Тариф «Помісячний» 399', plan_full: 'Тариф «Повний» 999', plan_vip: 'Тариф VIP 1799',
   hero: 'Перший екран', about: 'Що таке прогностика', months: 'Не всі місяці однакові', questions: 'Шість питань',
   statement: 'Щоб рік не став копією', tariffs: 'Тарифи', final: 'Фінал'
