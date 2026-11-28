@@ -413,10 +413,33 @@
     try{TG.BackButton.onClick(function(){var b=document.querySelector('#'+cur+' .back');if(b)b.click()});}catch(e){}
   }
 
+  // ── аналітика: події йдуть на наш сервер пачками; Telegram ID сервер бере лише з перевіреного initData ──
+  var track=(function(){
+    if(window.PROG_STATIC)return function(){};
+    function rid(){try{var a=new Uint8Array(12);crypto.getRandomValues(a);return [].map.call(a,function(x){return ('0'+x.toString(16)).slice(-2)}).join('')}catch(e){return (Math.random().toString(36)+Date.now().toString(36)).replace(/[^a-z0-9]/g,'')}}
+    var vid=store('prog_vid'),returning=!!vid;if(!vid||!/^[A-Za-z0-9_-]{1,64}$/.test(vid)){vid=rid();store('prog_vid',vid)}
+    var sid=rid(),q=[],tmr=0,since=Date.now(),screens=0;
+    function send(beacon){
+      while(q.length){
+        var b=JSON.stringify({initData:IN_TG?TG.initData:'',vid:vid,sid:sid,events:q.splice(0,25)});
+        try{if(beacon&&navigator.sendBeacon&&navigator.sendBeacon('/api/event',b))continue}catch(e){}
+        try{fetch('/api/event',{method:'POST',headers:{'content-type':'application/json'},body:b,keepalive:true}).catch(function(){})}catch(e){}
+      }
+    }
+    function t(n,p){if(n==='screen'){screens++;return}q.push({n:n,p:p||{},t:Date.now()});clearTimeout(tmr);tmr=setTimeout(send,1500)}
+    document.addEventListener('visibilitychange',function(){
+      if(document.visibilityState==='hidden'){q.push({n:'session_end',p:{duration_s:Math.round((Date.now()-since)/1000),screens:screens},t:Date.now()});send(true)}
+      else{since=Date.now();screens=0}
+    });
+    t('app_open',{platform:IN_TG?TG.platform:'web',tg_version:IN_TG?TG.version:'',returning:returning});
+    return t;
+  })();
+
   // ── екрани ──
   var cur=null;
   function show(id){
     clearTimeout(timer);wrap.classList.add('post');
+    if(id!==cur){track('screen');if(id==='birth')track('birth_open');if(id==='home')track('home_view')}
     [].forEach.call(document.querySelectorAll('.screen'),function(el){el.classList.toggle('on',el.id===id)});
     cur=id;var el=$(id);if(el)el.scrollTop=0;
     // У Telegram — системна кнопка «Назад» замість власної.
@@ -459,10 +482,12 @@
     (data?Promise.resolve(data):(loading||load())).then(function(d){$('home-err').hidden=true;return fn(d)}).catch(function(e){
       loading=null;if(onFail)onFail();
       // Лише зрозумілі людині причини; технічні (мережа, збій) — загальним текстом.
-      var why=(e&&e.name==='Error'&&e.message&&!/fetch|network|JSON/i.test(e.message))?e.message:'Можливо, зникло зʼєднання з інтернетом.';
+      var human=e&&e.name==='Error'&&e.message&&!/fetch|network|JSON/i.test(e.message);
+      var why=human?e.message:'Можливо, зникло зʼєднання з інтернетом.';
+      track('error_shown',{kind:human?'input':(e&&e.name==='TypeError'?'network':'other')});
       $('home-err').innerHTML='<b>Не вдалося завантажити прогноз.</b><br>'+esc(why)+'<br><button class="retry" type="button" id="retry">Спробувати ще раз</button>';
       $('home-err').hidden=false;
-      $('retry').onclick=function(){$('home-err').hidden=true;data=null;loading=null;load().catch(function(){});renderHome()};
+      $('retry').onclick=function(){track('retry_click');$('home-err').hidden=true;data=null;loading=null;load().catch(function(){});renderHome()};
       show('home');
     });
   }
@@ -532,7 +557,7 @@
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeSheet()});
   $('ok').addEventListener('click',function(){
     if(!pending||!validDate(pending.d,pending.m,pending.y)){closeSheet();return}
-    birth=pending;store('prog_birth',birth);closeSheet();data=null;loading=null;$('home-err').hidden=true;
+    birth=pending;store('prog_birth',birth);closeSheet();track('birth_entered',{birth_year:birth.y});data=null;loading=null;$('home-err').hidden=true;
     try{window.Telegram.WebApp.HapticFeedback.notificationOccurred('success')}catch(x){}
     load();goHome();
   });
@@ -555,7 +580,7 @@
     renderHome();show('home');
   }
 
-  $('star').addEventListener('click',function(){var d=$('disc'),open=d.hidden;d.hidden=!open;this.setAttribute('aria-expanded',String(open))});
+  $('star').addEventListener('click',function(){var d=$('disc'),open=d.hidden;if(open)track('disclaimer_open');d.hidden=!open;this.setAttribute('aria-expanded',String(open))});
   var TEST_MODE=!!window.PROG_STATIC||!!plan;
   $('change-birth').addEventListener('click',function(){
     clearBirth();data=null;loading=null;
@@ -570,8 +595,10 @@
     if(!data)busy(btn,true);
     withData(function(d){busy(btn,false);fn(d)},function(){busy(btn,false)});
   }
-  $('go-year').addEventListener('click',function(){openWith(this,function(d){renderYear(d);show('year')})});
-  $('go-months').addEventListener('click',function(){openWith(this,function(){renderMonths();show('months')})});
+  $('go-year').addEventListener('click',function(){openWith(this,function(d){
+    track('year_open',{year:YEAR,locked:d.annual.cards.every(function(c){return c.locked})});renderYear(d);show('year')})});
+  $('go-months').addEventListener('click',function(){openWith(this,function(d){
+    track('months_open',{year:YEAR,locked:d.monthly.months.every(function(m){return m.locked})});renderMonths();show('months')})});
 
   // ── рік: картки розділів ──
   function renderYear(d){
@@ -614,20 +641,22 @@
     });
     return w;
   }
-  function openCard(id){
+  function prefsEvent(p){track('prefs_set',{status:p.status,children:p.children===true?'yes':p.children===false?'no':'unknown'})}
+  function openCard(id,quiet){
     var c=data.annual.cards.filter(function(x){return x.id===id})[0];
+    if(!quiet)track('card_open',{card:id,year:YEAR,locked:!!c.locked});
     $('card-title').textContent=c.title;    var ask=$('card-ask');ask.innerHTML='';
     if(c.ask&&!c.locked){
       var p=prefs();
       var q1=document.createElement('p');q1.className='q';q1.textContent='Ваш статус';ask.appendChild(q1);
-      ask.appendChild(seg('status',[['couple','Я у стосунках'],['single','Без пари'],['unknown','Не вказувати']],p.status,function(v){p.status=v;store('prog_prefs',p);reloadCard(id)}));
+      ask.appendChild(seg('status',[['couple','Я у стосунках'],['single','Без пари'],['unknown','Не вказувати']],p.status,function(v){p.status=v;store('prog_prefs',p);prefsEvent(p);reloadCard(id)}));
       var q2=document.createElement('p');q2.className='q';q2.textContent='Чи є у Вас діти';ask.appendChild(q2);
-      ask.appendChild(seg('children',[[true,'Так'],[false,'Ні'],[null,'Не вказувати']],p.children,function(v){p.children=v;store('prog_prefs',p);reloadCard(id)}));
+      ask.appendChild(seg('children',[[true,'Так'],[false,'Ні'],[null,'Не вказувати']],p.children,function(v){p.children=v;store('prog_prefs',p);prefsEvent(p);reloadCard(id)}));
     }
     $('card-body').innerHTML=c.locked?lockHtml():itemsHtml(c.items)+(c.lockedRest?lockHtml():'');
     show('card');
   }
-  function reloadCard(id){data=null;load().then(function(){var y=$('card').scrollTop;openCard(id);$('card').scrollTop=y})}
+  function reloadCard(id){data=null;load().then(function(){var y=$('card').scrollTop;openCard(id,true);$('card').scrollTop=y})}
 
   // ── місяці ──
   var grid=$('grid');
@@ -640,14 +669,15 @@
         b.addEventListener('click',function(){
           b.setAttribute('aria-pressed','true');
           try{window.Telegram.WebApp.HapticFeedback.selectionChanged()}catch(e){}
-          setTimeout(function(){openMonth(i);b.setAttribute('aria-pressed','false')},160);
+          setTimeout(function(){openMonth(i,'grid');b.setAttribute('aria-pressed','false')},160);
         });
         grid.appendChild(b);
       });
     });
   }
-  function openMonth(i){
+  function openMonth(i,via){
     var m=data.monthly.months[i];
+    track('month_open',{month:i+1,year:YEAR,locked:!!m.locked,via:via});
     $('m-title').textContent=m.name+' '+YEAR;
     $('m-note').textContent='Цей прогноз діє '+m.period.text;
     if(m.locked){$('m-body').innerHTML=lockHtml()}
@@ -658,7 +688,7 @@
       $('m-body').innerHTML=itemsHtml(items)+(m.lockedRest?lockHtml():'');
     }
     var nx=$('m-next');
-    if(i<11){nx.innerHTML='Перейти до наступного місяця →<small>'+esc(data.monthly.months[i+1].name)+'</small>';nx.onclick=function(){openMonth(i+1)}}
+    if(i<11){nx.innerHTML='Перейти до наступного місяця →<small>'+esc(data.monthly.months[i+1].name)+'</small>';nx.onclick=function(){openMonth(i+1,'next')}}
     else{nx.innerHTML='До всіх місяців';nx.onclick=function(){renderMonths();show('months')}}
     show('month');$('month').scrollTop=0;
   }
@@ -674,6 +704,7 @@
     show('hello');
   }
   $('hello-go').addEventListener('click',function(){
+    track('hello_continue',{has_birth:!!birth});
     if(birth)goHome();else{initWheels();show('birth')}
   });
   function tryUnlock(){
@@ -690,7 +721,7 @@
 
   // тап по заставці пропускає її
   document.addEventListener('click',function(){
-    if(started&&!wrap.classList.contains('post')&&location.hash!=='#splash')afterSplash();
+    if(started&&!wrap.classList.contains('post')&&location.hash!=='#splash'){track('splash_skip');afterSplash()}
   });
 
   // ── запуск: шрифт + картинки → заставка, через 2,5 с — далі ──

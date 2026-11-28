@@ -5,6 +5,7 @@ import { spawn } from 'node:child_process';
 import { connect } from 'node:net';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { signInitData } from './analytics.test.js';
 
 const SERVER = fileURLToPath(new URL('../server.js', import.meta.url));
 const HAS_CONTENT = existsSync(fileURLToPath(new URL('../../private/content.json', import.meta.url)));
@@ -13,7 +14,7 @@ const B = `http://127.0.0.1:${PORT}`;
 let proc;
 
 function start(env, port = PORT) {
-  const p = spawn(process.execPath, [SERVER], { env: { PATH: process.env.PATH, PORT: String(port), ...env }, stdio: ['ignore', 'pipe', 'pipe'] });
+  const p = spawn(process.execPath, [SERVER], { env: { PATH: process.env.PATH, PORT: String(port), ANALYTICS_DB: ':memory:', BOT_TOKEN: '123456:TEST-token', ANALYTICS_SERVER_KEY: 'srv-key', LANDING_ORIGINS: 'https://landing.test', ...env }, stdio: ['ignore', 'pipe', 'pipe'] });
   return new Promise((ok) => {
     let out = '';
     p.stdout.on('data', (d) => { out += d; if (out.includes('Прогностика:')) ok({ p, ready: true }); });
@@ -96,4 +97,34 @@ test('Демо-режим тарифів не запускається на ві
   const { ready, code } = await start({ DEV_PLAN_PARAM: '1', HOST: '0.0.0.0' }, PORT + 1);
   assert.equal(ready, false);
   assert.equal(code, 1);
+});
+
+const ev = (body, headers = {}, path = '/api/event') => fetch(B + path, { method: 'POST', headers: { 'content-type': 'text/plain', ...headers }, body: JSON.stringify(body) });
+
+test('Події застосунку: приймаються, Telegram ID лише з підписаного initData', opt, async () => {
+  const initData = signInitData({ user: JSON.stringify({ id: 42, first_name: 'A' }), auth_date: String(Math.floor(Date.now() / 1000)) });
+  let j = await (await ev({ initData, vid: 'dev1', sid: 's1', events: [{ n: 'app_open', p: {} }, { n: 'month_open', p: { month: 3, year: 2027 } }] })).json();
+  assert.deepEqual(j, { ok: true, accepted: 2 });
+  // Подію оплати з браузера підробити не можна.
+  j = await (await ev({ vid: 'dev1', events: [{ n: 'payment_success', p: { amount: 999 } }, { n: 'nope' }] })).json();
+  assert.equal(j.accepted, 0);
+  assert.equal((await ev({ events: 'x' })).status, 400);
+  assert.equal((await ev({ events: Array(30).fill({ n: 'home_view' }) })).status, 400);
+});
+
+test('Події бота й оплат — лише з ключем', opt, async () => {
+  const body = { events: [{ name: 'payment_success', order_id: 'X1', visitor_id: 'v1', props: { plan: 'full', amount: 999 } }] };
+  assert.equal((await ev(body, {}, '/api/event/server')).status, 401);
+  assert.equal((await ev(body, { authorization: 'Bearer wrong' }, '/api/event/server')).status, 401);
+  const j = await (await ev(body, { authorization: 'Bearer srv-key' }, '/api/event/server')).json();
+  assert.deepEqual(j, { ok: true, accepted: 1, rejected: [] });
+  const bad = await ev({ events: [{ name: 'payment_success', props: {} }] }, { authorization: 'Bearer srv-key' }, '/api/event/server');
+  assert.equal(bad.status, 400, 'оплата без номера замовлення');
+});
+
+test('CORS лише для свого лендингу', opt, async () => {
+  const ok = await fetch(`${B}/api/event`, { method: 'OPTIONS', headers: { origin: 'https://landing.test' } });
+  assert.equal(ok.headers.get('access-control-allow-origin'), 'https://landing.test');
+  const no = await fetch(`${B}/api/event`, { method: 'OPTIONS', headers: { origin: 'https://evil.test' } });
+  assert.equal(no.headers.get('access-control-allow-origin'), null);
 });
