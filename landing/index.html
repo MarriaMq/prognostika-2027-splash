@@ -58,10 +58,10 @@
   .nav .caps{color:var(--wine);font-size:12px}
   .nav .name{font-size:14px;letter-spacing:.12em}
   .nav .mid{display:none}
-  .hero .intro{font-size:15px;line-height:1.45;color:var(--wine-ink);max-width:270px;margin:26px 0 0}
-  .hero .title{position:relative;margin-top:auto;padding-top:18px;text-align:center}
+  .hero .intro{font-size:19px;line-height:1.4;color:var(--wine-ink);max-width:330px;margin:22px 0 0}
+  .hero .title{position:relative;padding-top:30px;text-align:center}
   .hero .title .big{font-size:clamp(44px,13.4vw,176px);position:relative;z-index:1}
-  .hero .goat{position:relative;z-index:2;width:min(44vw,210px);margin:14px auto 0}
+  .hero .goat{position:relative;z-index:2;width:min(58vw,290px);margin:-24vw 0 0 auto;right:2%}
   .hero .goat::before{content:"";position:absolute;left:-14%;right:-14%;top:22%;aspect-ratio:1;border-radius:50%;z-index:-1;
         background:radial-gradient(circle,#f4e4e5 0%,#f8eeee 45%,rgba(255,255,255,0) 70%)}
   .hero .goat img{display:block;width:100%;height:auto;filter:drop-shadow(0 22px 24px rgba(92,11,18,.22))}
@@ -69,9 +69,9 @@
   .goat-side svg{display:block;width:100%;height:auto;color:var(--on-wine)}
   .js .goat-draw path{stroke-dasharray:1 1;stroke-dashoffset:1;opacity:0;transition:stroke-dashoffset var(--t) linear var(--d),opacity 0s linear var(--d)}
   .js .goat-draw.in path{stroke-dashoffset:0;opacity:1}
-  .hero .yr{position:relative;z-index:3;font-size:clamp(76px,22vw,170px);margin:-18px 0 0;text-align:center;color:var(--wine)}
+  .hero .yr{position:relative;z-index:1;font-size:clamp(140px,46vw,300px);line-height:1;margin:-10px 0 0 -3%;text-align:center;color:var(--wine)}
     .hero .bottom{margin-top:auto;padding-top:26px;display:flex;flex-direction:column;gap:16px;align-items:stretch}
-  .hero .bottom .caps{color:var(--wine);text-align:center}
+  .hero .bottom .caps{color:var(--wine);text-align:left}
   .hero .bottom .btn{width:100%}
 
   /* ── 2. що таке прогностика ── */
@@ -156,11 +156,10 @@
     .hero{padding:22px 48px 36px;min-height:min(calc(100vh - 28px),900px)}
     .nav .mid{display:flex;gap:56px}
     .nav .caps{font-size:14px}
-    .hero .top-row{display:grid;grid-template-columns:300px 1fr;align-items:start}
-    .hero .intro{font-size:19px;max-width:300px;margin-top:20px}
-    .hero .title{margin-top:-10px}
-    .hero .goat{width:min(180px,21vh);margin-top:8px}
-    .hero .yr{margin:-14px 0 0;font-size:92px}
+    .hero .intro{font-size:20px;max-width:380px;margin-top:-120px;position:relative;z-index:3}
+    .hero .title{margin-top:0;padding-top:16px}
+    .hero .goat{width:min(250px,30vh);margin:-150px 0 0 auto;right:22%}
+    .hero .yr{margin:-30px 0 0;font-size:min(230px,28vh)}
        .goat-side{margin:0 auto}
     .photo.alina{margin:0 0 0 auto}
     .hero .bottom{flex-direction:row;justify-content:space-between;align-items:center}
@@ -187,13 +186,13 @@
       <span class="mid"><a class="caps" href="#about">Про прогноз</a><a class="caps" href="#questions">Що всередині</a></span>
       <a class="caps" href="#tariffs" data-track="nav_tariffs">Тарифи</a>
     </nav>
-    <div class="top-row">
-      <p class="intro up" style="--d:.1s">Особистий прогноз на рік Вогняної Кози за Вашою датою народження.</p>
-    </div>
     <div class="title">
       <h1 class="big up" style="--d:.2s">Прогностика</h1>
-      <div class="goat up" style="--d:.35s"><img src="img/goat-smile.webp" alt="Бордова коза, символ 2027 року"></div>
       <p class="yr script" aria-hidden="true"><span class="yr-t">2027<svg class="yr-svg" viewBox="0 0 1430 1128" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path pathLength="1" style="--d:0.95s;--t:0.27s" d="M327.0 463.0C327.7 461.2 328.2 457.8 331.0 452.0C333.8 446.2 337.8 437.3 344.0 428.0C350.2 418.7 361.3 403.8 368.0 396.0C374.7 388.2 379.2 385.0 384.0 381.0C388.8 377.0 392.2 374.7 397.0 372.0C401.8 369.3 407.8 366.7 413.0 365.0C418.2 363.3 421.8 362.7 428.0 362.0C434.2 361.3 443.5 360.0 450.0 361.0C456.5 362.0 462.7 364.7 467.0 368.0C471.3 371.3 473.8 376.2 476.0 381.0C478.2 385.8 479.3 393.0 480.0 397.0C480.7 401.0 480.7 400.8 480.0 405.0C479.3 409.2 478.8 414.7 476.0 422.0C473.2 429.3 470.5 437.3 463.0 449.0C455.5 460.7 442.7 478.0 431.0 492.0C419.3 506.0 404.3 521.3 393.0 533.0C381.7 544.7 381.5 545.3 363.0 562.0C344.5 578.7 295.8 619.8 282.0 633.0C268.2 646.2 281.7 638.5 280.0 641.0C278.3 643.5 273.7 645.7 272.0 648.0C270.3 650.3 270.3 653.8 270.0 655.0"/><path pathLength="1" style="--d:1.22s;--t:0.09s" d="M270.0 655.0C280.5 659.7 321.0 677.8 333.0 683.0C345.0 688.2 338.8 685.5 342.0 686.0C345.2 686.5 345.5 687.2 352.0 686.0C358.5 684.8 374.3 681.0 381.0 679.0C387.7 677.0 387.3 677.0 392.0 674.0C396.7 671.0 401.7 667.8 409.0 661.0C416.3 654.2 431.5 637.7 436.0 633.0"/><path pathLength="1" style="--d:1.31s;--t:0.04s" d="M270.0 655.0C265.5 656.3 253.7 655.7 243.0 663.0C232.3 670.3 212.2 693.0 206.0 699.0"/><path pathLength="1" style="--d:1.34s;--t:0.42s" d="M584.0 454.0C578.8 462.5 560.8 491.0 553.0 505.0C545.2 519.0 542.7 524.7 537.0 538.0C531.3 551.3 523.3 571.2 519.0 585.0C514.7 598.8 512.0 610.2 511.0 621.0C510.0 631.8 511.5 641.0 513.0 650.0C514.5 659.0 516.8 668.2 520.0 675.0C523.2 681.8 528.2 687.3 532.0 691.0C535.8 694.7 539.7 695.7 543.0 697.0C546.3 698.3 545.5 699.0 552.0 699.0C558.5 699.0 575.3 697.8 582.0 697.0C588.7 696.2 587.5 696.0 592.0 694.0C596.5 692.0 602.8 689.0 609.0 685.0C615.2 681.0 622.7 675.5 629.0 670.0C635.3 664.5 640.3 659.5 647.0 652.0C653.7 644.5 660.7 636.8 669.0 625.0C677.3 613.2 690.0 592.7 697.0 581.0C704.0 569.3 706.0 565.3 711.0 555.0C716.0 544.7 721.8 532.0 727.0 519.0C732.2 506.0 737.7 492.2 742.0 477.0C746.3 461.8 751.2 439.2 753.0 428.0C754.8 416.8 753.5 417.0 753.0 410.0C752.5 403.0 752.0 393.2 750.0 386.0C748.0 378.8 743.5 371.2 741.0 367.0C738.5 362.8 737.8 362.8 735.0 361.0C732.2 359.2 730.8 356.8 724.0 356.0C717.2 355.2 703.2 354.3 694.0 356.0C684.8 357.7 675.5 362.8 669.0 366.0C662.5 369.2 660.5 370.8 655.0 375.0C649.5 379.2 644.5 382.5 636.0 391.0C627.5 399.5 612.7 415.5 604.0 426.0C595.3 436.5 587.3 449.3 584.0 454.0"/><path pathLength="1" style="--d:1.76s;--t:0.27s" d="M837.0 463.0C837.7 461.2 838.2 457.8 841.0 452.0C843.8 446.2 847.8 437.3 854.0 428.0C860.2 418.7 871.3 403.8 878.0 396.0C884.7 388.2 889.2 385.0 894.0 381.0C898.8 377.0 902.2 374.7 907.0 372.0C911.8 369.3 917.8 366.7 923.0 365.0C928.2 363.3 931.8 362.7 938.0 362.0C944.2 361.3 953.5 360.0 960.0 361.0C966.5 362.0 972.7 364.7 977.0 368.0C981.3 371.3 983.8 376.2 986.0 381.0C988.2 385.8 989.3 393.0 990.0 397.0C990.7 401.0 990.7 400.8 990.0 405.0C989.3 409.2 988.8 414.7 986.0 422.0C983.2 429.3 980.5 437.3 973.0 449.0C965.5 460.7 952.7 478.0 941.0 492.0C929.3 506.0 914.3 521.3 903.0 533.0C891.7 544.7 891.5 545.3 873.0 562.0C854.5 578.7 805.8 619.8 792.0 633.0C778.2 646.2 791.7 638.5 790.0 641.0C788.3 643.5 783.7 645.7 782.0 648.0C780.3 650.3 780.3 653.8 780.0 655.0"/><path pathLength="1" style="--d:2.03s;--t:0.09s" d="M780.0 655.0C790.5 659.7 831.0 677.8 843.0 683.0C855.0 688.2 848.8 685.5 852.0 686.0C855.2 686.5 855.5 687.2 862.0 686.0C868.5 684.8 884.3 681.0 891.0 679.0C897.7 677.0 897.3 677.0 902.0 674.0C906.7 671.0 911.7 667.8 919.0 661.0C926.3 654.2 941.5 637.7 946.0 633.0"/><path pathLength="1" style="--d:2.12s;--t:0.04s" d="M780.0 655.0C775.5 656.3 763.7 655.7 753.0 663.0C742.3 670.3 722.2 693.0 716.0 699.0"/><path pathLength="1" style="--d:2.16s;--t:0.08s" d="M1063.0 437.0C1063.7 436.0 1065.2 435.2 1067.0 431.0C1068.8 426.8 1071.3 417.5 1074.0 412.0C1076.7 406.5 1080.0 401.7 1083.0 398.0C1086.0 394.3 1088.7 392.3 1092.0 390.0C1095.3 387.7 1094.7 386.0 1103.0 384.0C1111.3 382.0 1127.3 379.0 1142.0 378.0C1156.7 377.0 1178.0 377.7 1191.0 378.0C1204.0 378.3 1215.2 379.7 1220.0 380.0"/><path pathLength="1" style="--d:2.24s;--t:0.19s" d="M1220.0 380.0C1221.2 381.7 1226.0 386.7 1227.0 390.0C1228.0 393.3 1226.8 397.0 1226.0 400.0C1225.2 403.0 1239.3 385.3 1222.0 408.0C1204.7 430.7 1146.0 504.0 1122.0 536.0C1098.0 568.0 1090.0 583.2 1078.0 600.0C1066.0 616.8 1059.3 623.5 1050.0 637.0C1040.7 650.5 1028.5 672.3 1022.0 681.0C1015.5 689.7 1015.2 686.7 1011.0 689.0C1006.8 691.3 999.3 694.0 997.0 695.0"/><path pathLength="1" style="--d:2.43s;--t:0.02s" d="M1220.0 380.0C1225.0 378.0 1244.0 371.2 1250.0 368.0C1256.0 364.8 1255.0 362.2 1256.0 361.0"/></svg></span></p>
+      <div class="goat up" style="--d:.35s"><img src="img/goat-smile.webp" alt="Бордова коза, символ 2027 року"></div>
+    </div>
+    <div class="intro-row">
+      <p class="intro up" style="--d:.6s">Особистий прогноз на рік Вогняної Кози за Вашою датою народження.</p>
     </div>
     <div class="bottom">
       <span class="caps up" style="--d:.8s">Метод «Матриця Долі»</span>
